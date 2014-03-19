@@ -36,7 +36,6 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
 import org.apache.solr.client.solrj.SolrServerException;
-import temp.Delta;
 
 import java.io.IOException;
 import java.text.ParseException;

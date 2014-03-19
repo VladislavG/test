@@ -80,21 +80,16 @@
       <file leaf-file-name="Main.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/solrTest/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="1415" column="38" selection-start="70296" selection-end="70296" vertical-scroll-proportion="-14.68" vertical-offset="19676" max-vertical-offset="21675">
-              <folding>
-                <element signature="e#20409#20467#0" expanded="false" />
-                <element signature="e#30786#30829#0" expanded="false" />
-                <element signature="e#68146#68592#0" expanded="true" />
-                <element signature="e#68581#68582#0" expanded="true" />
-              </folding>
+            <state line="1415" column="38" selection-start="70296" selection-end="70296" vertical-scroll-proportion="0.0" vertical-offset="24055" max-vertical-offset="25789">
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="build.gradle" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="build.gradle" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/build.gradle">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="19" column="38" selection-start="358" selection-end="358" vertical-scroll-proportion="0.6162047" vertical-offset="34" max-vertical-offset="663">
+            <state line="19" column="38" selection-start="358" selection-end="358" vertical-scroll-proportion="0.0" vertical-offset="323" max-vertical-offset="663">
               <folding />
             </state>
           </provider>
@@ -112,7 +107,7 @@
       <file leaf-file-name="SolrService.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/solrTest/SolrService.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="233" column="64" selection-start="12332" selection-end="12332" vertical-scroll-proportion="0.0" vertical-offset="3961" max-vertical-offset="23171">
+            <state line="233" column="64" selection-start="12332" selection-end="12332" vertical-scroll-proportion="0.0" vertical-offset="3961" max-vertical-offset="27778">
               <folding>
                 <marker date="1395139143398" expanded="true" signature="1580:5876" placeholder="SELECT p.LAS..PR4_T_PRICE..." />
               </folding>
@@ -138,10 +133,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="DateAxis310.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="DateAxis310.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/solrTest/DateAxis310.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="369" column="38" selection-start="16007" selection-end="16007" vertical-scroll-proportion="0.0" vertical-offset="6273" max-vertical-offset="8381">
+            <state line="369" column="38" selection-start="16007" selection-end="16007" vertical-scroll-proportion="-0.74561405" vertical-offset="6273" max-vertical-offset="8041">
               <folding />
             </state>
           </provider>
@@ -248,7 +243,7 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope" />
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -419,6 +414,32 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="temp" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="solrTest" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="solrTest" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="solrTest" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -443,7 +464,7 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -471,6 +492,22 @@
     <property name="extract.method.default.visibility" value="private" />
     <property name="SearchEverywhereHistory" value="long&#10;ps" />
     <property name="restartRequiresConfirmation" value="true" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth0" value="271" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder0" value="0" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth1" value="300" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder1" value="1" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth2" value="301" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder2" value="2" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth3" value="976" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder3" value="3" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth0" value="294" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder0" value="0" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth1" value="292" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder1" value="1" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth2" value="294" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder2" value="2" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth3" value="968" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder3" value="3" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -577,7 +614,7 @@
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="MAIN_CLASS_NAME" value="solrTest.Zoom001" />
+      <option name="MAIN_CLASS_NAME" value="temp.Zoom001" />
       <option name="VM_PARAMETERS" />
       <option name="PROGRAM_PARAMETERS" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
@@ -599,7 +636,7 @@
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="MAIN_CLASS_NAME" value="solrTest.Demo" />
+      <option name="MAIN_CLASS_NAME" value="temp.Demo" />
       <option name="VM_PARAMETERS" />
       <option name="PROGRAM_PARAMETERS" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
@@ -910,7 +947,8 @@
       <workItem from="1395049838293" duration="13052000" />
       <workItem from="1395130357629" duration="16461000" />
       <workItem from="1395158934383" duration="164000" />
-      <workItem from="1395216773859" duration="5992000" />
+      <workItem from="1395216773859" duration="6336000" />
+      <workItem from="1395241323906" duration="366000" />
     </task>
     <task id="LOCAL-00001" summary="first commit">
       <created>1385627111549</created>
@@ -960,11 +998,15 @@
       <created>1395238823568</created>
       <updated>1395238823568</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="indexed all h2database&#10;">
+      <created>1395241676977</created>
+      <updated>1395241676977</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="457385000" />
+    <option name="totallyTimeSpent" value="458095000" />
   </component>
   <component name="TodoView" selected-index="3">
     <todo-panel id="selected-file">
@@ -1002,7 +1044,7 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.30852106" sideWeight="0.5" order="9" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17891374" sideWeight="0.41045958" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32960597" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32925472" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="true" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.24289912" sideWeight="0.08998935" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32908913" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -1075,12 +1117,7 @@
     <entry file="file://$PROJECT_DIR$/src/main/java/solrTest/Main.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="47" column="88" selection-start="1601" selection-end="1601" vertical-scroll-proportion="0.0" vertical-offset="799" max-vertical-offset="17170">
-          <folding>
-            <element signature="e#20409#20467#0" expanded="false" />
-            <element signature="e#30786#30829#0" expanded="false" />
-            <element signature="e#68146#68592#0" expanded="true" />
-            <element signature="e#68581#68582#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1116,12 +1153,7 @@
     <entry file="file://$PROJECT_DIR$/src/main/java/solrTest/Main.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="43" column="86" selection-start="1501" selection-end="1501" vertical-scroll-proportion="0.0" vertical-offset="102" max-vertical-offset="18207">
-          <folding>
-            <element signature="e#20409#20467#0" expanded="false" />
-            <element signature="e#30786#30829#0" expanded="false" />
-            <element signature="e#68146#68592#0" expanded="true" />
-            <element signature="e#68581#68582#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1214,14 +1246,14 @@
         <state line="15" column="23" selection-start="322" selection-end="322" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1513" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/solrTest/Zoom001.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/temp/Zoom001.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="22" column="13" selection-start="676" selection-end="676" vertical-scroll-proportion="0.0" vertical-offset="374" max-vertical-offset="3009">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/solrTest/Demo.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/temp/Demo.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="76" column="0" selection-start="2522" selection-end="2522" vertical-scroll-proportion="0.0" vertical-offset="859" max-vertical-offset="2210">
           <folding>
@@ -1305,13 +1337,6 @@
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="17102" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/solrTest/DateAxis310.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="369" column="38" selection-start="16007" selection-end="16007" vertical-scroll-proportion="0.0" vertical-offset="6273" max-vertical-offset="8041">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/resources/demo.css">
       <provider selected="true" editor-type-id="text-editor">
         <state line="33" column="14" selection-start="573" selection-end="612" vertical-scroll-proportion="0.0" vertical-offset="1176" max-vertical-offset="2907">
@@ -1351,19 +1376,21 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/solrTest/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1415" column="38" selection-start="70296" selection-end="70296" vertical-scroll-proportion="-14.68" vertical-offset="19676" max-vertical-offset="21675">
-          <folding>
-            <element signature="e#20409#20467#0" expanded="false" />
-            <element signature="e#30786#30829#0" expanded="false" />
-            <element signature="e#68146#68592#0" expanded="true" />
-            <element signature="e#68581#68582#0" expanded="true" />
-          </folding>
+        <state line="1415" column="38" selection-start="70296" selection-end="70296" vertical-scroll-proportion="0.0" vertical-offset="24055" max-vertical-offset="25789">
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/build.gradle">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="19" column="38" selection-start="358" selection-end="358" vertical-scroll-proportion="0.6162047" vertical-offset="34" max-vertical-offset="663">
+        <state line="19" column="38" selection-start="358" selection-end="358" vertical-scroll-proportion="0.0" vertical-offset="34" max-vertical-offset="663">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/solrTest/DateAxis310.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="369" column="38" selection-start="16007" selection-end="16007" vertical-scroll-proportion="-0.74561405" vertical-offset="6273" max-vertical-offset="8041">
           <folding />
         </state>
       </provider>
