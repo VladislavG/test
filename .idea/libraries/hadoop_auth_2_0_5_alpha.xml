@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="hadoop-auth-2.0.5-alpha">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/artifacts-26/filestore/org.apache.hadoop/hadoop-auth/2.0.5-alpha/jar/8ca2f6521f2582bd3b95575614d6866d81e224b7/hadoop-auth-2.0.5-alpha.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/artifacts-26/filestore/org.apache.hadoop/hadoop-auth/2.0.5-alpha/source/5cee801226b19afd7443242afd99e411381b338f/hadoop-auth-2.0.5-alpha-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

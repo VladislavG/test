@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="jcommon-1.0.17">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/artifacts-26/filestore/org.jfree/jcommon/1.0.17/jar/7bcb68fde08258e59fe7bcc758c08af830fb2c1d/jcommon-1.0.17.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/artifacts-26/filestore/org.jfree/jcommon/1.0.17/source/77f17ad06d89cee0156cd6caffe4d03618ba9cc4/jcommon-1.0.17-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

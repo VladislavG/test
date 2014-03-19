@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="hadoop-annotations-2.0.5-alpha">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/artifacts-26/filestore/org.apache.hadoop/hadoop-annotations/2.0.5-alpha/jar/64e2b38638f3b3ecf14806a12c919334ebd77ff7/hadoop-annotations-2.0.5-alpha.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
