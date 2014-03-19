@@ -4,10 +4,7 @@
     <option name="SCOPE_TYPE" value="3" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cedf5f28-0a64-46f5-ae44-544b25ec7f0a" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/solrTest/Main.java" afterPath="$PROJECT_DIR$/src/main/java/solrTest/Main.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/solrTest/SolrService.java" afterPath="$PROJECT_DIR$/src/main/java/solrTest/SolrService.java" />
-    </list>
+    <list default="true" id="cedf5f28-0a64-46f5-ae44-544b25ec7f0a" name="Default" comment="" />
     <ignored path="solrTest.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -80,16 +77,25 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="Main.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="Main.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/solrTest/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="1415" column="38" selection-start="70296" selection-end="70296" vertical-scroll-proportion="0.8265766" vertical-offset="19676" max-vertical-offset="21675">
+            <state line="1415" column="38" selection-start="70296" selection-end="70296" vertical-scroll-proportion="-14.68" vertical-offset="19676" max-vertical-offset="21675">
               <folding>
                 <element signature="e#20409#20467#0" expanded="false" />
                 <element signature="e#30786#30829#0" expanded="false" />
                 <element signature="e#68146#68592#0" expanded="true" />
                 <element signature="e#68581#68582#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="build.gradle" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/build.gradle">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="19" column="38" selection-start="358" selection-end="358" vertical-scroll-proportion="0.6162047" vertical-offset="34" max-vertical-offset="663">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -187,6 +193,7 @@
         <option value="$PROJECT_DIR$/src/main/resources/solr/core/data/index/write.lock" />
         <option value="$PROJECT_DIR$/src/main/java/solrTest/SolrService.java" />
         <option value="$PROJECT_DIR$/src/main/java/solrTest/Main.java" />
+        <option value="$PROJECT_DIR$/src/build.gradle" />
       </list>
     </option>
   </component>
@@ -351,6 +358,10 @@
               <option name="myItemId" value="core" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="index" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -401,6 +412,32 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="solrTest" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="solrTest" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="solrTest" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="gradle" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="wrapper" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -873,7 +910,7 @@
       <workItem from="1395049838293" duration="13052000" />
       <workItem from="1395130357629" duration="16461000" />
       <workItem from="1395158934383" duration="164000" />
-      <workItem from="1395216773859" duration="4456000" />
+      <workItem from="1395216773859" duration="5992000" />
     </task>
     <task id="LOCAL-00001" summary="first commit">
       <created>1385627111549</created>
@@ -919,11 +956,15 @@
       <created>1395071196081</created>
       <updated>1395071196081</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="indexed all h2database&#10;">
+      <created>1395238823568</created>
+      <updated>1395238823568</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="455849000" />
+    <option name="totallyTimeSpent" value="457385000" />
   </component>
   <component name="TodoView" selected-index="3">
     <todo-panel id="selected-file">
@@ -946,7 +987,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="7" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="false" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -1189,11 +1230,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/build.gradle">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="31" column="39" selection-start="929" selection-end="929" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="680" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/the-file-name.txt">
       <provider selected="true" editor-type-id="LargeFileEditor">
         <state />
@@ -1315,13 +1351,20 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/solrTest/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1415" column="38" selection-start="70296" selection-end="70296" vertical-scroll-proportion="0.8265766" vertical-offset="19676" max-vertical-offset="21675">
+        <state line="1415" column="38" selection-start="70296" selection-end="70296" vertical-scroll-proportion="-14.68" vertical-offset="19676" max-vertical-offset="21675">
           <folding>
             <element signature="e#20409#20467#0" expanded="false" />
             <element signature="e#30786#30829#0" expanded="false" />
             <element signature="e#68146#68592#0" expanded="true" />
             <element signature="e#68581#68582#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="19" column="38" selection-start="358" selection-end="358" vertical-scroll-proportion="0.6162047" vertical-offset="34" max-vertical-offset="663">
+          <folding />
         </state>
       </provider>
     </entry>
