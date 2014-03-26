@@ -228,5 +228,5 @@ linear-gradient(#dddddd 0%, #f6f6f6 50%);
 .text-area:focused {
     -fx-background-color: orange,white;
 }
-.default-color0.chart-series-area-fill { -fx-fill: linear-gradient(transparent)}
+.default-color0.chart-series-area-fill { -fx-fill: transparent}
 

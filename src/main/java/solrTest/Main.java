@@ -298,7 +298,6 @@ public class Main extends Application {
         firstListOfSeries.getStyleClass().add("list-view3");
         setupCharts();
         addListeners();
-        secondListOfInstruments.getSelectionModel().selectFirst();
         turnOffPickOnBoundsFor(firstSelectionChart);
 
         ((NumberAxis) firstSelectionChart.getYAxis()).setForceZeroInRange(false);
@@ -547,8 +546,9 @@ public class Main extends Application {
         ((NumberAxis) diffBarChart.getYAxis()).setAutoRanging(true);
         diffBarChart.setTranslateX(12);
         diffBarChart.setMaxHeight(150);
-        diffBarChart.setCreateSymbols(false);
+        diffBarChart.setCreateSymbols(true);
         diffBarChart.setAnimated(false);
+        diffBarChart.setAlternativeColumnFillVisible(false);
 
         secondSelectionChart.setAnimated(false);
         secondSelectionChart.setVerticalZeroLineVisible(false);
@@ -779,6 +779,8 @@ public class Main extends Application {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+                matchBoundsBetweenCharts();
+
                 resetButton.fire();
                 openFirstSeriesListButton.setText("Series: " + newSelection);
             }
@@ -945,7 +947,7 @@ public class Main extends Application {
             series.getData().add(0, backPoint);
             pointsRemovedFromBack.remove(backPoint);
         }
-        int frontPointsListSize = pointsRemovedFromBack.size() - 1;
+        int frontPointsListSize = pointsRemovedFromFront.size() - 1;
         for (int f = frontPointsListSize; f >= 0; f--){
             Object frontPoint = pointsRemovedFromFront.get(f);
             series.getData().add(frontPoint);
@@ -981,7 +983,7 @@ public class Main extends Application {
         DateAxis310 secondSelectionChartXAxis = (DateAxis310) secondSelectionChart.getXAxis();
 
         barChartXAxis.setAutoRanging(false);
-         barChartXAxis.lowerBoundProperty().bind(firstSelectionChartXAxis.lowerBoundProperty());
+        barChartXAxis.lowerBoundProperty().bind(firstSelectionChartXAxis.lowerBoundProperty());
         barChartXAxis.upperBoundProperty().bind(firstSelectionChartXAxis.upperBoundProperty());
 
         firstSelectionChartXAxis .setAutoRanging(false);
@@ -1006,7 +1008,6 @@ public class Main extends Application {
         } catch (ParseException e) {
 
         }
-
         long lowerBoundFirstSelectionInNano  = firstSelectionLower.getTime();
         long lowerBoundSecondSelectionInNano = secondSelectionLower.getTime();
 
@@ -1015,15 +1016,15 @@ public class Main extends Application {
         firstSelectionChartXAxis .setAutoRanging(false);
         secondSelectionChartXAxis.setAutoRanging(false);
         if (lowerBoundFirstSelectionInNano < lowerBoundSecondSelectionInNano){
-           secondSelectionChartXAxis.setLowerBound(LocalDateTime.parse(lowerDataFirst.getXValue().toString()));
-           firstSelectionChartXAxis .setLowerBound(LocalDateTime.parse(lowerDataFirst.getXValue().toString()));
+            secondSelectionChartXAxis.setLowerBound(LocalDateTime.parse(lowerDataFirst.getXValue().toString()));
+            firstSelectionChartXAxis .setLowerBound(LocalDateTime.parse(lowerDataFirst.getXValue().toString()));
         }else{
-           firstSelectionChartXAxis .setLowerBound(LocalDateTime.parse(lowerDataSecond.getXValue().toString()));
-           secondSelectionChartXAxis.setLowerBound(LocalDateTime.parse(lowerDataSecond.getXValue().toString()));
+            firstSelectionChartXAxis .setLowerBound(LocalDateTime.parse(lowerDataSecond.getXValue().toString()));
+            secondSelectionChartXAxis.setLowerBound(LocalDateTime.parse(lowerDataSecond.getXValue().toString()));
         }
         if (upperBoundFirstSelectionInNano > upperBoundSecondSelectionInNano){
-           secondSelectionChartXAxis.setUpperBound(LocalDateTime.parse(upperDataFirst.getXValue().toString()));
-           firstSelectionChartXAxis .setUpperBound(LocalDateTime.parse(upperDataFirst.getXValue().toString()));
+            secondSelectionChartXAxis.setUpperBound(LocalDateTime.parse(upperDataFirst.getXValue().toString()));
+            firstSelectionChartXAxis .setUpperBound(LocalDateTime.parse(upperDataFirst.getXValue().toString()));
         }else{
             firstSelectionChartXAxis .setUpperBound(LocalDateTime.parse(upperDataSecond.getXValue().toString()));
             secondSelectionChartXAxis.setUpperBound(LocalDateTime.parse(upperDataSecond.getXValue().toString()));
