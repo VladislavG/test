@@ -48,6 +48,7 @@ import static java.time.temporal.ChronoUnit.*;
 
 public class Main extends Application {
 
+    public static final String YYYY_MM_DD_T_HH_MM = "yyyy-MM-dd'T'HH:mm";
     XYChart.Series firstSelectionPriceSeries = new XYChart.Series();
     XYChart.Series secondSelectionPriceSeries = new XYChart.Series();
     XYChart.Series seriesDiffBar = new XYChart.Series();
@@ -203,20 +204,20 @@ public class Main extends Application {
 		Scene scene = new Scene(root, 1750, 850, Color.WHITESMOKE);
         initComponents();
 
-        firstInstrumentResults =  SolrService.getInstruments("*");
-        firstSeriesResults =      SolrService.getSeries(firstInstrumentResults.get(0));
+        firstInstrumentResults = SolrService.getInstruments("*");
+        firstSeriesResults = SolrService.getSeries(firstInstrumentResults.get(0));
         secondInstrumentResults = SolrService.getInstruments("*");
-        secondSeriesResults =     SolrService.getSeries(secondInstrumentResults.get(0));
+        secondSeriesResults = SolrService.getSeries(secondInstrumentResults.get(0));
 
-        firstObservableListInstruments =  FXCollections.observableArrayList(firstInstrumentResults);
-        firstObservableListSeries =       FXCollections.observableArrayList(firstSeriesResults);
+        firstObservableListInstruments = FXCollections.observableArrayList(firstInstrumentResults);
+        firstObservableListSeries = FXCollections.observableArrayList(firstSeriesResults);
         secondObservableListInstruments = FXCollections.observableArrayList(secondInstrumentResults);
-        secondObservableListSeries =      FXCollections.observableArrayList(secondSeriesResults);
+        secondObservableListSeries = FXCollections.observableArrayList(secondSeriesResults);
 
-        firstSelectionResults =  SolrService.getResults("*", "*", firstObservableListInstruments.get(0), firstObservableListSeries.get(0));
+        firstSelectionResults = SolrService.getResults("*", "*", firstObservableListInstruments.get(0), firstObservableListSeries.get(0));
         secondSelectionResults = SolrService.getResults("*", "*", secondObservableListInstruments.get(0), secondObservableListSeries.get(1));
 
-        firstListOfInstruments =  makeListView();
+        firstListOfInstruments = makeListView();
         secondListOfInstruments = makeListView();
 
         firstListOfInstruments.getItems().setAll(firstObservableListInstruments);
@@ -237,8 +238,8 @@ public class Main extends Application {
         firstListOfSeries.getItems().setAll(firstObservableListSeries);
         secondListOfSeries.getItems().setAll(secondObservableListSeries);
 
-        lineChartOverview    = ChartActions.makeZoomLineChart(overviewPointsDateToId, "", miniMapDetail, firstListOfSeries, xAxis, yAxis);
-        firstSelectionChart  = ChartActions.makeZoomLineChart(orderOfGraphPointsToId, "chart-series-lineFirst", detail, firstListOfSeries, firstSelectionXAxis, firstSelectionYAxis);
+        lineChartOverview = ChartActions.makeZoomLineChart(overviewPointsDateToId, "", miniMapDetail, firstListOfSeries, xAxis, yAxis);
+        firstSelectionChart = ChartActions.makeZoomLineChart(orderOfGraphPointsToId, "chart-series-lineFirst", detail, firstListOfSeries, firstSelectionXAxis, firstSelectionYAxis);
         secondSelectionChart = ChartActions.makeZoomLineChart(orderOfGraphPointsToId, "chart-series-lineSecond", detail, secondListOfSeries, secondSelectionXAxis, secondSelectionYAxis);
 
         secondSelectionChart.setFocusTraversable(true);
@@ -254,14 +255,14 @@ public class Main extends Application {
                     Item item = secondSelectionResults.get(c);
                     secondSeriesDateToPrice.put(item.getPrice_date(), item.getPrice());
                     try{
-                        secondSelectionPriceSeries.getData().add(new XYChart.Data(LocalDateTime.parse(toUtcDate(item.getPrice_date())) , Float.valueOf(item.getPrice())));
-                        secondSelectionSeriesTotal.getData().add(new XYChart.Data(LocalDateTime.parse(toUtcDate(item.getPrice_date())) , Float.valueOf(item.getPrice())));
+                        secondSelectionPriceSeries.getData().add(createChartData(item));
+                        secondSelectionSeriesTotal.getData().add(createChartData(item));
                         orderOfSeriesPointsToId.put(c, item.getId());
                     }catch (Exception e){
-                        secondSelectionPriceSeries.getData().add(new XYChart.Data(LocalDateTime.parse(toUtcDate(item.getPrice_date())) , Float.valueOf(item.getPrice())));
+                        secondSelectionPriceSeries.getData().add(createChartData(item));
                         orderOfSeriesPointsToId.put(c, item.getId());
 
-                        secondSelectionSeriesTotal.getData().add(new XYChart.Data(LocalDateTime.parse(toUtcDate(item.getPrice_date())) , Float.valueOf(item.getPrice())));
+                        secondSelectionSeriesTotal.getData().add(createChartData(item));
                     }
                 }
             }
@@ -321,6 +322,10 @@ public class Main extends Application {
 
 		stage.show();
 	}
+
+    private XYChart.Data createChartData(Item item) {
+        return new XYChart.Data(LocalDateTime.parse(toUtcDate(item.getPrice_date())) , Float.valueOf(item.getPrice()));
+    }
 
     private ListView makeListView() {
         ListView listView = new ListView();
@@ -575,7 +580,7 @@ public class Main extends Application {
         lineChartOverview.getData().add(secondSelectionSeriesTotal);
         lineChartOverview.setVerticalGridLinesVisible(false);
         lineChartOverview.setVerticalGridLinesVisible(false);
-        lineChartOverview.setCreateSymbols(true);
+        lineChartOverview.setCreateSymbols(false);
         ((DateAxis310) lineChartOverview.getXAxis()).setTickLabelsVisible(false);
         ((DateAxis310) lineChartOverview.getXAxis()).setTickMarkVisible(false);
         lineChartOverview.setMaxHeight(150);
@@ -676,18 +681,19 @@ public class Main extends Application {
                 double deltaRight = initialRightHookPosition - mouseEvent.getSceneX();
                 rightHookPosition.set(hookRight.getLayoutX() - deltaRight);
 
-                XYChart.Data<LocalDateTime, Float> firstDate = (XYChart.Data<LocalDateTime, Float>) firstSelectionPriceSeries.getData().get(firstSelectionPriceSeries.getData().size() - 2);
                 LocalDateTime valueForDisplay = lineChartOverview.getXAxis().getValueForDisplay(mouseEvent.getSceneX() - 45);
                 lastLatestValue = String.valueOf(valueForDisplay);
                 firstSelectionChart. getXAxis().setAutoRanging(true);
                 secondSelectionChart.getXAxis().setAutoRanging(true);
 
-                XYChart.Data<LocalDateTime, Float> secondSelectionFirstDate = (XYChart.Data<LocalDateTime, Float>) secondSelectionPriceSeries.getData().get(secondSelectionPriceSeries.getData().size() - 2);
+                XYChart.Data<LocalDateTime, Float> firstDate = (XYChart.Data<LocalDateTime, Float>) firstSelectionPriceSeries.getData().get(firstSelectionPriceSeries.getData().size() - 2);
                 ChartActions.cutRight(deltaRight, firstDate, firstSelectionPriceSeries, firstSelectionDataRemovedFromFront, lastLatestValue);
+
+                XYChart.Data<LocalDateTime, Float> secondSelectionFirstDate = (XYChart.Data<LocalDateTime, Float>) secondSelectionPriceSeries.getData().get(secondSelectionPriceSeries.getData().size() - 2);
                 ChartActions.cutRight(deltaRight, secondSelectionFirstDate, secondSelectionPriceSeries, secondSelectionDataRemovedFromFront, lastLatestValue);
-                XYChart.Data<LocalDateTime, Float> deltaLocalDateTimeFloatData = (XYChart.Data<LocalDateTime, Float>) seriesDiffBar.getData().get(seriesDiffBar.getData().size() - 2);
-                XYChart.Data<LocalDateTime, Float> deltaFirstDate = deltaLocalDateTimeFloatData;
-                ChartActions.cutRight(deltaRight, deltaFirstDate, seriesDiffBar, deltaDataRemovedFromFront, lastLatestValue);
+
+                XYChart.Data<LocalDateTime, Float> deltaLocalDateTimeFloatData = getSecondToLatestPoint(seriesDiffBar);
+                ChartActions.cutRight(deltaRight, deltaLocalDateTimeFloatData, seriesDiffBar, deltaDataRemovedFromFront, lastLatestValue);
 
                 ChartActions.setChartsUpperBound(valueForDisplay, firstSelectionChart, secondSelectionChart, firstSelectionYAxis, secondSelectionYAxis, diffBarChart);
                 initialRightHookPosition = mouseEvent.getSceneX();
@@ -777,10 +783,10 @@ public class Main extends Application {
                         return;
                     } else{
                         completeSeriesFromRemovedPoints(secondSelectionDataRemovedFromBack, secondSelectionDataRemovedFromFront, secondSelectionPriceSeries);
-                        firstSelectionDataRemovedFromBack  .clear();
-                        firstSelectionDataRemovedFromFront .clear();
-                        deltaDataRemovedFromBack           .clear();
-                        deltaDataRemovedFromFront          .clear();
+                        firstSelectionDataRemovedFromBack.clear();
+                        firstSelectionDataRemovedFromFront.clear();
+                        deltaDataRemovedFromBack.clear();
+                        deltaDataRemovedFromFront.clear();
                         firstSelectionPriceSeries.getData().clear();
                         firstSeriesDateToPrice.clear();
                         seriesTotal.getData().clear();
@@ -813,10 +819,10 @@ public class Main extends Application {
                         return;
                     }else{
                         completeSeriesFromRemovedPoints(firstSelectionDataRemovedFromBack, firstSelectionDataRemovedFromFront, firstSelectionPriceSeries);
-                        secondSelectionDataRemovedFromBack  .clear();
-                        secondSelectionDataRemovedFromFront .clear();
-                        deltaDataRemovedFromBack            .clear();
-                        deltaDataRemovedFromFront           .clear();
+                        secondSelectionDataRemovedFromBack.clear();
+                        secondSelectionDataRemovedFromFront.clear();
+                        deltaDataRemovedFromBack.clear();
+                        deltaDataRemovedFromFront.clear();
                         secondSelectionPriceSeries.getData().clear();
                         secondSelectionSeriesTotal.getData().clear();
                         seriesDiffBar.getData().clear();
@@ -873,23 +879,23 @@ public class Main extends Application {
                 secondSelectionChart.getXAxis().setAutoRanging(true);
                 try {
 
-                    XYChart.Data<LocalDateTime, Float> firstSelectionFirstDate = (XYChart.Data<LocalDateTime, Float>) firstSelectionPriceSeries.getData().get(firstSelectionPriceSeries.getData().size() - 2);
-                    XYChart.Data<LocalDateTime, Float> firstSelectionLastDate  = (XYChart.Data<LocalDateTime, Float>) firstSelectionPriceSeries.getData().get(1);
-
+                    XYChart.Data<LocalDateTime, Float> firstSelectionFirstDate = getSecondToLatestPoint(firstSelectionPriceSeries);
                     ChartActions.cutRight(deltaX, firstSelectionFirstDate, firstSelectionPriceSeries, firstSelectionDataRemovedFromFront, lastLatestValue);
+                    XYChart.Data<LocalDateTime, Float> firstSelectionLastDate  = (XYChart.Data<LocalDateTime, Float>) firstSelectionPriceSeries.getData().get(1);
                     ChartActions.cutLeft(deltaX, firstSelectionLastDate, firstSelectionPriceSeries, firstSelectionDataRemovedFromBack, lastEarliestValue);
 
-                    XYChart.Data<LocalDateTime, Float> secondSelectionFirstDate = (XYChart.Data<LocalDateTime, Float>) secondSelectionPriceSeries.getData().get(secondSelectionPriceSeries.getData().size() - 2);
-                    XYChart.Data<LocalDateTime, Float> secondSelectionLastDate  = (XYChart.Data<LocalDateTime, Float>) secondSelectionPriceSeries.getData().get(1);
 
+                    XYChart.Data<LocalDateTime, Float> secondSelectionFirstDate = getSecondToLatestPoint(secondSelectionPriceSeries);
                     ChartActions.cutRight(deltaX, secondSelectionFirstDate, secondSelectionPriceSeries, secondSelectionDataRemovedFromFront, lastLatestValue);
+                    XYChart.Data<LocalDateTime, Float> secondSelectionLastDate  = (XYChart.Data<LocalDateTime, Float>) secondSelectionPriceSeries.getData().get(1);
                     ChartActions.cutLeft(deltaX, secondSelectionLastDate, secondSelectionPriceSeries, secondSelectionDataRemovedFromBack, lastEarliestValue);
 
-                    XYChart.Data<LocalDateTime, Float> deltaLocalDateTimeFloatData = (XYChart.Data<LocalDateTime, Float>) seriesDiffBar.getData().get(seriesDiffBar.getData().size() - 2);
-                    XYChart.Data<LocalDateTime, Float> deltaFirstDate = deltaLocalDateTimeFloatData;
+
+                    XYChart.Data<LocalDateTime, Float> deltaLocalDateTimeFloatData = getSecondToLatestPoint(seriesDiffBar);
+                    ChartActions.cutRight(deltaX, deltaLocalDateTimeFloatData, seriesDiffBar, deltaDataRemovedFromFront, lastLatestValue);
                     XYChart.Data<LocalDateTime, Float> deltaLastData = (XYChart.Data<LocalDateTime, Float>) seriesDiffBar.getData().get(1);
-                    ChartActions.cutRight(deltaX, deltaFirstDate, seriesDiffBar, deltaDataRemovedFromFront, lastLatestValue);
                     ChartActions.cutLeft(deltaX, deltaLastData, seriesDiffBar, deltaDataRemovedFromBack, lastEarliestValue);
+
                 } catch (Exception e) {
                 }
                 ChartActions.setChartsUpperBound(valueForDisplayFinish, firstSelectionChart, secondSelectionChart, firstSelectionYAxis, secondSelectionYAxis, diffBarChart);
@@ -899,6 +905,10 @@ public class Main extends Application {
                 initialLeftHookPosition  = leftHookPosition.getValue();
             }
         });
+    }
+
+    private XYChart.Data<LocalDateTime, Float> getSecondToLatestPoint(XYChart.Series series) {
+        return (XYChart.Data<LocalDateTime, Float>) series.getData().get(series.getData().size() - 2);
     }
 
     private void displayLackOfDataInSeries() {
@@ -954,14 +964,14 @@ public class Main extends Application {
             Item item = (Item) results.get(c);
             seriesDateToPrice.put(item.getPrice_date(), item.getPrice());
             try{
-                series.getData().add(new XYChart.Data(LocalDateTime.parse(toUtcDate(item.getPrice_date())) , Float.valueOf(item.getPrice())));
-                totalSeries.getData().add(new XYChart.Data(LocalDateTime.parse(toUtcDate(item.getPrice_date())) , Float.valueOf(item.getPrice())));
+                series.getData().add(createChartData(item));
+                totalSeries.getData().add(createChartData(item));
                 seriesPointsToId.put(c, item.getId());
             }catch (Exception e){
-                series.getData().add(new XYChart.Data(LocalDateTime.parse(toUtcDate(item.getPrice_date())) , Float.valueOf(item.getPrice())));
+                series.getData().add(createChartData(item));
                 seriesPointsToId.put(c, item.getId());
 
-                totalSeries.getData().add(new XYChart.Data(LocalDateTime.parse(toUtcDate(item.getPrice_date())) , Float.valueOf(item.getPrice())));
+                totalSeries.getData().add(createChartData(item));
             }
 
             try{
@@ -1016,57 +1026,67 @@ public class Main extends Application {
     }
 
     private void matchBoundsBetweenCharts() {
-        DateAxis310 barChartXAxis             = (DateAxis310) diffBarChart.getXAxis();
-        DateAxis310 firstSelectionChartXAxis  = (DateAxis310) firstSelectionChart.getXAxis();
+        DateAxis310 barChartXAxis = (DateAxis310) diffBarChart.getXAxis();
+        DateAxis310 firstSelectionChartXAxis = (DateAxis310) firstSelectionChart.getXAxis();
         DateAxis310 secondSelectionChartXAxis = (DateAxis310) secondSelectionChart.getXAxis();
 
         barChartXAxis.setAutoRanging(false);
         barChartXAxis.lowerBoundProperty().bind(firstSelectionChartXAxis.lowerBoundProperty());
         barChartXAxis.upperBoundProperty().bind(firstSelectionChartXAxis.upperBoundProperty());
 
-        firstSelectionChartXAxis .setAutoRanging(false);
+        firstSelectionChartXAxis.setAutoRanging(false);
         secondSelectionChartXAxis.setAutoRanging(false);
-        Date firstSelectionUpper  = new Date();
+        Date firstSelectionUpper = new Date();
         Date secondSelectionUpper = new Date();
-        XYChart.Data upperDataFirst  = (XYChart.Data) firstSelectionPriceSeries.getData().get(firstSelectionPriceSeries.getData().size() - 1);
+        XYChart.Data upperDataFirst = (XYChart.Data) firstSelectionPriceSeries.getData().get(firstSelectionPriceSeries.getData().size() - 1);
         XYChart.Data upperDataSecond = (XYChart.Data) secondSelectionPriceSeries.getData().get(secondSelectionPriceSeries.getData().size() - 1);
         try {
-            firstSelectionUpper  = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm").parse(((LocalDateTime) upperDataFirst.getXValue()).toString());
-            secondSelectionUpper = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm").parse(((LocalDateTime) upperDataSecond.getXValue()).toString());
+            firstSelectionUpper = getSimpleDateFormat(upperDataFirst);
+            secondSelectionUpper = getSimpleDateFormat(upperDataSecond);
         } catch (ParseException e) {
 
         }
-        Date firstSelectionLower  = new Date();
+        Date firstSelectionLower = new Date();
         Date secondSelectionLower = new Date();
         XYChart.Data lowerDataFirst  = (XYChart.Data) firstSelectionPriceSeries.getData().get(0);
         XYChart.Data lowerDataSecond = (XYChart.Data) secondSelectionPriceSeries.getData().get(0);
         try {
-            firstSelectionLower  = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm").parse(lowerDataFirst.getXValue().toString());
-            secondSelectionLower = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm").parse((lowerDataSecond.getXValue().toString()));
+            firstSelectionLower = getSimpleDateFormat(lowerDataFirst);
+            secondSelectionLower = getSimpleDateFormat(lowerDataSecond);
         } catch (ParseException e) {
 
         }
-        long lowerBoundFirstSelectionInNano  = firstSelectionLower.getTime();
+        long lowerBoundFirstSelectionInNano = firstSelectionLower.getTime();
         long lowerBoundSecondSelectionInNano = secondSelectionLower.getTime();
 
-        long upperBoundFirstSelectionInNano  = firstSelectionUpper.getTime();
+        long upperBoundFirstSelectionInNano = firstSelectionUpper.getTime();
         long upperBoundSecondSelectionInNano = secondSelectionUpper.getTime();
-        firstSelectionChartXAxis .setAutoRanging(false);
+        firstSelectionChartXAxis.setAutoRanging(false);
         secondSelectionChartXAxis.setAutoRanging(false);
+
         if (lowerBoundFirstSelectionInNano < lowerBoundSecondSelectionInNano){
-            secondSelectionChartXAxis.setLowerBound(LocalDateTime.parse(lowerDataFirst.getXValue().toString()));
-            firstSelectionChartXAxis .setLowerBound(LocalDateTime.parse(lowerDataFirst.getXValue().toString()));
+            secondSelectionChartXAxis.setLowerBound(getLocalDateTime(lowerDataFirst));
+            firstSelectionChartXAxis.setLowerBound(getLocalDateTime(lowerDataFirst));
         }else{
-            firstSelectionChartXAxis .setLowerBound(LocalDateTime.parse(lowerDataSecond.getXValue().toString()));
-            secondSelectionChartXAxis.setLowerBound(LocalDateTime.parse(lowerDataSecond.getXValue().toString()));
+            firstSelectionChartXAxis.setLowerBound(getLocalDateTime(lowerDataSecond));
+            secondSelectionChartXAxis.setLowerBound(getLocalDateTime(lowerDataSecond));
         }
+
         if (upperBoundFirstSelectionInNano > upperBoundSecondSelectionInNano){
-            secondSelectionChartXAxis.setUpperBound(LocalDateTime.parse(upperDataFirst.getXValue().toString()));
-            firstSelectionChartXAxis .setUpperBound(LocalDateTime.parse(upperDataFirst.getXValue().toString()));
+            secondSelectionChartXAxis.setUpperBound(getLocalDateTime(upperDataFirst));
+            firstSelectionChartXAxis.setUpperBound(getLocalDateTime(upperDataFirst));
         }else{
-            firstSelectionChartXAxis .setUpperBound(LocalDateTime.parse(upperDataSecond.getXValue().toString()));
-            secondSelectionChartXAxis.setUpperBound(LocalDateTime.parse(upperDataSecond.getXValue().toString()));
+            firstSelectionChartXAxis.setUpperBound(getLocalDateTime(upperDataSecond));
+            secondSelectionChartXAxis.setUpperBound(getLocalDateTime(upperDataSecond));
         }
+    }
+
+    private Date getSimpleDateFormat(XYChart.Data upperDataFirst) throws ParseException {
+        return new SimpleDateFormat(YYYY_MM_DD_T_HH_MM).parse(((LocalDateTime) upperDataFirst.getXValue()).toString());
+    }
+
+    private LocalDateTime getLocalDateTime(XYChart.Data lowerDataFirst) {
+        return LocalDateTime.parse(lowerDataFirst.getXValue().toString());
     }
 
     private void initComponents(){
