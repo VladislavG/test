@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: lucene-codecs-4.5.1">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-codecs/4.5.1/1744032bb919c3a1d398c8367054f3b3ccd7dd78/lucene-codecs-4.5.1.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-codecs/4.5.1/53f539a3a779993373dc1d2bf0d16bc15c46e1c4/lucene-codecs-4.5.1-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

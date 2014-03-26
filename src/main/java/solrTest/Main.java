@@ -293,7 +293,7 @@ public class Main extends Application {
         observableListItems = FXCollections.observableArrayList(itemResults);
         propertiesPane.setVisible(false);
         propertiesPane.getStyleClass().add("b2");
-        detailPane.    getStyleClass().add("b2");
+        detailPane.getStyleClass().add("b2");
         secondListOfInstruments.getStyleClass().add("list-view2");
         secondListOfSeries.getStyleClass().add("list-view2");
         firstListOfInstruments.getStyleClass().add("list-view3");
@@ -308,12 +308,12 @@ public class Main extends Application {
         firstListOfInstruments.getSelectionModel().selectFirst();
         secondListOfInstruments.getSelectionModel().select(2);
 
-        lineChartPane.getChildren(). addAll(secondSelectionChart, firstSelectionChart, lineIndicator);
-        miniMapPane.getChildren().   addAll(lineChartOverview, leftRect, rightRect, hookRight, hookLeft, miniMapDetail);
-        chartBox.getChildren().      addAll(lineChartPane, separator, diffBarChart, miniMapPane);
+        lineChartPane.getChildren().addAll(secondSelectionChart, firstSelectionChart, lineIndicator);
+        miniMapPane.getChildren().addAll(lineChartOverview, leftRect, rightRect, hookRight, hookLeft, miniMapDetail);
+        chartBox.getChildren().addAll(lineChartPane, separator, diffBarChart, miniMapPane);
         containingPane.getChildren().addAll(chartBox, zoomBounds, trackX, displayAtPosition, displayAtTarget, detail, propertiesPane);
-        containingBox.getChildren(). addAll(containingPane, detailPane);
-        root.getChildren().          addAll(containingBox);
+        containingBox.getChildren().addAll(containingPane, detailPane);
+        root.getChildren().addAll(containingBox);
 
         stage.setTitle("Calculating Important Points");
 		stage.setScene(scene);
@@ -574,7 +574,8 @@ public class Main extends Application {
         lineChartOverview.getData().add(seriesTotal);
         lineChartOverview.getData().add(secondSelectionSeriesTotal);
         lineChartOverview.setVerticalGridLinesVisible(false);
-        lineChartOverview.setHorizontalZeroLineVisible(false);
+        lineChartOverview.setVerticalGridLinesVisible(false);
+        lineChartOverview.setCreateSymbols(true);
         ((DateAxis310) lineChartOverview.getXAxis()).setTickLabelsVisible(false);
         ((DateAxis310) lineChartOverview.getXAxis()).setTickMarkVisible(false);
         lineChartOverview.setMaxHeight(150);
