@@ -337,7 +337,7 @@ public class DateAxis310 extends Axis<LocalDateTime> {
 
         StringConverter<LocalDateTime> converter = getTickLabelFormatter();
         if (converter != null) {
-            return "   " + converter.toString(date) + "   ";
+            return "    " + converter.toString(date) + "    ";
         }
 
         DateTimeFormatter dateTimeFormat;

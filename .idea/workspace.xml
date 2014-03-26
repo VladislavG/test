@@ -77,49 +77,42 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="Main.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="Main.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/solrTest/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="1415" column="38" selection-start="70296" selection-end="70296" vertical-scroll-proportion="0.0" vertical-offset="24055" max-vertical-offset="25789">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="build.gradle" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/build.gradle">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="19" column="38" selection-start="358" selection-end="358" vertical-scroll-proportion="0.0" vertical-offset="323" max-vertical-offset="663">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Item.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/solrTest/Item.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="30" column="28" selection-start="895" selection-end="895" vertical-scroll-proportion="0.0" vertical-offset="510" max-vertical-offset="9775">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SolrService.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/solrTest/SolrService.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="233" column="64" selection-start="12332" selection-end="12332" vertical-scroll-proportion="0.0" vertical-offset="3961" max-vertical-offset="27778">
+            <state line="549" column="43" selection-start="26266" selection-end="26266" vertical-scroll-proportion="0.49926144" vertical-offset="8111" max-vertical-offset="20689">
               <folding>
-                <marker date="1395139143398" expanded="true" signature="1580:5876" placeholder="SELECT p.LAS..PR4_T_PRICE..." />
+                <element signature="e#14514#15478#0" expanded="true" />
+                <element signature="e#14711#15424#0" expanded="true" />
+                <element signature="e#15405#15406#0" expanded="true" />
+                <element signature="e#15467#15468#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="schema.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/resources/solr/core/conf/schema.xml">
+      <file leaf-file-name="Listeners.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/solrTest/Listeners.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="122" column="91" selection-start="5053" selection-end="5053" vertical-scroll-proportion="0.0" vertical-offset="1649" max-vertical-offset="2788">
+            <state line="12" column="6" selection-start="259" selection-end="259" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="527">
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ChartActions.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/solrTest/ChartActions.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="323" column="10" selection-start="15374" selection-end="15374" vertical-scroll-proportion="0.0" vertical-offset="4879" max-vertical-offset="5644">
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#3126#4395#0" expanded="true" />
+                <element signature="e#4368#4369#0" expanded="true" />
+                <element signature="e#4445#4864#0" expanded="true" />
+                <element signature="e#4837#4838#0" expanded="true" />
+                <element signature="e#5367#6093#0" expanded="true" />
+                <element signature="e#6082#6083#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -127,16 +120,7 @@
       <file leaf-file-name="demo.css" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/resources/demo.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="33" column="14" selection-start="573" selection-end="612" vertical-scroll-proportion="0.0" vertical-offset="1176" max-vertical-offset="2907">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="DateAxis310.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/java/solrTest/DateAxis310.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="369" column="38" selection-start="16007" selection-end="16007" vertical-scroll-proportion="-0.74561405" vertical-offset="6273" max-vertical-offset="8041">
+            <state line="230" column="62" selection-start="5311" selection-end="5311" vertical-scroll-proportion="0.0" vertical-offset="3400" max-vertical-offset="4046">
               <folding />
             </state>
           </provider>
@@ -183,12 +167,15 @@
         <option value="$USER_HOME$/jumpstart-gradle/client/build.gradle" />
         <option value="$PROJECT_DIR$/src/main/java/solrTest/Item.java" />
         <option value="$PROJECT_DIR$/src/main/resources/solr/core/conf/schema.xml" />
-        <option value="$PROJECT_DIR$/src/main/resources/demo.css" />
-        <option value="$PROJECT_DIR$/src/main/java/solrTest/DateAxis310.java" />
-        <option value="$PROJECT_DIR$/src/main/resources/solr/core/data/index/write.lock" />
-        <option value="$PROJECT_DIR$/src/main/java/solrTest/SolrService.java" />
-        <option value="$PROJECT_DIR$/src/main/java/solrTest/Main.java" />
         <option value="$PROJECT_DIR$/src/build.gradle" />
+        <option value="$PROJECT_DIR$/src/main/java/solrTest/SolrService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/solrTest/ListPane.java" />
+        <option value="C:/Program Files/Java/jdk1.8.0/jre/lib/ext/jfxrt.jar!/javafx/beans/property/DoublePropertyBase.class" />
+        <option value="$PROJECT_DIR$/src/main/resources/solr/core/data/index/write.lock" />
+        <option value="$PROJECT_DIR$/src/main/java/solrTest/DateAxis310.java" />
+        <option value="$PROJECT_DIR$/src/main/java/solrTest/ChartActions.java" />
+        <option value="$PROJECT_DIR$/src/main/resources/demo.css" />
+        <option value="$PROJECT_DIR$/src/main/java/solrTest/Main.java" />
       </list>
     </option>
   </component>
@@ -199,7 +186,7 @@
     <option name="x" value="-8" />
     <option name="y" value="-8" />
     <option name="width" value="1936" />
-    <option name="height" value="1056" />
+    <option name="height" value="1176" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -244,6 +231,7 @@
     </navigator>
     <panes>
       <pane id="PackagesPane" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -295,100 +283,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="resources" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="solrTest" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="solrTest" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="resources" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="solr" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="solrTest" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="solrTest" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="resources" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="solr" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="core" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="index" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="solrTest" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="solrTest" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="resources" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="solr" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="core" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="conf" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -464,7 +358,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -490,7 +383,7 @@
     <property name="options.searchVisible" value="true" />
     <property name="OverrideImplement.overriding.sorted" value="false" />
     <property name="extract.method.default.visibility" value="private" />
-    <property name="SearchEverywhereHistory" value="long&#10;ps" />
+    <property name="SearchEverywhereHistory" value="&#10;long&#10;ps" />
     <property name="restartRequiresConfirmation" value="true" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth0" value="271" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder0" value="0" />
@@ -508,6 +401,7 @@
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder2" value="2" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth3" value="968" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder3" value="3" />
+    <property name="last_directory_selection" value="$PROJECT_DIR$/src/main/java/solrTest" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -516,6 +410,9 @@
       <recent name="C:\Users\vladislav\solrTest\src" />
     </key>
     <key name="CreateClassDialog.RecentsKey">
+      <recent name="solrTest" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="solrTest" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
@@ -569,12 +466,14 @@
       <option name="PASS_PARENT_ENVS" value="true" />
       <module name="solrTest" />
       <envs />
+      <RunnerSettings RunnerId="Cover" />
       <RunnerSettings RunnerId="Debug">
         <option name="DEBUG_PORT" value="" />
         <option name="TRANSPORT" value="0" />
         <option name="LOCAL" value="true" />
       </RunnerSettings>
       <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Cover" />
       <ConfigurationWrapper RunnerId="Debug" />
       <ConfigurationWrapper RunnerId="Run" />
       <method />
@@ -881,9 +780,9 @@
     <recent_temporary>
       <list size="5">
         <item index="0" class="java.lang.String" itemvalue="Application.Main" />
-        <item index="1" class="java.lang.String" itemvalue="Application.SolrService" />
-        <item index="2" class="java.lang.String" itemvalue="Application.Zoom001" />
-        <item index="3" class="java.lang.String" itemvalue="Application.Demo" />
+        <item index="1" class="java.lang.String" itemvalue="Application.Zoom001" />
+        <item index="2" class="java.lang.String" itemvalue="Application.Demo" />
+        <item index="3" class="java.lang.String" itemvalue="Application.SolrService" />
         <item index="4" class="java.lang.String" itemvalue="Application.test" />
       </list>
     </recent_temporary>
@@ -948,7 +847,17 @@
       <workItem from="1395130357629" duration="16461000" />
       <workItem from="1395158934383" duration="164000" />
       <workItem from="1395216773859" duration="6336000" />
-      <workItem from="1395241323906" duration="366000" />
+      <workItem from="1395241323906" duration="1449000" />
+      <workItem from="1395304003141" duration="20934000" />
+      <workItem from="1395389267694" duration="697000" />
+      <workItem from="1395390140352" duration="23241000" />
+      <workItem from="1395648270877" duration="10845000" />
+      <workItem from="1395662991289" duration="7177000" />
+      <workItem from="1395671395603" duration="1203000" />
+      <workItem from="1395672710652" duration="699000" />
+      <workItem from="1395734694207" duration="11999000" />
+      <workItem from="1395754879932" duration="1277000" />
+      <workItem from="1395756612529" duration="3550000" />
     </task>
     <task id="LOCAL-00001" summary="first commit">
       <created>1385627111549</created>
@@ -1002,11 +911,23 @@
       <created>1395241676977</created>
       <updated>1395241676977</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="barGraph inplemented">
+      <created>1395672776473</created>
+      <updated>1395672776473</updated>
+    </task>
+    <task id="LOCAL-00015" summary="cleaned code&#10;">
+      <created>1395749979124</created>
+      <updated>1395749979124</updated>
+    </task>
+    <task id="LOCAL-00016" summary="cleaned code&#10;">
+      <created>1395763713260</created>
+      <updated>1395763713260</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="458095000" />
+    <option name="totallyTimeSpent" value="540800000" />
   </component>
   <component name="TodoView" selected-index="3">
     <todo-panel id="selected-file">
@@ -1029,36 +950,36 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <frame x="-8" y="-8" width="1936" height="1176" extended-state="6" />
     <editor active="false" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Changes" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.4493882" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.27281648" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32963374" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32875368" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32482827" sideWeight="0.3003195" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32960597" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.44955924" sideWeight="0.5" order="13" side_tool="true" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24973376" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4476004" sideWeight="0.5" order="13" side_tool="true" content_ui="tabs" />
       <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.30852106" sideWeight="0.5" order="9" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4484789" sideWeight="0.5" order="9" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17891374" sideWeight="0.41045958" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32960597" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32925472" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32908913" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="true" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.24289912" sideWeight="0.08998935" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32908913" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32960597" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21512248" sideWeight="0.5895404" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.36040044" sideWeight="0.45047924" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.20820022" sideWeight="0.5895404" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.34052992" sideWeight="0.48615548" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="CDI" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.073105656" sideWeight="0.719764" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32713026" sideWeight="0.3003195" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -1084,7 +1005,9 @@
     <MESSAGE value="listview with spikes&#10;" />
     <MESSAGE value="realData" />
     <MESSAGE value="indexed all h2database&#10;" />
-    <option name="LAST_COMMIT_MESSAGE" value="indexed all h2database&#10;" />
+    <MESSAGE value="barGraph inplemented" />
+    <MESSAGE value="cleaned code&#10;" />
+    <option name="LAST_COMMIT_MESSAGE" value="cleaned code&#10;" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1098,62 +1021,15 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/java/solrTest/DateAxis310.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="369" column="38" selection-start="16007" selection-end="16007" vertical-scroll-proportion="0.0" vertical-offset="6273" max-vertical-offset="8381">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/solrTest/SolrService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="58" column="64" selection-start="2002" selection-end="2002" vertical-scroll-proportion="0.0" vertical-offset="986" max-vertical-offset="6647">
-          <folding>
-            <marker date="1395139143398" expanded="true" signature="1580:5876" placeholder="SELECT p.LAS..PR4_T_PRICE..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/solrTest/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="47" column="88" selection-start="1601" selection-end="1601" vertical-scroll-proportion="0.0" vertical-offset="799" max-vertical-offset="17170">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/solrTest/LocalDateTimeStringConverter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="13" selection-start="69" selection-end="69" vertical-scroll-proportion="0.0" vertical-offset="68" max-vertical-offset="1581" />
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/jumpstart-gradle/client/build.gradle">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="35" column="0" selection-start="1037" selection-end="1037" vertical-scroll-proportion="0.0" vertical-offset="595" max-vertical-offset="748" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gradlew">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2890" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/build.gradle">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="34" column="17" selection-start="945" selection-end="945" vertical-scroll-proportion="0.0" vertical-offset="578" max-vertical-offset="680" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/solrTest/SolrService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="58" column="64" selection-start="2002" selection-end="2002" vertical-scroll-proportion="0.0" vertical-offset="986" max-vertical-offset="6647">
-          <folding>
-            <marker date="1395139143398" expanded="true" signature="1580:5876" placeholder="SELECT p.LAS..PR4_T_PRICE..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/solrTest/Main.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="43" column="86" selection-start="1501" selection-end="1501" vertical-scroll-proportion="0.0" vertical-offset="102" max-vertical-offset="18207">
-          <folding />
+          <folding>
+            <element signature="e#14514#15478#0" expanded="true" />
+            <element signature="e#14711#15424#0" expanded="true" />
+            <element signature="e#15405#15406#0" expanded="true" />
+            <element signature="e#15467#15468#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1180,9 +1056,7 @@
     <entry file="file://$PROJECT_DIR$/src/main/java/solrTest/SolrService.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="20" column="13" selection-start="649" selection-end="649" vertical-scroll-proportion="0.0" vertical-offset="340" max-vertical-offset="5780">
-          <folding>
-            <marker date="1395139143398" expanded="true" signature="1580:5876" placeholder="SELECT p.LAS..PR4_T_PRICE..." />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1241,27 +1115,6 @@
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2890" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/solrTest/LocalDateTimeStringConverter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="23" selection-start="322" selection-end="322" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1513" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/temp/Zoom001.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="22" column="13" selection-start="676" selection-end="676" vertical-scroll-proportion="0.0" vertical-offset="374" max-vertical-offset="3009">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/temp/Demo.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="76" column="0" selection-start="2522" selection-end="2522" vertical-scroll-proportion="0.0" vertical-offset="859" max-vertical-offset="2210">
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/the-file-name.txt">
       <provider selected="true" editor-type-id="LargeFileEditor">
         <state />
@@ -1287,44 +1140,9 @@
         <state line="782" column="0" selection-start="27220" selection-end="27220" vertical-scroll-proportion="0.0" vertical-offset="11928" max-vertical-offset="15453" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/solrTest/EvenSpacedCategoryAxis.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="392" column="98" selection-start="15875" selection-end="15875" vertical-scroll-proportion="0.4017522" vertical-offset="5714" max-vertical-offset="9469" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/resources/solr/core/conf/solrconfig.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="7718" />
-      </provider>
-    </entry>
-    <entry file="jar://C:/Program Files/Java/jdk1.8.0/jre/lib/ext/jfxrt.jar!/javafx/beans/property/ReadOnlyObjectWrapper.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="27" column="19" selection-start="1247" selection-end="1247" vertical-scroll-proportion="0.0" vertical-offset="219" max-vertical-offset="935" />
-      </provider>
-    </entry>
-    <entry file="jar://C:/Program Files/Java/jdk1.8.0/jre/lib/ext/jfxrt.jar!/javafx/beans/property/ObjectPropertyBase.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="33" column="16" selection-start="1298" selection-end="1298" vertical-scroll-proportion="0.0" vertical-offset="266" max-vertical-offset="935" />
-      </provider>
-    </entry>
-    <entry file="jar://C:/Program Files/Java/jdk1.8.0/jre/lib/ext/jfxrt.jar!/javafx/beans/property/ReadOnlyIntegerWrapper.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="27" column="19" selection-start="1275" selection-end="1275" vertical-scroll-proportion="0.0" vertical-offset="226" max-vertical-offset="935" />
-      </provider>
-    </entry>
-    <entry file="jar://C:/Program Files/Java/jdk1.8.0/jre/lib/ext/jfxrt.jar!/javafx/beans/property/IntegerPropertyBase.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="33" column="16" selection-start="1339" selection-end="1339" vertical-scroll-proportion="0.0" vertical-offset="287" max-vertical-offset="935" />
-      </provider>
-    </entry>
-    <entry file="jar://C:/Program Files/Java/jdk1.8.0/jre/lib/ext/jfxrt.jar!/javafx/scene/control/SelectionModel.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="30" column="25" selection-start="1044" selection-end="1044" vertical-scroll-proportion="0.0" vertical-offset="202" max-vertical-offset="850" />
-      </provider>
-    </entry>
-    <entry file="jar://C:/Program Files/Java/jdk1.8.0/jre/lib/ext/jfxrt.jar!/javafx/scene/control/MultipleSelectionModelBase.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="44" column="16" selection-start="1823" selection-end="1823" vertical-scroll-proportion="0.0" vertical-offset="520" max-vertical-offset="1292" />
       </provider>
     </entry>
     <entry file="jar://C:/Program Files/Java/jdk1.8.0/jre/lib/ext/jfxrt.jar!/javafx/event/Event.class">
@@ -1337,61 +1155,158 @@
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="17102" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/demo.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="33" column="14" selection-start="573" selection-end="612" vertical-scroll-proportion="0.0" vertical-offset="1176" max-vertical-offset="2907">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/solrTest/Item.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="30" column="28" selection-start="895" selection-end="895" vertical-scroll-proportion="0.0" vertical-offset="510" max-vertical-offset="9775">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/resources/solr/solr.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="799">
-          <folding />
-        </state>
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="799" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/resources/solr/core/conf/schema.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="122" column="91" selection-start="5053" selection-end="5053" vertical-scroll-proportion="0.0" vertical-offset="1649" max-vertical-offset="2788">
-          <folding />
-        </state>
+        <state line="122" column="91" selection-start="5053" selection-end="5053" vertical-scroll-proportion="0.0" vertical-offset="1649" max-vertical-offset="2788" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/solrTest/SolrService.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/temp/Zoom001.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="233" column="64" selection-start="12332" selection-end="12332" vertical-scroll-proportion="0.0" vertical-offset="4364" max-vertical-offset="23171">
-          <folding>
-            <marker date="1395139143398" expanded="true" signature="1580:5876" placeholder="SELECT p.LAS..PR4_T_PRICE..." />
-          </folding>
-        </state>
+        <state line="113" column="29" selection-start="4363" selection-end="4363" vertical-scroll-proportion="0.0" vertical-offset="2239" max-vertical-offset="3077" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/solrTest/Main.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/solrTest/LocalDateTimeStringConverter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1415" column="38" selection-start="70296" selection-end="70296" vertical-scroll-proportion="0.0" vertical-offset="24055" max-vertical-offset="25789">
-          <folding />
-        </state>
+        <state line="15" column="23" selection-start="322" selection-end="322" vertical-scroll-proportion="0.18831822" vertical-offset="0" max-vertical-offset="1513" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/temp/BestFitSplineInterpolator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="6" column="13" selection-start="221" selection-end="221" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="357" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/temp/Demo.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="98" column="57" selection-start="3517" selection-end="3517" vertical-scroll-proportion="0.0" vertical-offset="316" max-vertical-offset="1853" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/solrTest/Item.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="30" column="28" selection-start="895" selection-end="895" vertical-scroll-proportion="0.0" vertical-offset="510" max-vertical-offset="9775" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/build.gradle">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="19" column="38" selection-start="358" selection-end="358" vertical-scroll-proportion="0.0" vertical-offset="34" max-vertical-offset="663">
+        <state line="10" column="86" selection-start="156" selection-end="156" vertical-scroll-proportion="0.2364395" vertical-offset="0" max-vertical-offset="719" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/solrTest/EvenSpacedCategoryAxis.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="356" column="15" selection-start="14580" selection-end="14580" vertical-scroll-proportion="0.3323217" vertical-offset="5204" max-vertical-offset="9469" />
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0/jre/lib/ext/jfxrt.jar!/javafx/beans/property/ReadOnlyObjectWrapper.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="27" column="19" selection-start="1247" selection-end="1247" vertical-scroll-proportion="0.0" vertical-offset="223" max-vertical-offset="935" />
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0/jre/lib/ext/jfxrt.jar!/javafx/scene/control/MultipleSelectionModelBase.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1292" />
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0/jre/lib/ext/jfxrt.jar!/javafx/beans/property/ReadOnlyIntegerWrapper.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="27" column="19" selection-start="1275" selection-end="1275" vertical-scroll-proportion="0.0" vertical-offset="223" max-vertical-offset="935" />
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0/jre/lib/ext/jfxrt.jar!/javafx/beans/property/IntegerPropertyBase.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="33" column="16" selection-start="1339" selection-end="1339" vertical-scroll-proportion="0.0" vertical-offset="276" max-vertical-offset="935" />
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0/jre/lib/ext/jfxrt.jar!/javafx/scene/control/SelectionModel.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="30" column="25" selection-start="1044" selection-end="1044" vertical-scroll-proportion="0.0" vertical-offset="191" max-vertical-offset="850" />
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0/jre/lib/ext/jfxrt.jar!/javafx/scene/control/ListView.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3689" />
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0/jre/lib/ext/jfxrt.jar!/javafx/beans/property/ObjectPropertyBase.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="33" column="16" selection-start="1298" selection-end="1298" vertical-scroll-proportion="0.40667677" vertical-offset="276" max-vertical-offset="935" />
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0/jre/lib/ext/jfxrt.jar!/javafx/scene/chart/Axis.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="106" column="25" selection-start="4933" selection-end="4933" vertical-scroll-proportion="0.0" vertical-offset="1802" max-vertical-offset="3570" />
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0/jre/lib/ext/jfxrt.jar!/javafx/beans/property/DoublePropertyBase.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="39" column="16" selection-start="1507" selection-end="1507" vertical-scroll-proportion="0.0" vertical-offset="663" max-vertical-offset="952" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/solrTest/SolrService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="42" column="35" selection-start="1404" selection-end="1404" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="23239">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/solrTest/DateAxis310.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="369" column="38" selection-start="16007" selection-end="16007" vertical-scroll-proportion="-0.74561405" vertical-offset="6273" max-vertical-offset="8041">
+        <state line="34" column="4" selection-start="854" selection-end="854" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="8041">
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/solr/core/data/index/write.lock">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="995" />
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0/jre/lib/ext/jfxrt.jar!/javafx/animation/Animation.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="166" column="15" selection-start="7178" selection-end="7178" vertical-scroll-proportion="0.0" vertical-offset="2822" max-vertical-offset="3825" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/solrTest/Listeners.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="12" column="6" selection-start="259" selection-end="259" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="527">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/solrTest/ChartActions.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="323" column="10" selection-start="15374" selection-end="15374" vertical-scroll-proportion="0.0" vertical-offset="4879" max-vertical-offset="5644">
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#3126#4395#0" expanded="true" />
+            <element signature="e#4368#4369#0" expanded="true" />
+            <element signature="e#4445#4864#0" expanded="true" />
+            <element signature="e#4837#4838#0" expanded="true" />
+            <element signature="e#5367#6093#0" expanded="true" />
+            <element signature="e#6082#6083#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/demo.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="230" column="62" selection-start="5311" selection-end="5311" vertical-scroll-proportion="0.0" vertical-offset="3400" max-vertical-offset="4046">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/solrTest/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="549" column="43" selection-start="26266" selection-end="26266" vertical-scroll-proportion="0.49926144" vertical-offset="8111" max-vertical-offset="20689">
+          <folding>
+            <element signature="e#14514#15478#0" expanded="true" />
+            <element signature="e#14711#15424#0" expanded="true" />
+            <element signature="e#15405#15406#0" expanded="true" />
+            <element signature="e#15467#15468#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

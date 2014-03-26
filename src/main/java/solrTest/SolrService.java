@@ -388,6 +388,8 @@ public class SolrService {
         solrQuery.setRows(1000);                          //number of rows
         QueryResponse response = null;
         solrQuery.addFacetField("instrument");
+        solrQuery.addFacetField("price");
+        solrQuery.setFacetLimit(Integer.MAX_VALUE);
         solrQuery.setFacetLimit(Integer.MAX_VALUE);
         try {
             float start = System.currentTimeMillis();
@@ -398,6 +400,8 @@ public class SolrService {
         }
         FacetField fieldShortName = response.getFacetField("instrument");
         List<String> allShortNames = new ArrayList<>();
+        FacetField priceField = response.getFacetField("price");
+        List<String> allPricesStrings = new ArrayList<>();
         List<FacetField.Count> valuesShortNames = fieldShortName.getValues();
         for (FacetField.Count count : valuesShortNames){
             if (count.getCount() > 0){

@@ -1,5 +1,8 @@
 package solrTest;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -7,33 +10,28 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
-import javafx.scene.Cursor;
-import javafx.scene.Group;
-import javafx.scene.Node;
-import javafx.scene.Scene;
-import javafx.scene.chart.LineChart;
-import javafx.scene.chart.NumberAxis;
-import javafx.scene.chart.XYChart;
+import javafx.geometry.Side;
+import javafx.scene.*;
+import javafx.scene.chart.*;
 import javafx.scene.control.*;
 import javafx.scene.effect.InnerShadow;
-import javafx.scene.image.ImageView;
+import javafx.scene.effect.Reflection;
 import javafx.scene.input.*;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
-import javafx.scene.shape.Path;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+import javafx.util.Duration;
 import javafx.util.StringConverter;
 import org.apache.solr.client.solrj.SolrServerException;
 
@@ -47,48 +45,58 @@ import java.util.*;
 import static java.time.temporal.ChronoUnit.*;
 
 public class Main extends Application {
-    XYChart.Series seriesHighRaw = new XYChart.Series();
-    int idFirstPoint;
-    Double firstPointX;
-    Double initYpos;
+
+    XYChart.Series firstSelectionPriceSeries = new XYChart.Series();
+    XYChart.Series secondSelectionPriceSeries = new XYChart.Series();
+    XYChart.Series seriesDiffBar = new XYChart.Series();
+    Double firstChartInitYPos;
+    Double secondChartInitYPos;
     String dragArea;
+    VBox firstSelectionContainer = new VBox();
+    VBox secondSelectionContainer = new VBox();
     SimpleDoubleProperty upperBoundForYMain = new SimpleDoubleProperty();
     SimpleDoubleProperty lowerBoundForYMain = new SimpleDoubleProperty();
+    SimpleDoubleProperty secondSelectionUpperYBound = new SimpleDoubleProperty();
+    SimpleDoubleProperty secondSelectionLowerYBound = new SimpleDoubleProperty();
     SimpleDoubleProperty selectedMarkSize = new SimpleDoubleProperty();
-    Double firstPointY;
     Text placeHolder;
+    TextField firstListSearch = new TextField();
+    TextField secondListSearch = new TextField();
+
     Button resetButton = new Button("Reset zoom");
-    Button resetTableButton = new Button("Clear Trable");
-    Label chartItemSize = new Label();
-    Label chartLowerBound = new Label();
-    Label chartUpperBound = new Label();
-    Label chartSpecialMarksCount = new Label();
-    int markCount = 0;
-    int idSecondPoint;
-    Double secondPointX;
-    Double secondPointY;
-    SplitPane splitPane;
-    Pane simplePane;
+    Button resetTableButton = new Button("Clear Table");
+
+    HBox containingBox;
+    Pane detailPane;
     VBox chartBox;
     Pane miniMapPane;
     double positionXOverviewChart;
-    NumberAxis yLineAxis;
-    DateAxis310 xCLineAxis;
-    boolean ignoreSeriesChange;
-    int c = 0;
+    NumberAxis firstSelectionYAxis;
+    DateAxis310 firstSelectionXAxis;
+    NumberAxis secondSelectionYAxis;
+    DateAxis310 secondSelectionXAxis;
+    ListView<String> firstListOfInstruments = new ListView<>();
+    ListView<String> firstListOfSeries = new ListView<>();
 
-    ListView<String> listOfMarks;
-    ListView<String> listOfSeries = new ListView<>();
-    ObservableList<String> observableListInstruments;
-    ObservableList<String> observableListInstrumentsForSearch;
-    ObservableList<String> observableListSeries;
+    Button openFirstInstrumentListButton = new Button("Select Instrument: ");
+    Button openFirstSeriesListButton = new Button("Select Series: ");
+
+    Button openSecondInstrumentListButton = new Button("Select Instrument: ");
+    Button openSecondSeriesListButton = new Button("Select Series: ");
+
+    ListView<String> secondListOfInstruments = new ListView<>();
+    ListView<String> secondListOfSeries = new ListView<>();
+
+    ObservableList<String> firstObservableListInstruments;
+    ObservableList<String> firstObservableListSeries;
+
+    ObservableList<String> secondObservableListInstruments;
+    ObservableList<String> secondObservableListSeries;
     ObservableList<Item> observableListItems;
-    List<StackPane> marks = new ArrayList<>();
-
 
     final StringConverter<LocalDateTime> STRING_CONVERTER = new StringConverter<LocalDateTime>() {
         @Override public String toString(LocalDateTime localDateTime) {
-            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd MMM yyyy");
             return dtf.format(localDateTime);
         }
         @Override public LocalDateTime fromString(String s) {
@@ -103,7 +111,7 @@ public class Main extends Application {
     Line trackX = new Line(0, 550, 0, 0);
     Label displayAtPosition = new Label();
     Label displayAtTarget = new Label();
-    Label spikes;
+    Label labelInstruments;
     VBox listBox;
     SimpleDoubleProperty leftHookPosition = new SimpleDoubleProperty();
     SimpleDoubleProperty rightHookPosition = new SimpleDoubleProperty();
@@ -116,20 +124,30 @@ public class Main extends Application {
     SimpleDoubleProperty rectX = new SimpleDoubleProperty();
     SimpleDoubleProperty rectY = new SimpleDoubleProperty();
     SimpleDoubleProperty tableY = new SimpleDoubleProperty();
-    SimpleDoubleProperty tablex = new SimpleDoubleProperty();
+    SimpleDoubleProperty tableX = new SimpleDoubleProperty();
     SimpleDoubleProperty mouseY = new SimpleDoubleProperty();
-    SimpleDoubleProperty mousex = new SimpleDoubleProperty();
+    SimpleDoubleProperty mouseX = new SimpleDoubleProperty();
 
     LineChart<LocalDateTime, Number> lineChartOverview;
-    LineChart<LocalDateTime, Number> lineChart;
+    LineChart<LocalDateTime, Number> firstSelectionChart;
+    LineChart<LocalDateTime, Number> secondSelectionChart;
 
-    double distanceBetweenPoint;
-    List<Item> results;
-    List<String> instrumentResults;
-    List<String> seriesResults;
+    List<Item> firstSelectionResults;
+    List<Item> secondSelectionResults;
+
+    List<String> firstInstrumentResults;
+    List<String> firstSeriesResults;
+
+    List<String> secondInstrumentResults;
+    List<String> secondSeriesResults;
+
     List<Item> itemResults = new ArrayList<>();
-    ArrayList<XYChart.Data<LocalDateTime, Float>> dataRemovedFromFront;
-    ArrayList<XYChart.Data<LocalDateTime, Float>> dataRemovedFromBack;
+    ArrayList<XYChart.Data<LocalDateTime, Float>> firstSelectionDataRemovedFromFront;
+    ArrayList<XYChart.Data<LocalDateTime, Float>> firstSelectionDataRemovedFromBack;
+    ArrayList<XYChart.Data<LocalDateTime, Float>> secondSelectionDataRemovedFromFront = new ArrayList<>();
+    ArrayList<XYChart.Data<LocalDateTime, Float>> secondSelectionDataRemovedFromBack = new ArrayList<>();
+    ArrayList<XYChart.Data<LocalDateTime, Float>> deltaDataRemovedFromFront = new ArrayList<>();
+    ArrayList<XYChart.Data<LocalDateTime, Float>> deltaDataRemovedFromBack = new ArrayList<>();
 
     double initialLeftHookPosition = 0.0;
     double initialRightHookPosition = 0.0;
@@ -139,39 +157,31 @@ public class Main extends Application {
     Rectangle leftRect = new Rectangle(30,150);
     Rectangle rightRect = new Rectangle(30,150);
     Separator separator;
-//    String selectedDate;
-    ChoiceBox<String> propertiesCB = new ChoiceBox<>();
     Pane propertiesPane = new Pane();
 
-    ArrayList<String> tickValues;
     ArrayList<Double> valuesHighRaw;
-    ArrayList<Double> changeOfvalues;
-    double[] olsRegression;
-
     SimpleDoubleProperty width;
-    Delta zoomFactor;
     ArrayList<LocalDateTime> aboveAverages;
     ObservableList<LocalDateTime> observableAboveAverages;
     XYChart.Series seriesTotal;
-    XYChart.Series seriesAverageHigh;
-    XYChart.Series seriesAverageLow;
-    XYChart.Series seriesOpenRaw;
-    ObservableList<String> possiblePriceProperties;
-    String selectedId;
-//    String selectedDate;
+    XYChart.Series secondSelectionSeriesTotal;
     HashMap orderOfSeriesPointsToId = new HashMap();
     HashMap orderOfGraphPointsToId = new HashMap();
+    HashMap firstSeriesDateToPrice = new HashMap();
+    HashMap secondSeriesDateToPrice = new HashMap();
+    HashMap overviewPointsDateToId = new HashMap();
     TableView tableOfProperties = new TableView();
+    AreaChart<LocalDateTime, Number> diffBarChart;
 
     Pane lineChartPane;
     NumberAxis yAxis;
     DateAxis310 xAxis;
-    Label propertiesLabel = new Label("Select a property");
+    NumberAxis yBarAxis;
+    DateAxis310 xBarAxis;
 
     Text miniMapDetail;
     Text detail;
     Pane containingPane;
-    VBox propertiesVBox = new VBox();
 
     public static void main(String[] args) {
 		launch(args);
@@ -188,22 +198,134 @@ public class Main extends Application {
 	@Override
 	public void start(Stage stage) throws Exception {
 		final Group root = new Group();
-		Scene scene = new Scene(root, 1750, 700, Color.WHITESMOKE);
+		Scene scene = new Scene(root, 1750, 850, Color.WHITESMOKE);
         initComponents();
 
-        System.out.println("Java Version             : " + com.sun.javafx.runtime.VersionInfo.getVersion());
-        System.out.println("Java getRuntimeVersion   : " + com.sun.javafx.runtime.VersionInfo.getRuntimeVersion());
+        firstInstrumentResults =  SolrService.getInstruments("*");
+        firstSeriesResults =      SolrService.getSeries(firstInstrumentResults.get(0));
+        secondInstrumentResults = SolrService.getInstruments("*");
+        secondSeriesResults =     SolrService.getSeries(secondInstrumentResults.get(0));
 
-        for (double t = 0.0; t < 1.5; t=t+0.1){
-            tickValues.add(String.valueOf(Math.round(t * 100.0) / 100.0));
+        firstObservableListInstruments =  FXCollections.observableArrayList(firstInstrumentResults);
+        firstObservableListSeries =       FXCollections.observableArrayList(firstSeriesResults);
+        secondObservableListInstruments = FXCollections.observableArrayList(secondInstrumentResults);
+        secondObservableListSeries =      FXCollections.observableArrayList(secondSeriesResults);
+
+        firstSelectionResults =  SolrService.getResults("*", "*", firstObservableListInstruments.get(0), firstObservableListSeries.get(0));
+        secondSelectionResults = SolrService.getResults("*", "*", secondObservableListInstruments.get(0), secondObservableListSeries.get(1));
+
+        firstListOfInstruments =  makeListView();
+        secondListOfInstruments = makeListView();
+
+        firstListOfInstruments.getItems().setAll(firstObservableListInstruments);
+        secondListOfInstruments.getItems().setAll(secondObservableListInstruments);
+
+        resetTableButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                itemResults.clear();
+                observableListItems = FXCollections.observableArrayList(itemResults);
+                tableOfProperties.setItems(observableListItems);
+                selectedMarkSize.setValue(1);
+                propertiesPane.setVisible(false);
+
+            }
+        });
+
+        firstListOfSeries.getItems().setAll(firstObservableListSeries);
+        secondListOfSeries.getItems().setAll(secondObservableListSeries);
+
+        lineChartOverview    = ChartActions.makeZoomLineChart(overviewPointsDateToId, "", miniMapDetail, firstListOfSeries, xAxis, yAxis);
+        firstSelectionChart  = ChartActions.makeZoomLineChart(orderOfGraphPointsToId, "chart-series-lineFirst", detail, firstListOfSeries, firstSelectionXAxis, firstSelectionYAxis);
+        secondSelectionChart = ChartActions.makeZoomLineChart(orderOfGraphPointsToId, "chart-series-lineSecond", detail, secondListOfSeries, secondSelectionXAxis, secondSelectionYAxis);
+
+        secondSelectionChart.setFocusTraversable(true);
+        try {
+            secondSelectionResults = SolrService.getResultsOnInstrumentAndSeries(secondObservableListInstruments.get(0), secondObservableListSeries.get(0));
+            if (secondSelectionResults.size() == 1){
+                System.out.println("ONE POINT OF DATA IN THIS SERIES ONLY");
+                return;
+            }else{
+                secondSelectionPriceSeries.getData().clear();
+                secondSelectionSeriesTotal.getData().clear();
+                for (int c = 0; c <= secondSelectionResults.size() - 1; c++) {
+                    Item item = secondSelectionResults.get(c);
+                    secondSeriesDateToPrice.put(item.getPrice_date(), item.getPrice());
+                    try{
+                        secondSelectionPriceSeries.getData().add(new XYChart.Data(LocalDateTime.parse(toUtcDate(item.getPrice_date())) , Float.valueOf(item.getPrice())));
+                        secondSelectionSeriesTotal.getData().add(new XYChart.Data(LocalDateTime.parse(toUtcDate(item.getPrice_date())) , Float.valueOf(item.getPrice())));
+                        orderOfSeriesPointsToId.put(c, item.getId());
+                    }catch (Exception e){
+                        secondSelectionPriceSeries.getData().add(new XYChart.Data(LocalDateTime.parse(toUtcDate(item.getPrice_date())) , Float.valueOf(item.getPrice())));
+                        orderOfSeriesPointsToId.put(c, item.getId());
+
+                        secondSelectionSeriesTotal.getData().add(new XYChart.Data(LocalDateTime.parse(toUtcDate(item.getPrice_date())) , Float.valueOf(item.getPrice())));
+                    }
+                }
+            }
+
+        } catch (SolrServerException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        instrumentResults = SolrService.getInstruments("*");
-        seriesResults = SolrService.getSeries(instrumentResults.get(0));
-        listOfMarks.setCellFactory(new Callback<ListView<String>,
+
+        try {
+            firstSelectionResults = SolrService.getResultsOnInstrumentAndSeries(firstObservableListInstruments.get(0), firstObservableListSeries.get(1));
+            if (firstSelectionResults.size() == 1){
+                System.out.println("ONLY ONE POINT OF DATA IN THIS SERIES");
+                return;
+            } else{
+
+                firstSelectionPriceSeries.getData().clear();
+                seriesTotal.getData().clear();
+                populateAllSeriesAndMatchBounds(firstSelectionResults, secondSeriesDateToPrice, firstSelectionPriceSeries, seriesTotal, firstSeriesDateToPrice, orderOfSeriesPointsToId, seriesDiffBar);
+                matchBoundsBetweenCharts();
+            }
+        } catch (SolrServerException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        observableListItems = FXCollections.observableArrayList(itemResults);
+        propertiesPane.setVisible(false);
+        propertiesPane.getStyleClass().add("b2");
+        detailPane.    getStyleClass().add("b2");
+        secondListOfInstruments.getStyleClass().add("list-view2");
+        secondListOfSeries.getStyleClass().add("list-view2");
+        firstListOfInstruments.getStyleClass().add("list-view3");
+        firstListOfSeries.getStyleClass().add("list-view3");
+        setupCharts();
+        addListeners();
+        secondListOfInstruments.getSelectionModel().selectFirst();
+        turnOffPickOnBoundsFor(firstSelectionChart);
+
+        ((NumberAxis) firstSelectionChart.getYAxis()).setForceZeroInRange(false);
+        lineChartPane.setFocusTraversable(true);
+        containingBox.setMinWidth(scene.getWidth());
+
+        lineChartPane.getChildren(). addAll(secondSelectionChart, firstSelectionChart, lineIndicator);
+        miniMapPane.getChildren().   addAll(lineChartOverview, leftRect, rightRect, hookRight, hookLeft, miniMapDetail);
+        chartBox.getChildren().      addAll(lineChartPane, separator, diffBarChart, miniMapPane);
+        containingPane.getChildren().addAll(chartBox, zoomBounds, trackX, displayAtPosition, displayAtTarget, detail, propertiesPane);
+        containingBox.getChildren(). addAll(containingPane, detailPane);
+        root.getChildren().          addAll(containingBox);
+
+        stage.setTitle("Calculating Important Points");
+		stage.setScene(scene);
+        scene.getStylesheets().add("demo.css");
+
+		stage.show();
+	}
+
+    private ListView makeListView() {
+        ListView listView = new ListView();
+        listView.setCellFactory(new Callback<ListView<String>,
                 ListCell<String>>() {
             @Override
             public ListCell<String> call(ListView<String> list) {
-                ListCell<String> cell = new ListCell<String>(){
+                ListCell<String> cell = new ListCell<String>() {
 
                     @Override
                     protected void updateItem(String t, boolean bln) {
@@ -216,7 +338,7 @@ public class Main extends Application {
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
-                        }else{
+                        } else {
                             setText("");
                         }
                     }
@@ -224,6 +346,909 @@ public class Main extends Application {
                 return cell;
             }
         });
+        return listView;
+    }
+
+    public void playOpeningAnimation(ListView listView, Double openPos, Double opacity) {
+            if (openPos > 0){
+                listView.setManaged(true);
+            }
+            final Timeline timeline = new Timeline();
+            timeline.setCycleCount(1);
+            timeline.setAutoReverse(false);
+            final KeyValue kv2 = new KeyValue(listView.maxHeightProperty(), openPos);
+            final KeyFrame kf2 = new KeyFrame(Duration.millis(300), kv2);
+            timeline.getKeyFrames().add(kf2);
+            timeline.play();
+            timeline.setOnFinished(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent actionEvent) {
+                    if (openPos == 0.0){
+                        listView.setManaged(false);
+                    }
+                }
+            });
+            final Timeline timelineOpacity = new Timeline();
+            timelineOpacity.setCycleCount(1);
+            timelineOpacity.setAutoReverse(false);
+            final KeyValue kv = new KeyValue(listView.opacityProperty(), opacity);
+            final KeyFrame kf = new KeyFrame(Duration.millis(500), kv);
+            timelineOpacity.getKeyFrames().add(kf);
+            timelineOpacity.play();
+    }
+
+    public static String toUtcDate(String dateStr) {
+        HashMap<String, String> monthToMonth = new HashMap<String, String>();
+        monthToMonth.put("Jan", "01");
+        monthToMonth.put("Feb", "02");
+        monthToMonth.put("Mar", "03");
+        monthToMonth.put("Apr", "04");
+        monthToMonth.put("May", "05");
+        monthToMonth.put("Jun", "06");
+        monthToMonth.put("Jul", "07");
+        monthToMonth.put("Aug", "08");
+        monthToMonth.put("Sep", "09");
+        monthToMonth.put("Oct", "10");
+        monthToMonth.put("Nov", "11");
+        monthToMonth.put("Dec", "12");
+        String month = monthToMonth.get(dateStr.substring(4, 7));
+        String year = dateStr.substring(24);
+        String day = dateStr.substring(8, 10);
+        dateStr = year + "-" + month + "-" + day;
+        SimpleDateFormat out = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
+        String[] dateFormats = {"yyyy-MM-dd", "MMM dd, yyyy hh:mm:ss Z"};
+        for (String dateFormat : dateFormats) {
+            try {
+                return out.format(new SimpleDateFormat(dateFormat).parse(dateStr));
+            } catch (ParseException ignore) { }
+        }
+        throw new IllegalArgumentException("Invalid date: " + dateStr);
+    }
+
+    EventHandler<MouseEvent> mouseHandler = new EventHandler<MouseEvent>() {
+
+        @Override
+        public void handle(MouseEvent mouseEvent){
+            if (mouseEvent.getSceneX() < 55 || mouseEvent.getSceneX() > 1380) {
+                trackX.           setVisible(false);
+                displayAtPosition.setVisible(false);
+                displayAtTarget.  setVisible(false);
+
+                return;
+            }
+            if (mouseEvent.getEventType() == MouseEvent.MOUSE_PRESSED) {
+                zoomBounds.setX(mouseEvent.getSceneX());
+                zoomBounds.setY(-20);
+                rectinitX.set(mouseEvent.getSceneX());
+                rectinitY.set(0);
+            } else if (mouseEvent.getEventType() == MouseEvent.MOUSE_DRAGGED) {
+                trackXTargetPosition.set(mouseEvent.getSceneX());
+                rectX.               set(mouseEvent.getSceneX());
+                rectY.               set(firstSelectionChart.getHeight() + 20);
+                displayAtTarget.setVisible(true);
+                lineIndicator.  setVisible(false);
+
+            } else if (mouseEvent.getEventType() == MouseEvent.MOUSE_RELEASED) {
+                displayAtTarget.  setVisible(false);
+                displayAtPosition.setVisible(false);
+                if (rectX.getValue() - rectinitX.getValue() < 20){
+                    rectX.set(0);
+                    rectY.set(0);
+
+                    return;
+                }
+                String valueForDisplayStart = "";
+                String valueForDisplayEnd   = "";
+                LocalDateTime localDateTimeStart  = null;
+                LocalDateTime localDateTimeFinish = null;
+                try{
+                    localDateTimeStart  = firstSelectionChart.getXAxis().getValueForDisplay(rectinitX.getValue() - 55.0);
+                    localDateTimeFinish = firstSelectionChart.getXAxis().getValueForDisplay(rectX.getValue() - 55.0);
+
+                    valueForDisplayStart = String.valueOf(localDateTimeStart);
+                    valueForDisplayEnd   = String.valueOf(localDateTimeFinish);
+                    lastLatestValue = valueForDisplayEnd;
+                    lastEarliestValue = valueForDisplayStart;
+                    double left  = lineChartOverview.getXAxis().getDisplayPosition(LocalDateTime.parse(valueForDisplayStart));
+                    double right = lineChartOverview.getXAxis().getDisplayPosition(LocalDateTime.parse(valueForDisplayEnd));
+
+                    String startDate = valueForDisplayStart.substring(0, 19).concat("Z");
+                    String endDate   = valueForDisplayEnd.substring(0, 19).concat("Z");
+
+                    leftHookPosition. set(left);
+                    rightHookPosition.set(right + 60);
+
+                    firstSelectionResults  = SolrService.getResults(startDate, endDate, firstListOfInstruments.getSelectionModel().getSelectedItem(), firstListOfSeries.getSelectionModel().getSelectedItem());
+                    secondSelectionResults = SolrService.getResults(startDate, endDate, secondListOfInstruments.getSelectionModel().getSelectedItem(), secondListOfSeries.getSelectionModel().getSelectedItem());
+                } catch (SolrServerException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (Exception e){
+                }
+
+                ChartActions.setChartsUpperBound(localDateTimeFinish, firstSelectionChart, secondSelectionChart, firstSelectionYAxis, secondSelectionYAxis, diffBarChart);
+                ChartActions.setChartsLowerBound(localDateTimeStart, firstSelectionChart, secondSelectionChart, firstSelectionYAxis, secondSelectionYAxis, diffBarChart);
+//
+                cutLeftAndRight(secondSelectionPriceSeries, secondSelectionDataRemovedFromBack, secondSelectionDataRemovedFromFront);
+                cutLeftAndRight(firstSelectionPriceSeries, firstSelectionDataRemovedFromBack, firstSelectionDataRemovedFromFront);
+                cutLeftAndRight(seriesDiffBar, deltaDataRemovedFromBack, deltaDataRemovedFromFront);
+
+                rectX.set(0);
+                rectY.set(0);
+            }else if (mouseEvent.getEventType() == MouseEvent.MOUSE_MOVED){
+                trackX.setVisible(true);
+                trackXPosition.set(mouseEvent.getSceneX());
+                trackYPosition.set(mouseEvent.getSceneY());
+            }else if (mouseEvent.getEventType() == MouseEvent.MOUSE_EXITED){
+                trackX.setVisible(false);
+                displayAtPosition.setVisible(false);
+                displayAtTarget.setVisible(false);
+            }else if (mouseEvent.getEventType() == MouseEvent.MOUSE_ENTERED){
+                trackX.setVisible(true);
+                displayAtPosition.setVisible(true);
+            }
+        }
+    };
+
+    private void cutLeftAndRight(XYChart.Series series, ArrayList dataRemovedFromBack, ArrayList dataRemovedFromFront) {
+        XYChart.Data<LocalDateTime, Float> deltaLocalDateTimeFloatData = (XYChart.Data<LocalDateTime, Float>) series.getData().get(series.getData().size() - 2);
+        XYChart.Data<LocalDateTime, Float> deltaFirstDate = deltaLocalDateTimeFloatData;
+        XYChart.Data<LocalDateTime, Float> deltaLastData = (XYChart.Data<LocalDateTime, Float>) series.getData().get(1);
+        ChartActions.cutLeft(-1.0, deltaLastData, series, dataRemovedFromBack, lastEarliestValue);
+        ChartActions.cutRight(1.0, deltaFirstDate, series, dataRemovedFromFront, lastLatestValue);
+    }
+
+
+    private void setupCharts(){
+        ((DateAxis310) firstSelectionChart.getXAxis()).setTickLabelsVisible(true);
+        ((DateAxis310) firstSelectionChart.getXAxis()).setTickMarkVisible(false);
+        firstSelectionChart.getData().add(firstSelectionPriceSeries);
+        firstSelectionChart.setLegendVisible(false);
+        firstSelectionChart.setHorizontalGridLinesVisible(true);
+        firstSelectionChart.setMaxWidth(1390);
+        firstSelectionChart.setMinWidth(1390);
+        firstSelectionChart.setMaxHeight(550);
+        firstSelectionChart.setMinHeight(550);
+        firstSelectionChart.setVerticalZeroLineVisible(false);
+        firstSelectionChart.setVerticalGridLinesVisible(false);
+        firstSelectionChart.setHorizontalZeroLineVisible(false);
+        firstSelectionChart.setVerticalZeroLineVisible(false);
+        firstSelectionChart.setHorizontalZeroLineVisible(false);
+        firstSelectionChart.setAnimated(false);
+        firstSelectionChart.setTitle("Instrument Price Series");
+        firstSelectionChart.setVerticalZeroLineVisible(false);
+        firstSelectionChart.setCreateSymbols(true);
+        secondSelectionChart.getData().add(secondSelectionPriceSeries);
+        secondSelectionChart.setLegendVisible(false);
+        secondSelectionChart.setHorizontalGridLinesVisible(true);
+        secondSelectionChart.setMaxWidth(1390);
+        secondSelectionChart.setMinWidth(1390);
+        secondSelectionChart.setMaxHeight(517);
+        secondSelectionChart.setMinHeight(517);
+        secondSelectionChart.setVerticalZeroLineVisible(false);
+        secondSelectionChart.setVerticalGridLinesVisible(false);
+        secondSelectionChart.setHorizontalZeroLineVisible(false);
+        secondSelectionChart.setVerticalZeroLineVisible(false);
+        secondSelectionChart.setHorizontalZeroLineVisible(false);
+        firstSelectionChart.setFocusTraversable(true);
+        secondSelectionChart.setHorizontalGridLinesVisible(false);
+        secondSelectionChart.setVerticalGridLinesVisible(true);
+        firstSelectionChart.setLegendVisible(true);
+        secondSelectionChart.setLegendVisible(true);
+
+        diffBarChart.getData().addAll(seriesDiffBar);
+        diffBarChart.setMaxWidth(1390);
+        diffBarChart.setVerticalGridLinesVisible(false);
+        diffBarChart.setHorizontalGridLinesVisible(false);
+        diffBarChart.getXAxis().setTickMarkVisible(false);
+        diffBarChart.getXAxis().setTickLabelsVisible(false);
+        ((NumberAxis) diffBarChart.getYAxis()).setForceZeroInRange(false);
+        ((NumberAxis) diffBarChart.getYAxis()).setAutoRanging(true);
+        diffBarChart.setTranslateX(12);
+        diffBarChart.setMaxHeight(150);
+        diffBarChart.setCreateSymbols(false);
+        diffBarChart.setAnimated(false);
+
+        secondSelectionChart.setAnimated(false);
+        secondSelectionChart.setVerticalZeroLineVisible(false);
+        secondSelectionChart.setCreateSymbols(true);
+        secondSelectionChart.getXAxis().setTickLabelsVisible(false);
+        secondSelectionChart.getXAxis().setTickMarkVisible(false);
+        secondSelectionChart.getYAxis().setSide(Side.RIGHT);
+        secondSelectionChart.getYAxis().setAutoRanging(true);
+        secondSelectionChart.setTranslateX(29);
+        secondSelectionChart.setTranslateY(20);
+        lineChartOverview.legendVisibleProperty().setValue(false);
+        lineChartOverview.getData().add(seriesTotal);
+        lineChartOverview.getData().add(secondSelectionSeriesTotal);
+        lineChartOverview.setVerticalGridLinesVisible(false);
+        lineChartOverview.setHorizontalZeroLineVisible(false);
+        ((DateAxis310) lineChartOverview.getXAxis()).setTickLabelsVisible(false);
+        ((DateAxis310) lineChartOverview.getXAxis()).setTickMarkVisible(false);
+        lineChartOverview.setMaxHeight(150);
+        lineChartOverview.setMinWidth(1390);
+        lineChartOverview.setMaxWidth(1390);
+        lineChartOverview.setAnimated(false);
+        Rectangle rectangle = new Rectangle(0,0, 1375, 550);
+        firstSelectionChart.setClip(rectangle);
+    }
+
+    private void addListeners(){
+        firstListSearch .opacityProperty().bind(firstListOfInstruments.opacityProperty());
+        secondListSearch.opacityProperty().bind(secondListOfInstruments.opacityProperty());
+        firstListSearch .managedProperty().bind(firstListOfInstruments. managedProperty());
+        secondListSearch.managedProperty().bind(secondListOfInstruments.managedProperty());
+
+        hookLeft.setOnMousePressed(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                initialLeftHookPosition = mouseEvent.getSceneX();
+            }
+        });
+        hookRight.setOnMousePressed(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                initialRightHookPosition = mouseEvent.getSceneX();
+            }
+        });
+
+        trackXPosition.addListener(new Listeners(this, firstSelectionChart, displayAtPosition));
+
+        trackXTargetPosition.addListener(new XTargetChangeListener());
+
+        hookLeft.setOnMouseDragged(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                if (leftRect.getWidth() >= (hookRight.getLayoutX() - 50) || mouseEvent.getSceneX() - 50 >= (hookRight.getLayoutX() - 50)) {
+                    leftHookPosition.set(hookRight.getLayoutX() - 60);
+                    return;
+                }
+
+                if (mouseEvent.getSceneX() < 55) {
+                    leftHookPosition.set(0);
+                    return;
+                }
+                double deltaLeft = initialLeftHookPosition - mouseEvent.getSceneX();
+                leftHookPosition.set(hookLeft.getLayoutX() - deltaLeft);
+                XYChart.Data<LocalDateTime, Float> lastData = (XYChart.Data<LocalDateTime, Float>) firstSelectionPriceSeries.getData().get(1);
+                LocalDateTime valueForDisplay = lineChartOverview.getXAxis().getValueForDisplay(mouseEvent.getSceneX() - 40);
+                lastEarliestValue = String.valueOf(valueForDisplay);
+                try {
+                    if (firstSelectionDataRemovedFromBack.get(0) == secondSelectionDataRemovedFromBack.get(0)) {
+                        firstSelectionChart. getXAxis().setAutoRanging(false);
+                        secondSelectionChart.getXAxis().setAutoRanging(false);
+                    } else {
+                        firstSelectionChart. getXAxis().setAutoRanging(true);
+                        secondSelectionChart.getXAxis().setAutoRanging(true);
+                    }
+                } catch (Exception e) {
+                }
+                try {
+                    XYChart.Data<LocalDateTime, Float> secondSelectionLastData = (XYChart.Data<LocalDateTime, Float>) secondSelectionPriceSeries.getData().get(1);
+                    ChartActions.cutLeft(deltaLeft, secondSelectionLastData, secondSelectionPriceSeries, secondSelectionDataRemovedFromBack, lastEarliestValue);
+                } catch (Exception e) {
+                }
+                try {
+                    ChartActions.cutLeft(deltaLeft, lastData, firstSelectionPriceSeries, firstSelectionDataRemovedFromBack, lastEarliestValue);
+                } catch (Exception e) {
+                }
+                try{
+                    XYChart.Data<LocalDateTime, Float> deltaLastData = (XYChart.Data<LocalDateTime, Float>) seriesDiffBar.getData().get(1);
+                    ChartActions.cutLeft(deltaLeft, deltaLastData, seriesDiffBar, deltaDataRemovedFromBack, lastEarliestValue);
+                }catch (Exception e){
+                }
+                initialLeftHookPosition = mouseEvent.getSceneX();
+                ChartActions.setChartsLowerBound(valueForDisplay, firstSelectionChart, secondSelectionChart, firstSelectionYAxis, secondSelectionYAxis, diffBarChart);
+            }
+        });
+
+        hookLeft.setOnMouseReleased(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                if (leftRect.getWidth() >= (hookRight.getLayoutX() - 50)) {
+                    leftHookPosition.set(hookRight.getLayoutX() - 60);
+                    return;
+                }
+                if (mouseEvent.getSceneX() < 55) {
+                    leftHookPosition.set(0);
+                    return;
+                }
+            }
+        });
+
+        hookRight.setOnMouseDragged(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                if (isHookInBounds(mouseEvent)) return;
+                double deltaRight = initialRightHookPosition - mouseEvent.getSceneX();
+                rightHookPosition.set(hookRight.getLayoutX() - deltaRight);
+
+                XYChart.Data<LocalDateTime, Float> firstDate = (XYChart.Data<LocalDateTime, Float>) firstSelectionPriceSeries.getData().get(firstSelectionPriceSeries.getData().size() - 2);
+                LocalDateTime valueForDisplay = lineChartOverview.getXAxis().getValueForDisplay(mouseEvent.getSceneX() - 45);
+                lastLatestValue = String.valueOf(valueForDisplay);
+                firstSelectionChart. getXAxis().setAutoRanging(true);
+                secondSelectionChart.getXAxis().setAutoRanging(true);
+
+                XYChart.Data<LocalDateTime, Float> secondSelectionFirstDate = (XYChart.Data<LocalDateTime, Float>) secondSelectionPriceSeries.getData().get(secondSelectionPriceSeries.getData().size() - 2);
+                ChartActions.cutRight(deltaRight, firstDate, firstSelectionPriceSeries, firstSelectionDataRemovedFromFront, lastLatestValue);
+                ChartActions.cutRight(deltaRight, secondSelectionFirstDate, secondSelectionPriceSeries, secondSelectionDataRemovedFromFront, lastLatestValue);
+                XYChart.Data<LocalDateTime, Float> deltaLocalDateTimeFloatData = (XYChart.Data<LocalDateTime, Float>) seriesDiffBar.getData().get(seriesDiffBar.getData().size() - 2);
+                XYChart.Data<LocalDateTime, Float> deltaFirstDate = deltaLocalDateTimeFloatData;
+                ChartActions.cutRight(deltaRight, deltaFirstDate, seriesDiffBar, deltaDataRemovedFromFront, lastLatestValue);
+
+                ChartActions.setChartsUpperBound(valueForDisplay, firstSelectionChart, secondSelectionChart, firstSelectionYAxis, secondSelectionYAxis, diffBarChart);
+                initialRightHookPosition = mouseEvent.getSceneX();
+
+            }
+        });
+
+        hookRight.setOnMouseReleased(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                if (isHookInBounds(mouseEvent)) return;
+            }
+        });
+        openSecondInstrumentListButton.getStyleClass().add("button2");
+        openSecondSeriesListButton.    getStyleClass().add("button2");
+
+        firstListOfInstruments. setMaxHeight(0);
+        secondListOfInstruments.setMaxHeight(0);
+        secondListOfSeries.     setMaxHeight(0);
+        firstListOfSeries.      setMaxHeight(0);
+
+        firstListOfInstruments. setOpacity(0);
+        secondListOfInstruments.setOpacity(0);
+        secondListOfSeries.     setOpacity(0);
+        firstListOfSeries.      setOpacity(0);
+
+        firstListOfInstruments. setManaged(false);
+        secondListOfInstruments.setManaged(false);
+        secondListOfSeries.     setManaged(false);
+        firstListOfSeries.      setManaged(false);
+
+        firstSelectionContainer.getChildren().addAll(openFirstInstrumentListButton, firstListSearch, firstListOfInstruments, openFirstSeriesListButton, firstListOfSeries);
+        secondSelectionContainer.getChildren().addAll(openSecondInstrumentListButton, secondListSearch, secondListOfInstruments, openSecondSeriesListButton, secondListOfSeries);
+
+        openFirstInstrumentListButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+               playOpenCloseAnimationOnMenu(firstListOfInstruments, firstListOfSeries, secondListOfInstruments, secondListOfSeries);
+            }
+        });
+        openFirstSeriesListButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                playOpenCloseAnimationOnMenu(firstListOfSeries, firstListOfInstruments, secondListOfInstruments, secondListOfSeries);
+            }
+        });
+        openSecondInstrumentListButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                playOpenCloseAnimationOnMenu(secondListOfInstruments, firstListOfInstruments, firstListOfSeries, secondListOfSeries);
+            }
+        });
+        openSecondSeriesListButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                playOpenCloseAnimationOnMenu(secondListOfSeries, firstListOfInstruments, firstListOfSeries, secondListOfInstruments);
+            }
+        });
+        firstListOfInstruments.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observableValue, String s, String s2) {
+                updateSeriesListAndSetButtonText(s2, firstSeriesResults, firstListOfSeries, openFirstInstrumentListButton);
+            }
+        });
+
+        secondListOfInstruments.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observableValue, String s, String s2) {
+                updateSeriesListAndSetButtonText(s2, secondSeriesResults, secondListOfSeries, openSecondInstrumentListButton);
+            }
+        });
+
+        resetButton.setCursor(Cursor.HAND);
+        resetTableButton.setCursor(Cursor.HAND);
+        firstListOfSeries.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observableDateValue, String previousSelection, String newSelection) {
+                resetControlsForNewSelection();
+                if (newSelection==null){
+                    return;
+                }
+                try {
+
+                    firstSelectionResults = SolrService.getResultsOnInstrumentAndSeries(firstListOfInstruments.getSelectionModel().getSelectedItem(), firstListOfSeries.getSelectionModel().getSelectedItem());
+                    if (firstSelectionResults.size() == 1){
+                        System.out.println("ONLY ONE POINT OF DATA IN THIS SERIES");
+                        return;
+                    } else{
+                        completeSeriesFromRemovedPoints(secondSelectionDataRemovedFromBack, secondSelectionDataRemovedFromFront, secondSelectionPriceSeries);
+                        firstSelectionDataRemovedFromBack  .clear();
+                        firstSelectionDataRemovedFromFront .clear();
+                        firstSelectionPriceSeries.getData().clear();
+                        firstSeriesDateToPrice.clear();
+                        seriesTotal.getData().clear();
+                        seriesDiffBar.getData().clear();
+
+                        populateAllSeriesAndMatchBounds(firstSelectionResults, secondSeriesDateToPrice, firstSelectionPriceSeries, seriesTotal, firstSeriesDateToPrice, orderOfSeriesPointsToId, seriesDiffBar);
+                    }
+                } catch (SolrServerException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                resetButton.fire();
+                openFirstSeriesListButton.setText("Series: " + newSelection);
+            }
+        });
+        secondListOfSeries.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observableDateValue, String previousSelection, String newSelection) {
+                resetControlsForNewSelection();
+                if (newSelection==null){
+                    return;
+                }
+                    try {
+                        secondSelectionResults = SolrService.getResultsOnInstrumentAndSeries(secondListOfInstruments.getSelectionModel().getSelectedItem(), secondListOfSeries.getSelectionModel().getSelectedItem());
+                        if (secondSelectionResults.size() == 1){
+                            System.out.println("ONE POINT OF DATA IN THIS SERIES ONLY");
+                            return;
+                        }else{
+                            completeSeriesFromRemovedPoints(firstSelectionDataRemovedFromBack, firstSelectionDataRemovedFromFront, firstSelectionPriceSeries);
+                            secondSelectionDataRemovedFromBack  .clear();
+                            secondSelectionDataRemovedFromFront .clear();
+                            secondSelectionPriceSeries.getData().clear();
+                            secondSelectionSeriesTotal.getData().clear();
+                            seriesDiffBar.getData().clear();
+                            secondSeriesDateToPrice.clear();
+                            populateAllSeriesAndMatchBounds(secondSelectionResults, firstSeriesDateToPrice, secondSelectionPriceSeries, secondSelectionSeriesTotal, secondSeriesDateToPrice, orderOfSeriesPointsToId, seriesDiffBar);
+                        }
+
+                    } catch (SolrServerException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                matchBoundsBetweenCharts();
+                resetButton.fire();
+
+                openSecondSeriesListButton.setText("Series: " + newSelection);
+            }
+        });
+
+        firstSelectionContainer .setSpacing(10);
+        secondSelectionContainer.setSpacing(10);
+        secondSelectionChart.setOnMouseClicked(mouseHandler);
+        secondSelectionChart.setOnMouseDragged(mouseHandler);
+        secondSelectionChart.setOnMouseMoved(mouseHandler);
+        secondSelectionChart.setOnMousePressed(mouseHandler);
+        secondSelectionChart.setOnMouseReleased(mouseHandler);
+        secondSelectionChart.setOnMouseEntered(mouseHandler);
+        secondSelectionChart.setOnMouseExited(mouseHandler);
+        lineChartOverview.setOnMousePressed(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                positionXOverviewChart = mouseEvent.getSceneX();
+            }
+        });
+
+        lineChartOverview.setOnMouseDragged(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                double deltaX = positionXOverviewChart - mouseEvent.getSceneX();
+                positionXOverviewChart = mouseEvent.getSceneX();
+                if (positionXOverviewChart < 45 || positionXOverviewChart > 1390) return;
+                if (rightHookPosition.getValue() - deltaX < 1390 && leftHookPosition.getValue() - deltaX >= 0) {
+
+                    leftHookPosition .set(leftHookPosition.getValue() - deltaX);
+                    rightHookPosition.set(rightHookPosition.getValue() - deltaX);
+                }
+                LocalDateTime valueForDisplayFinish = lineChartOverview.getXAxis().getValueForDisplay(rightHookPosition.getValue() - 45.0);
+                LocalDateTime valueForDisplayStart  = lineChartOverview.getXAxis().getValueForDisplay(leftHookPosition.getValue());
+
+                lastLatestValue   = String.valueOf(valueForDisplayFinish);
+                lastEarliestValue = String.valueOf(valueForDisplayStart);
+
+                firstSelectionChart .getXAxis().setAutoRanging(true);
+                secondSelectionChart.getXAxis().setAutoRanging(true);
+                try {
+
+                    XYChart.Data<LocalDateTime, Float> firstSelectionFirstDate = (XYChart.Data<LocalDateTime, Float>) firstSelectionPriceSeries.getData().get(firstSelectionPriceSeries.getData().size() - 2);
+                    XYChart.Data<LocalDateTime, Float> firstSelectionLastDate  = (XYChart.Data<LocalDateTime, Float>) firstSelectionPriceSeries.getData().get(1);
+
+                    ChartActions.cutRight(deltaX, firstSelectionFirstDate, firstSelectionPriceSeries, firstSelectionDataRemovedFromFront, lastLatestValue);
+                    ChartActions.cutLeft(deltaX, firstSelectionLastDate, firstSelectionPriceSeries, firstSelectionDataRemovedFromBack, lastEarliestValue);
+
+                    XYChart.Data<LocalDateTime, Float> secondSelectionFirstDate = (XYChart.Data<LocalDateTime, Float>) secondSelectionPriceSeries.getData().get(secondSelectionPriceSeries.getData().size() - 2);
+                    XYChart.Data<LocalDateTime, Float> secondSelectionLastDate  = (XYChart.Data<LocalDateTime, Float>) secondSelectionPriceSeries.getData().get(1);
+
+                    ChartActions.cutRight(deltaX, secondSelectionFirstDate, secondSelectionPriceSeries, secondSelectionDataRemovedFromFront, lastLatestValue);
+                    ChartActions.cutLeft(deltaX, secondSelectionLastDate, secondSelectionPriceSeries, secondSelectionDataRemovedFromBack, lastEarliestValue);
+
+                    XYChart.Data<LocalDateTime, Float> deltaLocalDateTimeFloatData = (XYChart.Data<LocalDateTime, Float>) seriesDiffBar.getData().get(seriesDiffBar.getData().size() - 2);
+                    XYChart.Data<LocalDateTime, Float> deltaFirstDate = deltaLocalDateTimeFloatData;
+                    XYChart.Data<LocalDateTime, Float> deltaLastData = (XYChart.Data<LocalDateTime, Float>) seriesDiffBar.getData().get(1);
+                    ChartActions.cutRight(deltaX, deltaFirstDate, seriesDiffBar, deltaDataRemovedFromFront, lastLatestValue);
+                    ChartActions.cutLeft(deltaX, deltaLastData, seriesDiffBar, deltaDataRemovedFromBack, lastEarliestValue);
+                } catch (Exception e) {
+                }
+                ChartActions.setChartsUpperBound(valueForDisplayFinish, firstSelectionChart, secondSelectionChart, firstSelectionYAxis, secondSelectionYAxis, diffBarChart);
+                ChartActions.setChartsLowerBound(valueForDisplayStart, firstSelectionChart, secondSelectionChart, firstSelectionYAxis, secondSelectionYAxis, diffBarChart);
+
+                initialRightHookPosition = rightHookPosition.getValue();
+                initialLeftHookPosition  = leftHookPosition.getValue();
+            }
+        });
+    }
+
+    private boolean isHookInBounds(MouseEvent mouseEvent) {
+        if (rightRect.getLayoutX() - 50 < leftRect.getWidth() || mouseEvent.getSceneX() - 55 < leftRect.getWidth()) {
+            rightHookPosition.set(leftRect.getWidth() + 60);
+            return true;
+        }
+        if (mouseEvent.getSceneX() > 1370) {
+            rightHookPosition.setValue(1385);
+            return true;
+        }
+        return false;
+    }
+
+    private void playOpenCloseAnimationOnMenu(ListView listViewGrow, ListView closingListView, ListView secondClosingListView, ListView thirdClosingListView) {
+
+        playOpeningAnimation(listViewGrow, 300.0, 1.0);
+        playOpeningAnimation(closingListView, 0.0, 0.0);
+        playOpeningAnimation(secondClosingListView, 0.0, 0.0);
+        playOpeningAnimation(thirdClosingListView, 0.0, 0.0);
+    }
+
+    private void resetControlsForNewSelection() {
+        leftHookPosition .setValue(0);
+        rightHookPosition.setValue(1380);
+        propertiesPane   .setVisible(false);
+        orderOfSeriesPointsToId.clear();
+    }
+
+
+    private void populateAllSeriesAndMatchBounds(List results, HashMap otherSeriesDateToPrice, XYChart.Series series, XYChart.Series totalSeries, HashMap seriesDateToPrice, HashMap seriesPointsToId, XYChart.Series differenceSeries) {
+        for (int c = 0; c <= results.size() - 1; c++) {
+            Item item = (Item) results.get(c);
+            seriesDateToPrice.put(item.getPrice_date(), item.getPrice());
+            try{
+                series.getData().add(new XYChart.Data(LocalDateTime.parse(toUtcDate(item.getPrice_date())) , Float.valueOf(item.getPrice())));
+                totalSeries.getData().add(new XYChart.Data(LocalDateTime.parse(toUtcDate(item.getPrice_date())) , Float.valueOf(item.getPrice())));
+                seriesPointsToId.put(c, item.getId());
+            }catch (Exception e){
+                series.getData().add(new XYChart.Data(LocalDateTime.parse(toUtcDate(item.getPrice_date())) , Float.valueOf(item.getPrice())));
+                seriesPointsToId.put(c, item.getId());
+
+                totalSeries.getData().add(new XYChart.Data(LocalDateTime.parse(toUtcDate(item.getPrice_date())) , Float.valueOf(item.getPrice())));
+            }
+
+            try{
+                Float firstPrice  =  Float.valueOf(otherSeriesDateToPrice.get(item.getPrice_date()).toString());
+                Float secondPrice = Float.valueOf(item.getPrice());
+
+                Float difference = Math.abs(firstPrice - secondPrice);
+                differenceSeries.getData().add(new XYChart.Data((LocalDateTime.parse(toUtcDate(item.getPrice_date()))), difference));
+            }catch (Exception e){
+            }
+        }
+        matchBoundsBetweenCharts();
+    }
+
+    private void completeSeriesFromRemovedPoints(ArrayList pointsRemovedFromBack, ArrayList pointsRemovedFromFront, XYChart.Series series) {
+        int backPointsListSize = pointsRemovedFromBack.size() - 1;
+        for (int f = backPointsListSize; f >= 0; f--){
+            Object backPoint = pointsRemovedFromBack.get(f);
+            series.getData().add(0, backPoint);
+            pointsRemovedFromBack.remove(backPoint);
+        }
+        int frontPointsListSize = pointsRemovedFromBack.size() - 1;
+        for (int f = frontPointsListSize; f >= 0; f--){
+            Object frontPoint = pointsRemovedFromFront.get(f);
+            series.getData().add(frontPoint);
+            pointsRemovedFromFront.remove(frontPoint);
+        }
+    }
+
+    private void updateSeriesListAndSetButtonText(String s2, List<String> results, ListView seriesList, Button openInstrumentList) {
+        if (s2==null)return;
+        try {
+            results = SolrService.getSeries(s2);
+
+            ObservableList<String> observableList = FXCollections.observableList(results);
+            seriesList.setItems(observableList);
+            seriesList.getSelectionModel().selectFirst();
+        } catch (SolrServerException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            openInstrumentList.setText("Instrument: " + SolrService.getShortName(s2));
+        } catch (SolrServerException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void matchBoundsBetweenCharts() {
+        DateAxis310 barChartXAxis             = (DateAxis310) diffBarChart.getXAxis();
+        DateAxis310 firstSelectionChartXAxis  = (DateAxis310) firstSelectionChart.getXAxis();
+        DateAxis310 secondSelectionChartXAxis = (DateAxis310) secondSelectionChart.getXAxis();
+
+        barChartXAxis.setAutoRanging(false);
+         barChartXAxis.lowerBoundProperty().bind(firstSelectionChartXAxis.lowerBoundProperty());
+        barChartXAxis.upperBoundProperty().bind(firstSelectionChartXAxis.upperBoundProperty());
+
+        firstSelectionChartXAxis .setAutoRanging(false);
+        secondSelectionChartXAxis.setAutoRanging(false);
+        Date firstSelectionUpper  = new Date();
+        Date secondSelectionUpper = new Date();
+        XYChart.Data upperDataFirst  = (XYChart.Data) firstSelectionPriceSeries.getData().get(firstSelectionPriceSeries.getData().size() - 1);
+        XYChart.Data upperDataSecond = (XYChart.Data) secondSelectionPriceSeries.getData().get(secondSelectionPriceSeries.getData().size() - 1);
+        try {
+            firstSelectionUpper  = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm").parse(((LocalDateTime) upperDataFirst.getXValue()).toString());
+            secondSelectionUpper = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm").parse(((LocalDateTime) upperDataSecond.getXValue()).toString());
+        } catch (ParseException e) {
+
+        }
+        Date firstSelectionLower  = new Date();
+        Date secondSelectionLower = new Date();
+        XYChart.Data lowerDataFirst  = (XYChart.Data) firstSelectionPriceSeries.getData().get(0);
+        XYChart.Data lowerDataSecond = (XYChart.Data) secondSelectionPriceSeries.getData().get(0);
+        try {
+            firstSelectionLower  = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm").parse(lowerDataFirst.getXValue().toString());
+            secondSelectionLower = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm").parse((lowerDataSecond.getXValue().toString()));
+        } catch (ParseException e) {
+
+        }
+
+        long lowerBoundFirstSelectionInNano  = firstSelectionLower.getTime();
+        long lowerBoundSecondSelectionInNano = secondSelectionLower.getTime();
+
+        long upperBoundFirstSelectionInNano  = firstSelectionUpper.getTime();
+        long upperBoundSecondSelectionInNano = secondSelectionUpper.getTime();
+        firstSelectionChartXAxis .setAutoRanging(false);
+        secondSelectionChartXAxis.setAutoRanging(false);
+        if (lowerBoundFirstSelectionInNano < lowerBoundSecondSelectionInNano){
+           secondSelectionChartXAxis.setLowerBound(LocalDateTime.parse(lowerDataFirst.getXValue().toString()));
+           firstSelectionChartXAxis .setLowerBound(LocalDateTime.parse(lowerDataFirst.getXValue().toString()));
+        }else{
+           firstSelectionChartXAxis .setLowerBound(LocalDateTime.parse(lowerDataSecond.getXValue().toString()));
+           secondSelectionChartXAxis.setLowerBound(LocalDateTime.parse(lowerDataSecond.getXValue().toString()));
+        }
+        if (upperBoundFirstSelectionInNano > upperBoundSecondSelectionInNano){
+           secondSelectionChartXAxis.setUpperBound(LocalDateTime.parse(upperDataFirst.getXValue().toString()));
+           firstSelectionChartXAxis .setUpperBound(LocalDateTime.parse(upperDataFirst.getXValue().toString()));
+        }else{
+            firstSelectionChartXAxis .setUpperBound(LocalDateTime.parse(upperDataSecond.getXValue().toString()));
+            secondSelectionChartXAxis.setUpperBound(LocalDateTime.parse(upperDataSecond.getXValue().toString()));
+        }
+    }
+
+    private void initComponents(){
+        aboveAverages = new ArrayList<>();
+        observableAboveAverages = FXCollections.observableArrayList(aboveAverages);
+        valuesHighRaw = new ArrayList<>();
+        firstSelectionDataRemovedFromFront = new ArrayList<>();
+        firstSelectionDataRemovedFromBack  = new ArrayList<>();
+        firstListOfInstruments = new ListView<>();
+
+        lineChartPane = new Pane();
+        lineChartPane.setFocusTraversable(true);
+
+        yAxis    = new NumberAxis();
+        xAxis    = new DateAxis310();
+        yBarAxis = new NumberAxis();
+        xBarAxis = new DateAxis310();
+
+        firstSelectionYAxis = ChartActions.makeZoomYAxis(lowerBoundForYMain, upperBoundForYMain, firstChartInitYPos, dragArea);
+        firstSelectionXAxis = new DateAxis310();
+        firstSelectionXAxis.setTickLabelFormatter(STRING_CONVERTER);
+
+        secondSelectionYAxis = ChartActions.makeZoomYAxis(secondSelectionLowerYBound, secondSelectionUpperYBound, secondChartInitYPos, dragArea);
+        secondSelectionXAxis = new DateAxis310();
+        secondSelectionXAxis.setTickLabelFormatter(STRING_CONVERTER);
+
+        xBarAxis.setTickLabelFormatter(STRING_CONVERTER);
+        containingBox = new HBox();
+        detailPane  = new Pane();
+        miniMapPane = new Pane();
+        chartBox = new VBox();
+
+        diffBarChart = new AreaChart<LocalDateTime, Number>(xBarAxis,yBarAxis){
+            @Override
+            protected void layoutPlotChildren() {
+                super.layoutPlotChildren();
+                for (Node mark : getPlotChildren()) {
+                    if (mark instanceof StackPane) {
+                        Bounds bounds = mark.getBoundsInParent();
+                        double posX = bounds.getMinX() + (bounds.getMaxX() - bounds.getMinX()) / 2.0;
+                        LocalDateTime date = getXAxis().getValueForDisplay(posX).truncatedTo(DAYS);
+                    }
+                }
+            }
+        };
+
+        separator = new Separator(Orientation.HORIZONTAL);
+        leftRect.setTranslateX(45);
+        leftRect.setFill(Color.web("gray", 0.1));
+        leftRect.setStroke(Color.GRAY);
+        leftRect.widthProperty().bind(leftHookPosition);
+
+        hookLeft.setFill(Color.web("gray", 0.6));
+        hookLeft.setTranslateX(37.5);
+        hookLeft.setTranslateY(55);
+        hookLeft.setStroke(Color.DARKGRAY);
+        hookLeft.layoutXProperty().bind(leftHookPosition);
+        width = new SimpleDoubleProperty(1450);
+
+        rightRect.setWidth(0);
+        rightRect.setFill(Color.web("gray", 0.1));
+        rightRect.setStroke(Color.GRAY);
+        rightRect.layoutXProperty().bind(rightHookPosition);
+        rightRect.widthProperty().bind(width.subtract(rightRect.layoutXProperty()));
+
+        hookRight.setFill(Color.web("gray", 0.6));
+        hookRight.setTranslateX(-7.5);
+        hookRight.setLayoutX(1310);
+        hookRight.setTranslateY(55);
+        hookRight.setStroke(Color.DARKGRAY);
+        hookRight.layoutXProperty().bind(rightHookPosition);
+        rightHookPosition.set(1385);
+
+        formatDisplayLabel(displayAtPosition);
+        formatDisplayLabel(displayAtTarget);
+
+        trackX.setMouseTransparent(true);
+        trackX.layoutXProperty().bind(trackXPosition);
+        trackX.setStroke(Color.DARKGRAY);
+        displayAtPosition.layoutXProperty().bind(trackXPosition);
+        displayAtTarget.layoutXProperty().bind(trackXTargetPosition);
+
+        zoomBounds = new Rectangle();
+        zoomBounds.setFill(Color.web("gray", 0.1));
+        zoomBounds.setStroke(Color.DARKGRAY);
+        zoomBounds.setStrokeDashOffset(50);
+        zoomBounds.setMouseTransparent(true);
+        zoomBounds.widthProperty().bind(rectX.subtract(rectinitX));
+        zoomBounds.heightProperty().bind(rectY.subtract(rectinitY));
+
+        labelInstruments = new Label("List of Instruments");
+        labelInstruments.setFont(new Font("Calibri", 22));
+        labelInstruments.setTranslateX(50);
+
+        firstListSearch.textProperty().addListener(new ChangeListener() {
+            public void changed(ObservableValue observable, Object oldVal,
+                                Object newVal) {
+                firstListOfInstruments.getSelectionModel().clearSelection();
+                try {
+                    search((String) newVal, firstObservableListInstruments, firstListOfInstruments);
+                } catch (SolrServerException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        secondListSearch.textProperty().addListener(new ChangeListener() {
+            public void changed(ObservableValue observable, Object oldVal,
+                                Object newVal) {
+                secondListOfInstruments.getSelectionModel().clearSelection();
+                try {
+                    search((String) newVal, secondObservableListInstruments, secondListOfInstruments);
+                } catch (SolrServerException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        Reflection r = new Reflection();
+        r.setFraction(0.1);
+        firstSelectionContainer .getStyleClass().add("b2");
+        secondSelectionContainer.getStyleClass().add("b2");
+        secondSelectionContainer.setMaxWidth(265);
+        firstSelectionContainer .setMaxWidth(265);
+        secondSelectionContainer.setMinWidth(265);
+        firstSelectionContainer .setMinWidth(265);
+
+        openSecondSeriesListButton    .setEffect(r);
+        openSecondInstrumentListButton.setEffect(r);
+        openFirstInstrumentListButton .setEffect(r);
+        openFirstSeriesListButton     .setEffect(r);
+
+        openSecondSeriesListButton    .setMinWidth(265);
+        openSecondInstrumentListButton.setMinWidth(265);
+        openFirstInstrumentListButton .setMinWidth(265);
+        openFirstSeriesListButton     .setMinWidth(265);
+
+        listBox = new VBox(labelInstruments, resetButton, firstSelectionContainer, secondSelectionContainer);
+        listBox.setPadding(new Insets(10, 10, 10, 10));
+        listBox.setSpacing(15);
+        detailPane.getChildren().addAll(listBox);
+        detailPane.setMinWidth(400);
+
+        seriesTotal = new XYChart.Series();
+        secondSelectionSeriesTotal = new XYChart.Series();
+        firstSelectionPriceSeries.setName("Raw data");
+
+        miniMapDetail = new Text();
+        miniMapDetail.setFill(Color.WHITE);
+        miniMapDetail.setEffect(new InnerShadow(2, Color.BLACK));
+        miniMapDetail.setFont(Font.font(null, FontWeight.BOLD, 10));
+        miniMapDetail.setVisible(false);
+
+        detail = new Text();
+        detail.setCache(true);
+        detail.setFill(Color.WHITE);
+        detail.setEffect(new InnerShadow(2, Color.BLACK));
+        detail.setFont(Font.font(null, FontWeight.BOLD, 13));
+        detail.setVisible(false);
+
+        containingPane = new Pane();
+
+        resetButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                secondSelectionYAxis.lowerBoundProperty().unbind();
+                secondSelectionYAxis.upperBoundProperty().unbind();
+                secondSelectionYAxis.setAutoRanging(true);
+                firstSelectionYAxis.lowerBoundProperty().unbind();
+                firstSelectionYAxis.upperBoundProperty().unbind();
+                firstSelectionYAxis.setAutoRanging(true);
+            }
+        });
+
+        lineIndicator.setStroke(Color.DARKGRAY);
+        yAxis.setForceZeroInRange(false);
+        separator.prefWidthProperty().bind(miniMapPane.widthProperty());
+        firstListOfInstruments.setMaxWidth(250);
+        firstListOfSeries.setMaxWidth(250);
+        firstListOfInstruments.setMaxHeight(300);
+        firstListOfSeries.setMaxHeight(300);
+
+        placeHolder = new Text();
+        placeHolder.setFill(Color.WHITE);
+        placeHolder.setEffect(new InnerShadow(2, Color.BLACK));
+        placeHolder.setFont(Font.font(null, FontWeight.BOLD, 13));
+        placeHolder.setTranslateY(-100);
+        placeHolder.setText("No Spikes");
+        firstListOfInstruments.setPlaceholder(placeHolder);
+        secondListOfInstruments.setPlaceholder(placeHolder);
+    }
+
+    private void formatDisplayLabel(Label label) {
+        label.layoutYProperty().bind(trackYPosition);
+        label.setMouseTransparent(true);
+        label.setTranslateX(10);
+        label.setTranslateY(-10);
+        label.setEffect(new InnerShadow(2, Color.ORANGE));
+        label.setFont(Font.font(null, FontWeight.BOLD, 10));
+    }
+
+    private class XTargetChangeListener implements ChangeListener<Number> {
+        @Override
+        public void changed(ObservableValue<? extends Number> observableValue, Number number, Number number2) {
+            String displayValueAtLocation = (String.valueOf(firstSelectionChart.getXAxis().getValueForDisplay((Double) number2)));
+
+            displayAtTarget.setText(displayValueAtLocation.substring(0, 10));
+        }
+    }
+
+    public void search(String newVal, ObservableList list, ListView listView) throws SolrServerException, IOException {
+            String value = newVal;
+            List<String> instrumentsFromName = SolrService.getInstrumentsFromName(value);
+            list = FXCollections.observableArrayList(instrumentsFromName);
+            listView.setItems(list);
+    }
+
+    public void setupTable(){
         TableColumn activeColumn = new TableColumn("Active");
         TableColumn deliveryColumn = new TableColumn("Delivery Frequency");
         TableColumn priceColumn = new TableColumn("Price");
@@ -292,1220 +1317,34 @@ public class Main extends Application {
         tableOfProperties.setMaxHeight(150);
 
         tableOfProperties.getColumns().addAll(activeColumn, deliveryColumn, priceColumn, currencyColumn, orderColumn, ubsColumn, priceDescriptionColumn, tradeableDescriptionColumn);
-        possiblePriceProperties = FXCollections.observableArrayList("Active", "Delivery Frequency", "IM Status", "UBS Relevant", "Derived", "Expiration Description");
-        propertiesCB.getItems().setAll(possiblePriceProperties);
-        propertiesCB.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observableValue, String previousSelection, String currentSelection) {
-                Item item = null;
-                try {
-                    item = SolrService.getResultsFromId(selectedId);
-                } catch (SolrServerException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                switch (currentSelection) {
-                    case "Active":
-                        propertiesLabel.setText(item.getActive());
-                        break;
-                    case "Delivery Frequency":
-                        propertiesLabel.setText(item.getDelivery_frequency());
-                        break;
-                    case "IM Status":
-                        propertiesLabel.setText(item.getIm_status_short_description());
-                        break;
-                    case "UBS Relevant":
-                        propertiesLabel.setText(item.getUbs_relevant());
-                        break;
-                    case "Derived":
-                        propertiesLabel.setText(item.getIs_derived());
-                        break;
-                    case "Expiration Description":
-                        propertiesLabel.setText(item.getExpiration_description());
-                        break;
-                    default:
-                        propertiesLabel.setText("N/A");
-                        break;
-                }
-            }
-        });
-        propertiesVBox.getChildren().addAll(tableOfProperties);
-        propertiesVBox.setSpacing(15);
-        propertiesVBox.setPadding(new Insets(10, 10, 10, 10));
-        propertiesPane.getChildren().addAll(propertiesVBox);
-        propertiesPane.setLayoutX(370);
-        propertiesPane.setLayoutY(45);
 
         propertiesPane.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                tablex.setValue(propertiesPane.getTranslateX());
+                tableX.setValue(propertiesPane.getTranslateX());
                 tableY.setValue(propertiesPane.getTranslateY());
                 mouseY.setValue(mouseEvent.getSceneY());
-                mousex.setValue(mouseEvent.getSceneX());
+                mouseX.setValue(mouseEvent.getSceneX());
             }
         });
 
         propertiesPane.setOnMouseDragged(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                propertiesPane.setTranslateX(tablex.getValue() + mouseEvent.getSceneX() - mousex.getValue());
+                propertiesPane.setTranslateX(tableX.getValue() + mouseEvent.getSceneX() - mouseX.getValue());
                 propertiesPane.setTranslateY(tableY.getValue() + mouseEvent.getSceneY() - mouseY.getValue());
             }
         });
-        observableListInstruments = FXCollections.observableArrayList(instrumentResults);
-        observableListSeries = FXCollections.observableArrayList(seriesResults);
-        results = SolrService.getResults("*", "*", observableListInstruments.get(0), observableListSeries.get(0));
-        int size = results.size() - 1;
-        List<String> providers = new ArrayList<>();
-        listOfMarks.getItems().setAll(observableListInstruments);
-        listOfSeries.getItems().setAll(observableListSeries);
-        for (int c = 0; c <= size; c++) {
-
-            Item item = results.get(c);
-//            itemResults.add(item);
-//            if (item.getId().equals("spike")){
-//                aboveAverages.add(LocalDateTime.parse(toUtcDate(item.getCreation_date()).substring(0, 19)));
-//                observableAboveAverages.add(LocalDateTime.parse(toUtcDate(item.getCreation_date()).substring(0, 19)));
-//                markCount++;
-//            }
-              try{
-
-                  seriesHighRaw.getData().add(new XYChart.Data(LocalDateTime.parse(toUtcDate(item.getPrice_date())), Float.valueOf(item.getPrice())));
-              }catch (Exception e){
-
-              }
-
-            orderOfSeriesPointsToId.put(c, item.getId());
-
-            seriesTotal.getData().add(new XYChart.Data(LocalDateTime.parse(toUtcDate(item.getPrice_date()).substring(0, 19)), Float.valueOf(item.getPrice())));
-        }
-
-        lineChartOverview = new LineChart<LocalDateTime, Number>(xAxis, yAxis){
-                    @Override
-                    protected void layoutPlotChildren() {
-                        super.layoutPlotChildren();
-
-                        for (Node mark : getPlotChildren()) {
-                            if (!(mark instanceof StackPane)){
-                                Path g = (Path) mark;
-                                g.setStrokeWidth(1.5);
-                            }
-                            if (mark instanceof StackPane) {
-                                mark.setScaleX(0.1);
-                                mark.setScaleY(0.1);
-                                Bounds bounds = mark.getBoundsInParent();
-                                double posX = bounds.getMinX() + (bounds.getMaxX() - bounds.getMinX()) / 2.0;
-                                double posY = bounds.getMinY() + (bounds.getMaxY() - bounds.getMinY()) / 2.0;
-                                Double number = Double.valueOf(getYAxis().getValueForDisplay(posY).toString());
-                                LocalDateTime date = getXAxis().getValueForDisplay(posX).truncatedTo(DAYS);
-                                if (aboveAverages.contains(date)){
-                                    mark.setScaleX(.5);
-                                    mark.setScaleY(.5);
-                                    ImageView flag = new ImageView("flag.png");
-                                    flag.setScaleX(.4);
-                                    flag.setScaleY(.4);
-                                    flag.setTranslateY(-20);
-                                    flag.setTranslateX(11);
-//                                        ((StackPane) mark).getChildren().add(flag);
-                                    mark.setEffect(new InnerShadow(2, Color.BLACK));
-
-                                    mark.setOnMouseEntered(new EventHandler<MouseEvent>() {
-                                        @Override
-                                        public void handle(MouseEvent mouseEvent) {
-                                            if (mark.getScaleX() == 0.5) {
-                                                miniMapDetail.setText(String.valueOf((double) Math.round(number * 10) / 10));
-                                                miniMapDetail.setTranslateX(mouseEvent.getSceneX() - 10);
-                                                miniMapDetail.setTranslateY(mouseEvent.getSceneY() - 30);
-                                                miniMapDetail.setVisible(true);
-                                            }
-                                        }
-                                    });
-                                    mark.setOnMouseExited(new EventHandler<MouseEvent>() {
-                                        @Override
-                                        public void handle(MouseEvent mouseEvent) {
-                                            if (miniMapDetail.isVisible()) {
-                                                miniMapDetail.setVisible(false);
-                                            }
-                                        }
-                                    });
-                                }
-                            }
-                        }
-                    }
-                };
-
-
-
-        lineChart = new LineChart<LocalDateTime, Number>(xCLineAxis, yLineAxis){
-                    @Override
-                    protected void layoutPlotChildren() {
-                        super.layoutPlotChildren();
-//                        for (Node node : getChildren()){
-//
-//                            node.setOnZoom(new EventHandler<ZoomEvent>() {
-//                                @Override
-//                                public void handle(ZoomEvent event) {
-//                                    zoomFactor.setX(event.getZoomFactor());
-//                                }
-//                            });
-//
-//                            node.setOnTouchPressed(new EventHandler<TouchEvent>() {
-//                                @Override
-//                                public void handle(TouchEvent touchEvent) {
-//                                    idFirstPoint = touchEvent.getTouchPoints().get(0).getId();
-//                                    firstPointX = touchEvent.getTouchPoints().get(0).getSceneX();
-//                                    firstPointY = touchEvent.getTouchPoints().get(0).getSceneY();
-//                                    try{
-//                                        idSecondPoint = touchEvent.getTouchPoints().get(1).getId();
-//                                        secondPointX = touchEvent.getTouchPoints().get(1).getSceneX();
-//                                        secondPointY = touchEvent.getTouchPoints().get(1).getSceneY();
-//
-//                                        distanceBetweenPoint = firstPointX - secondPointX;
-//                                    }catch (Exception e){
-//                                    }
-//                                }
-//                            });
-//
-//                            node.setOnTouchMoved(new EventHandler<TouchEvent>() {
-//                                @Override
-//                                public void handle(TouchEvent touchEvent) {
-//                                    List<TouchPoint> touchPoints = touchEvent.getTouchPoints();
-//                                    for (TouchPoint touchPoint : touchPoints) {
-//                                       if (touchPoint.getId() == idFirstPoint){
-//                                           firstPointX = touchPoint.getSceneX();
-//                                           firstPointY = touchPoint.getSceneY();
-//
-//                                       }else if (touchPoint.getId() == idSecondPoint){
-//                                           secondPointX = touchPoint.getSceneX();
-//                                           secondPointY = touchPoint.getSceneY();
-//                                       }
-//                                    }
-//                                    distanceBetweenPoint = firstPointX - secondPointX;
-//
-//                                }
-//                            });
-//                            node.setOnTouchReleased(new EventHandler<TouchEvent>() {
-//                                @Override
-//                                public void handle(TouchEvent touchEvent) {
-//                                    //refreshGraphFromSolr();
-//                                }
-//                            });
-//                        }
-                        for (Node mark : getPlotChildren()) {
-                                if (!(mark instanceof StackPane)){
-                                    Path g = (Path) mark;
-                                    g.setStrokeWidth(1.5);
-                                    c=0;
-                                    orderOfGraphPointsToId.clear();
-                                }
-                            if (mark instanceof StackPane) {
-//                                mark.setScaleX(0.0);
-//                                mark.setScaleY(0.0);
-                                orderOfGraphPointsToId.put(mark.toString(), c);
-                                c++;
-                                Bounds bounds = mark.getBoundsInParent();
-                                double posX = bounds.getMinX() + (bounds.getMaxX() - bounds.getMinX()) / 2.0;
-                                double posY = bounds.getMinY() + (bounds.getMaxY() - bounds.getMinY()) / 2.0;
-                                Double number = Double.valueOf(getYAxis().getValueForDisplay(posY).toString());
-                                LocalDateTime date = getXAxis().getValueForDisplay(posX).truncatedTo(DAYS);
-                                    if (aboveAverages.contains(date)){
-                                        mark.setScaleX(0.5);
-                                        mark.setScaleY(0.50);
-                                        ImageView flag = new ImageView("flag.png");
-                                        flag.setScaleX(.5);
-                                        flag.setScaleY(.5);
-                                        flag.setTranslateY(-20);
-                                        flag.setTranslateX(11);
-//                                        ((StackPane) mark).getChildren().add(flag);
-                                        mark.setEffect(new InnerShadow(2, Color.BLACK));
-                                    }
-
-                                    mark.setOnMouseEntered(new EventHandler<MouseEvent>() {
-                                        @Override
-                                        public void handle(MouseEvent mouseEvent) {
-                                            detail.setVisible(true);
-                                            detail.setTranslateX(posX + 40);
-                                            detail.setTranslateY(posY + 10);
-                                            try {
-                                                detail.setText(SolrService.getCurrency(listOfSeries.getSelectionModel().getSelectedItem().toString()) + " " + number.toString().substring(0, 5));
-
-                                            } catch (SolrServerException e) {
-                                                e.printStackTrace();
-                                            } catch (IOException e) {
-                                                e.printStackTrace();
-                                            } catch (NullPointerException e){
-                                                try {
-                                                    detail.setText(SolrService.getCurrency(listOfSeries.getItems().get(0).toString()) + " " + number.toString().substring(0, 5));
-                                                } catch (SolrServerException e1) {
-                                                    e1.printStackTrace();
-                                                } catch (IOException e1) {
-                                                    e1.printStackTrace();
-                                                }
-                                            }
-                                        }
-                                    });
-//
-                                    mark.setOnMouseClicked((mouseEvent) -> {
-                                        marks.add((StackPane) mark);
-                                        for (StackPane stackPane : marks) {
-                                            stackPane.scaleXProperty().bind(selectedMarkSize);
-                                            stackPane.scaleYProperty().bind(selectedMarkSize);
-                                        }
-                                        selectedMarkSize.setValue(2);
-                                        String markString = mark.toString();
-                                        selectedId = orderOfSeriesPointsToId.get(orderOfGraphPointsToId.get(markString)).toString();
-                                        Item item = null;
-                                        try {
-                                            item = SolrService.getResultsFromId(selectedId);
-                                        } catch (SolrServerException e) {
-                                            e.printStackTrace();
-                                        } catch (IOException e) {
-                                            e.printStackTrace();
-                                        }
-//                                        itemResults.clear();
-                                        itemResults.add(item);
-                                        observableListItems = FXCollections.observableArrayList(itemResults);
-                                        tableOfProperties.setItems(observableListItems);
-
-
-                                        propertiesPane.setVisible(true);
-//                                        propertiesPane.setTranslateX(posX + 50);
-//                                        propertiesPane.setTranslateY(posY - 65);
-                                    });
-
-                                    mark.setOnMouseExited(new EventHandler<MouseEvent>() {
-                                        @Override
-                                        public void handle(MouseEvent mouseEvent) {
-                                            detail.setVisible(false);
-                                            detail.setTranslateX(posX + 40);
-                                            detail.setTranslateY(posY + 10);
-                                        }
-                                    });
-                            }
-                        }
-                    }
-                };
-        observableListItems = FXCollections.observableArrayList(itemResults);
-        propertiesPane.setVisible(false);
-        propertiesPane.getStyleClass().add("b2");
-        setupCharts();
-        addListeners();
-        ((NumberAxis) lineChart.getYAxis()).setForceZeroInRange(false);
-//        listOfMarks.getItems().setAll(observableAboveAverages);
-        chartSpecialMarksCount.setText("Total peaks in graph: " + markCount);
-        lineChartPane.getChildren().addAll(lineChart, lineIndicator);
-        miniMapPane.getChildren().addAll(lineChartOverview, leftRect, rightRect, hookRight, hookLeft, miniMapDetail);
-        chartBox.getChildren().addAll(lineChartPane, separator, miniMapPane);
-        containingPane.getChildren().addAll(chartBox, zoomBounds, trackX, displayAtPosition, displayAtTarget, detail, propertiesPane);
-        splitPane.getItems().addAll(containingPane, simplePane);
-        splitPane.setMinWidth(scene.getWidth());
-        root.getChildren().addAll(splitPane);
-
-        stage.setTitle("Calculating Important Points");
-		stage.setScene(scene);
-        scene.getStylesheets().add("demo.css");
-
-		stage.show();
-	}
-
-//    private void refreshGraphFromSolr() {
-//        XYChart.Data<LocalDateTime, Float> stringFloatData = (XYChart.Data<LocalDateTime, Float>) seriesHighRaw.getData().get(seriesHighRaw.getData().size() - 1);
-//        XYChart.Data<LocalDateTime, Float> stringFloatDatafirst = (XYChart.Data<LocalDateTime, Float>) seriesHighRaw.getData().get(0);
-//        String endDate = (String.valueOf(stringFloatData.getXValue())).concat(":00Z");
-//        String startDate = (String.valueOf(stringFloatDatafirst.getXValue())).concat(":00Z");
-//        if (listOfMarks.getSelectionModel().getSelectedItems().size() < 1){
-//            try {
-//                results = SolrService.getResults(startDate, endDate, listOfMarks.getItems().get(0).toString(), listOfSeries.getItems().get(0).toString());
-//                System.out.println("Getting results from: " + endDate.substring(0, 10) + " to " + startDate.substring(0, 10));
-//            } catch (SolrServerException e) {
-//                e.printStackTrace();
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//
-//        }else {
-//            try {
-//                results = SolrService.getResults(startDate, endDate, listOfMarks.getSelectionModel().getSelectedItem(), listOfSeries.getSelectionModel().getSelectedItem());
-//                System.out.println("Getting results from: " + endDate.substring(0, 10) + " to " + startDate.substring(0, 10));
-//            } catch (SolrServerException e) {
-//                e.printStackTrace();
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//
-//        }
-//
-//        int size = results.size() - 1;
-//        seriesHighRaw.getData().clear();
-//        seriesTotal.getData().clear();
-//        markCount = 0;
-//        observableAboveAverages.clear();
-//
-//        for (int c = 0; c <= size; c++) {
-//
-//            Item item = results.get(c);
-////            if (item.getId().equals("spike")){
-////                aboveAverages.add(LocalDateTime.parse(toUtcDate(item.getCreation_date()).substring(0, 19)));
-////                observableAboveAverages.add(LocalDateTime.parse(toUtcDate(item.getCreation_date()).substring(0, 19)));
-////                markCount++;
-////            }
-//            try{
-//
-//                seriesHighRaw.getData().add(new XYChart.Data(LocalDateTime.parse(toUtcDate(item.getPrice_date())) , Float.valueOf(item.getPrice())));
-//            }catch (Exception e){
-//
-//            }
-//
-//
-//            seriesTotal.getData().add(new XYChart.Data(LocalDateTime.parse(toUtcDate(item.getPrice_date()).substring(0, 19)), Float.valueOf(item.getPrice())));
-//        }
-//
-//    }
-
-    public static String toUtcDate(String dateStr) {
-        HashMap<String, String> monthToMonth = new HashMap<String, String>();
-        monthToMonth.put("Jan", "01");
-        monthToMonth.put("Feb", "02");
-        monthToMonth.put("Mar", "03");
-        monthToMonth.put("Apr", "04");
-        monthToMonth.put("May", "05");
-        monthToMonth.put("Jun", "06");
-        monthToMonth.put("Jul", "07");
-        monthToMonth.put("Aug", "08");
-        monthToMonth.put("Sep", "09");
-        monthToMonth.put("Oct", "10");
-        monthToMonth.put("Nov", "11");
-        monthToMonth.put("Dec", "12");
-        String month = monthToMonth.get(dateStr.substring(4, 7));
-        String year = dateStr.substring(24);
-        String day = dateStr.substring(8, 10);
-        dateStr = year + "-" + month + "-" + day;
-        SimpleDateFormat out = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
-        String[] dateFormats = {"yyyy-MM-dd", "MMM dd, yyyy hh:mm:ss Z"};
-        for (String dateFormat : dateFormats) {
-            try {
-                return out.format(new SimpleDateFormat(dateFormat).parse(dateStr));
-            } catch (ParseException ignore) { }
-        }
-        throw new IllegalArgumentException("Invalid date: " + dateStr);
     }
 
-    EventHandler<MouseEvent> mouseHandler = new EventHandler<MouseEvent>() {
-
-        @Override
-        public void handle(MouseEvent mouseEvent){
-            if (mouseEvent.getEventType() == MouseEvent.MOUSE_PRESSED) {
-//                System.out.println(lineChart.getData());
-                zoomBounds.setX(mouseEvent.getX());
-                zoomBounds.setY(-20);
-                rectinitX.set(mouseEvent.getX());
-                rectinitY.set(0);
-            } else if (mouseEvent.getEventType() == MouseEvent.MOUSE_DRAGGED) {
-                trackXTargetPosition.set(mouseEvent.getSceneX());
-                rectX.set(mouseEvent.getX());
-                rectY.set(lineChart.getHeight() + 20);
-                displayAtTarget.setVisible(true);
-                lineIndicator.setVisible(false);
-            } else if (mouseEvent.getEventType() == MouseEvent.MOUSE_RELEASED) {
-                displayAtTarget.setVisible(false);
-                displayAtPosition.setVisible(false);
-                if (rectX.getValue() - rectinitX.getValue() < 20){
-                    rectX.set(0);
-                    rectY.set(0);
-                    return;
-
+    private void turnOffPickOnBoundsFor(Node n) {
+        n.setPickOnBounds(false);
+        if (n instanceof Parent) {
+            for (Node c: ((Parent) n).getChildrenUnmodifiable()) {
+                if (!(c instanceof Axis)){
+                    turnOffPickOnBoundsFor(c);
                 }
-                String valueForDisplayStart = "";
-                String valueForDisplayEnd = "";
-                try{
-                    valueForDisplayStart = String.valueOf(lineChart.getXAxis().getValueForDisplay(rectinitX.getValue() - 55.0));
-                    valueForDisplayEnd =  String.valueOf(lineChart.getXAxis().getValueForDisplay(rectX.getValue() - 55.0));
-
-                    String startDate = valueForDisplayStart.substring(0, 19).concat("Z");
-                    String endDate = valueForDisplayEnd.substring(0, 19).concat("Z");
-
-                   double left = lineChartOverview.getXAxis().getDisplayPosition(LocalDateTime.parse(valueForDisplayStart));
-                   double right = lineChartOverview.getXAxis().getDisplayPosition(LocalDateTime.parse(valueForDisplayEnd));
-
-                leftHookPosition.set(left);
-                rightHookPosition.set(right + 60);
-                chartLowerBound.setText("Chart lower bound: " + lineChart.getXAxis().getValueForDisplay(rectinitX.getValue() - 55.0));
-                chartUpperBound.setText("Chart upper bound: " +  lineChart.getXAxis().getValueForDisplay(rectX.getValue() - 55.0));
-
-
-                    results = SolrService.getResults(startDate, endDate, listOfMarks.getSelectionModel().getSelectedItem(), listOfSeries.getSelectionModel().getSelectedItem());
-                    System.out.println("Getting results from: " + endDate.substring(0, 10) + " to " + startDate.substring(0, 10));
-                } catch (SolrServerException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (Exception e){
-
-                }
-
-                int size = results.size()-1;
-
-                XYChart.Data<LocalDateTime, Float> firstDate = (XYChart.Data<LocalDateTime, Float>) seriesHighRaw.getData().get(seriesHighRaw.getData().size() - 1);
-                lastLatestValue = valueForDisplayEnd;
-
-                Date filterDate = new Date();
-                Date currentDate = new Date();
-                try {
-                    filterDate = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS").parse((lastLatestValue));
-                    currentDate = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm").parse((String.valueOf(firstDate.getXValue())));
-                } catch (ParseException e) {
-                }
-                try{
-                    while (filterDate.getTime() < currentDate.getTime()){
-
-                        XYChart.Data<LocalDateTime, Float> data = (XYChart.Data<LocalDateTime, Float>) seriesHighRaw.getData().get(seriesHighRaw.getData().size() - 1);
-                        dataRemovedFromFront.add(data);
-                        seriesHighRaw.getData().remove(data);
-                        chartUpperBound.setText("Chart upper bound: " + data.getXValue());
-                        firstDate = (XYChart.Data<LocalDateTime, Float>) seriesHighRaw.getData().get(seriesHighRaw.getData().size() - 1);
-                        try {
-                            currentDate = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm").parse((String.valueOf(firstDate.getXValue())));
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                    }
-
-                    XYChart.Data<LocalDateTime, Float> lastData = (XYChart.Data<LocalDateTime, Float>) seriesHighRaw.getData().get(0);
-                    lastEarliestValue = valueForDisplayStart;
-                    Date filterDateFront = new Date();
-                    Date currentDateFront = new Date();
-                    try {
-                        filterDateFront = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS").parse(lastEarliestValue);
-                        currentDateFront = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm").parse((String.valueOf(lastData.getXValue())));
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-
-                    while (filterDateFront.getTime() > currentDateFront.getTime()){
-
-                        XYChart.Data<LocalDateTime, Float> data = (XYChart.Data<LocalDateTime, Float>) seriesHighRaw.getData().get(0);
-                        dataRemovedFromBack.add(data);
-                        seriesHighRaw.getData().remove(0);
-                        chartLowerBound.setText("Chart lower bound: " + data.getXValue());
-                        lastData = (XYChart.Data<LocalDateTime, Float>) seriesHighRaw.getData().get(0);
-                        try {
-                            currentDateFront = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm").parse((String.valueOf(lastData.getXValue())));
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }catch (Exception e){}
-
-
-                seriesHighRaw.getData().clear();
-//                seriesTotal.getData().clear();
-                resetButton.fire();
-                markCount = 0;
-                observableAboveAverages.clear();
-
-                for (int c = 0; c <= size; c++) {
-
-                    Item item = results.get(c);
-//            if (item.getId().equals("spike")){
-//                aboveAverages.add(LocalDateTime.parse(toUtcDate(item.getCreation_date()).substring(0, 19)));
-//                observableAboveAverages.add(LocalDateTime.parse(toUtcDate(item.getCreation_date()).substring(0, 19)));
-//                markCount++;
-//            }
-                    System.out.println(item.getPrice_date());
-                    if (c > 0){
-
-                        try{
-
-                            XYChart.Data datalast = (XYChart.Data) seriesHighRaw.getData().get(seriesHighRaw.getData().size() -1);
-                            Date currentDates = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm").parse((String.valueOf(datalast.getXValue())));
-                            if (currentDates.getTime() < new SimpleDateFormat("yyyy-MM-dd'T'HH:mm").parse((String.valueOf(LocalDateTime.parse(toUtcDate(item.getPrice_date()))))).getTime()){
-
-                                seriesHighRaw.getData().add(new XYChart.Data(LocalDateTime.parse(toUtcDate(item.getPrice_date())) , Float.valueOf(item.getPrice())));
-
-                            }
-                        }catch (Exception e){
-
-                        }
-                    } else{
-                        seriesHighRaw.getData().add(new XYChart.Data(LocalDateTime.parse(toUtcDate(item.getPrice_date())) , Float.valueOf(item.getPrice())));
-                    }
-
-
-//            seriesTotal.getData().add(new XYChart.Data(LocalDateTime.parse(toUtcDate(item.getPrice_date()).substring(0, 19)), Float.valueOf(item.getPrice())));
-                }
-
-
-
-                if (seriesHighRaw.getData().size() == 0){
-                    XYChart.Data<LocalDateTime, Float> frontData = dataRemovedFromFront.get(dataRemovedFromFront.size() - 1);
-                    dataRemovedFromFront.remove(frontData);
-                    chartUpperBound.setText("Chart upper bound: " + frontData.getXValue());
-                    String dateFront = String.valueOf(frontData.getXValue());
-                    Float valueFront = frontData.getYValue();
-                    seriesHighRaw.getData().add(new XYChart.Data(frontData.getXValue(), valueFront));
-
-                    XYChart.Data<LocalDateTime, Float> backData = dataRemovedFromBack.get(dataRemovedFromBack.size() - 1);
-                    dataRemovedFromBack.remove(backData);
-                    chartLowerBound.setText("Chart lower bound: " + backData.getXValue());
-                    String dateBack = String.valueOf(backData.getXValue());
-                    Float valueBack = backData.getYValue();
-
-                    seriesHighRaw.getData().add(0, new XYChart.Data(backData.getXValue(), valueBack));
-                }
-                System.out.println("Zoom bounds : " + rectinitX.get()+ " to " + rectX.get());
-
-                rectX.set(0);
-                rectY.set(0);
-            }else if (mouseEvent.getEventType() == MouseEvent.MOUSE_MOVED){
-                trackX.setVisible(true);
-                trackXPosition.set(mouseEvent.getSceneX());
-                trackYPosition.set(mouseEvent.getSceneY());
-            }else if (mouseEvent.getEventType() == MouseEvent.MOUSE_EXITED){
-                trackX.setVisible(false);
-                displayAtPosition.setVisible(false);
-                displayAtTarget.setVisible(false);
-            }
-//            updateIndicator();
-
-        }
-    };
-
-    private void setupCharts(){
-        ((DateAxis310) lineChart.getXAxis()).setTickLabelsVisible(true);
-        ((DateAxis310) lineChart.getXAxis()).setTickMarkVisible(false);
-        lineChart.setLegendVisible(false);
-        lineChart.setHorizontalGridLinesVisible(true);
-        lineChart.getData().add(seriesHighRaw);
-//        lineChart.getData().add(seriesAverageLow);
-        lineChart.setMaxWidth(1390);
-        lineChart.setMinWidth(1390);
-        lineChart.setMaxHeight(550);
-        lineChart.setMinHeight(550);
-        lineChart.getCreateSymbols();
-        lineChart.setVerticalZeroLineVisible(false);
-        lineChart.setVerticalGridLinesVisible(false);
-        lineChart.setHorizontalZeroLineVisible(false);
-        lineChart.setVerticalZeroLineVisible(false);
-        lineChart.setHorizontalZeroLineVisible(false);
-        lineChart.setAnimated(false);
-        lineChart.setTitle("Instrument Price Series");
-//        lineChart.setCreateSymbols(true);
-        lineChart.setVerticalZeroLineVisible(false);
-        lineChart.setCreateSymbols(true);
-        lineChartOverview.setCreateSymbols(true);
-        lineChartOverview.legendVisibleProperty().setValue(false);
-        lineChartOverview.getData().add(seriesTotal);
-        lineChartOverview.setVerticalGridLinesVisible(false);
-        lineChartOverview.setHorizontalZeroLineVisible(false);
-        ((DateAxis310) lineChartOverview.getXAxis()).setTickLabelsVisible(false);
-        ((DateAxis310) lineChartOverview.getXAxis()).setTickMarkVisible(false);
-        lineChartOverview.setMaxHeight(150);
-        lineChartOverview.setMinWidth(1390);
-        lineChartOverview.setMaxWidth(1390);
-        lineChartOverview.setAnimated(false);
-
-
-    }
-
-    private void addListeners(){
-
-              hookLeft.setOnMousePressed(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-
-                ignoreSeriesChange = true;
-                initialLeftHookPosition = mouseEvent.getSceneX();
-            }
-        });
-        hookRight.setOnMousePressed(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                ignoreSeriesChange = true;
-                initialRightHookPosition = mouseEvent.getSceneX();
-            }
-        });
-
-        trackXPosition.addListener(new Listeners(this, lineChart, displayAtPosition));
-
-        trackXTargetPosition.addListener(new XTargetChangeListener());
-
-        hookLeft.setOnMouseDragged(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                System.out.println(leftRect.getWidth() + " <<rectRight.getWidth()");
-                System.out.println(hookRight.getLayoutX() + " <<hookRight.getLayoutX()");
-                if (leftRect.getWidth() >= (hookRight.getLayoutX() - 50) || mouseEvent.getSceneX() - 50 >= (hookRight.getLayoutX() - 50)) {
-                    leftHookPosition.set(hookRight.getLayoutX() - 60);
-                    return;
-                }
-                if (mouseEvent.getSceneX() < 55) {
-                    leftHookPosition.set(0);
-                    return;
-                }
-                double deltaLeft = initialLeftHookPosition - mouseEvent.getSceneX();
-                leftHookPosition.set(hookLeft.getLayoutX() - deltaLeft);
-                XYChart.Data<LocalDateTime, Float> lastData = (XYChart.Data<LocalDateTime, Float>) seriesHighRaw.getData().get(0);
-                lastEarliestValue = String.valueOf(lineChartOverview.getXAxis().getValueForDisplay(mouseEvent.getSceneX() - 40));
-
-//                updateIndicator();
-                cutLeft(deltaLeft, lastData);
-                initialLeftHookPosition = mouseEvent.getSceneX();
-            }
-        });
-
-        hookLeft.setOnMouseReleased(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                if (leftRect.getWidth() >= (hookRight.getLayoutX() - 50)) {
-                    leftHookPosition.set(hookRight.getLayoutX() - 60);
-                    return;
-                }
-                if (mouseEvent.getSceneX() < 55) {
-                    leftHookPosition.set(0);
-                    return;
-                }
-                ignoreSeriesChange = false;
-                ////refreshGraphFromSolr();
-//                updateIndicator();
-            }
-        });
-
-        hookRight.setOnMouseDragged(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                System.out.println(rightRect.getLayoutX() + " rightRect layout");
-                System.out.println(leftRect.getWidth() + " leftRect width");
-                if (rightRect.getLayoutX() - 50 < leftRect.getWidth() || mouseEvent.getSceneX() - 55 < leftRect.getWidth()) {
-                    rightHookPosition.set(leftRect.getWidth() + 60);
-                    return;
-                }
-                if (mouseEvent.getSceneX() > 1370) {
-                    rightHookPosition.setValue(1385);
-                    return;
-                }
-                System.out.println(mouseEvent.getSceneX());
-                double deltaRight = initialRightHookPosition - mouseEvent.getSceneX();
-                rightHookPosition.set(hookRight.getLayoutX() - deltaRight/* + 75*/);
-
-                XYChart.Data<LocalDateTime, Float> firstDate = (XYChart.Data<LocalDateTime, Float>) seriesHighRaw.getData().get(seriesHighRaw.getData().size() - 1);
-                lastLatestValue = String.valueOf(lineChartOverview.getXAxis().getValueForDisplay(mouseEvent.getSceneX() - 45));
-//                updateIndicator();
-                cutRight(deltaRight, firstDate);
-
-                initialRightHookPosition = mouseEvent.getSceneX();
-
-            }
-        });
-
-        hookRight.setOnMouseReleased(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                String endDate = "*";
-                String startDate = "*";
-                if (rightRect.getLayoutX() - 50 < leftRect.getWidth() || mouseEvent.getSceneX() - 55 < leftRect.getWidth()) {
-                    rightHookPosition.set(leftRect.getWidth() + 60);
-                    return;
-                }
-                if (mouseEvent.getSceneX() > 1370) {
-                    rightHookPosition.setValue(1385);
-                    return;
-                }
-                ignoreSeriesChange = false;
-                ////refreshGraphFromSolr();
-//                updateIndicator();
-            }
-        });
-
-        listOfMarks.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observableValue, String s, String s2) {
-                try {
-                    seriesResults = SolrService.getSeries(s2);
-
-                    ObservableList<String> observableList = FXCollections.observableList(seriesResults);
-                    listOfSeries.setItems(observableList);
-                    listOfSeries.getSelectionModel().clearSelection();
-                    listOfSeries.getSelectionModel().selectFirst();
-                } catch (SolrServerException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-        listOfSeries.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-        resetButton.setCursor(Cursor.HAND);
-        resetTableButton.setCursor(Cursor.HAND);
-        listOfSeries.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observableDateValue, String previousSelection, String newSelection) {
-
-                leftHookPosition.setValue(0);
-                rightHookPosition.setValue(1380);
-                resetButton.fire();
-                orderOfSeriesPointsToId.clear();
-                propertiesPane.setVisible(false);
-                if (newSelection==null){
-                    seriesAverageLow.getData().clear();
-                    seriesHighRaw.getData().clear();
-                    return;
-                }
-
-                if (listOfSeries.getSelectionModel().getSelectedItems().size() > 1){
-                    seriesAverageLow.getData().clear();
-                    try {
-                        results = SolrService.getResultsOnInstrumentAndSeries(listOfMarks.getSelectionModel().getSelectedItem(), listOfSeries.getSelectionModel().getSelectedItem());
-                        for (int c = 0; c <= results.size() - 1; c++) {
-                            Item item = results.get(c);
-                            System.out.println(toUtcDate(item.getPrice_date()) + " at the cost " + item.getPrice());
-                            try{
-                                seriesAverageLow.getData().add(new XYChart.Data(LocalDateTime.parse(toUtcDate(item.getPrice_date())), Float.valueOf(item.getPrice())));
-
-                            }catch (Exception e){
-                                seriesAverageLow.getData().add(new XYChart.Data(LocalDateTime.parse(toUtcDate(item.getPrice_date())) , Float.valueOf(item.getPrice())));
-                            }
-                        }
-                    } catch (SolrServerException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }else{
-                    try {
-                        seriesHighRaw.getData().clear();
-                        seriesTotal.getData().clear();
-                        results = SolrService.getResultsOnInstrumentAndSeries(listOfMarks.getSelectionModel().getSelectedItem(), listOfSeries.getSelectionModel().getSelectedItem());
-                        for (int c = 0; c <= results.size() - 1; c++) {
-                            Item item = results.get(c);
-                            System.out.println(toUtcDate(item.getPrice_date()) + " at the cost " + item.getPrice());
-                            try{
-                                seriesHighRaw.getData().add(new XYChart.Data(LocalDateTime.parse(toUtcDate(item.getPrice_date())) , Float.valueOf(item.getPrice())));
-                                seriesTotal.getData().add(new XYChart.Data(LocalDateTime.parse(toUtcDate(item.getPrice_date())) , Float.valueOf(item.getPrice())));
-                                orderOfSeriesPointsToId.put(c, item.getId());
-
-                            }catch (Exception e){
-                                seriesHighRaw.getData().add(new XYChart.Data(LocalDateTime.parse(toUtcDate(item.getPrice_date())) , Float.valueOf(item.getPrice())));
-                                orderOfSeriesPointsToId.put(c, item.getId());
-
-                                seriesTotal.getData().add(new XYChart.Data(LocalDateTime.parse(toUtcDate(item.getPrice_date())) , Float.valueOf(item.getPrice())));
-                            }
-                        }
-                    } catch (SolrServerException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }); 
-//        listOfMarks.getItems().addListener(new ListChangeListener<LocalDateTime>() {
-//            @Override
-//            public void onChanged(Change<? extends LocalDateTime> change) {
-//                while (change.next()){
-//                    if (listOfMarks.getItems().size() == 0){
-//                        return;
-//                    }
-//                }
-//            }
-//        });
-
-        lineChart.setOnMouseClicked(mouseHandler);
-        lineChart.setOnMouseDragged(mouseHandler);
-        lineChart.setOnMouseMoved(mouseHandler);
-        lineChart.setOnMousePressed(mouseHandler);
-        lineChart.setOnMouseReleased(mouseHandler);
-        lineChart.setOnMouseEntered(mouseHandler);
-        lineChart.setOnMouseExited(mouseHandler);
-        lineChartOverview.setOnMousePressed(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                positionXOverviewChart = mouseEvent.getSceneX();
-            }
-        });
-
-        lineChartOverview.setOnMouseDragged(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                ignoreSeriesChange = true;
-                double deltaX = positionXOverviewChart - mouseEvent.getSceneX();
-                positionXOverviewChart = mouseEvent.getSceneX();
-                if (positionXOverviewChart < 45 || positionXOverviewChart > 1390)return;
-                if (rightHookPosition.getValue() - deltaX < 1390 && leftHookPosition.getValue() - deltaX >= 0){
-
-                    leftHookPosition.set(leftHookPosition.getValue() - deltaX);
-                    rightHookPosition.set(rightHookPosition.getValue() - deltaX);
-                }
-                lastLatestValue = String.valueOf(lineChartOverview.getXAxis().getValueForDisplay(rightHookPosition.getValue() - 45.0));
-                lastEarliestValue = String.valueOf(lineChartOverview.getXAxis().getValueForDisplay(leftHookPosition.getValue()));
-                try{
-
-                    cutRight(deltaX, (XYChart.Data<LocalDateTime, Float>) seriesHighRaw.getData().get(seriesHighRaw.getData().size() - 1));
-                    cutLeft(deltaX, (XYChart.Data<LocalDateTime, Float>) seriesHighRaw.getData().get(0));
-                }catch (Exception e){}
-                initialRightHookPosition = rightHookPosition.getValue();
-                initialLeftHookPosition = leftHookPosition.getValue();
-//                updateIndicator();
-            }
-        });
-
-        lineChartOverview.setOnMouseReleased(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent MouseEvent) {
-                ignoreSeriesChange = false;
-                ////refreshGraphFromSolr();
-//                updateIndicator();
-            }
-        });
-    }
-
-    private void cutLeft(double deltaLeft, XYChart.Data<LocalDateTime, Float> lastData) {
-        Date filterDate = new Date();
-        Date currentDate = new Date();
-        try {
-            filterDate = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS").parse(lastEarliestValue);
-            currentDate = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm").parse((String.valueOf(lastData.getXValue())));
-        } catch (ParseException e) {
-            try {
-                filterDate = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm").parse(lastEarliestValue);
-            } catch (ParseException e1) {
-                e1.printStackTrace();
             }
         }
-
-        try{
-            if (deltaLeft < 0) {
-                while (filterDate.getTime() > currentDate.getTime()) {
-
-                    XYChart.Data<LocalDateTime, Float> data = (XYChart.Data<LocalDateTime, Float>) seriesHighRaw.getData().get(0);
-                    dataRemovedFromBack.add(data);
-                    seriesHighRaw.getData().remove(0);
-                    chartLowerBound.setText("Chart lower bound: " + data.getXValue());
-                    lastData = (XYChart.Data<LocalDateTime, Float>) seriesHighRaw.getData().get(0);
-                    try {
-                        currentDate = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm").parse((String.valueOf(lastData.getXValue())));
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-                }
-            } else if (deltaLeft > 0) {
-                while (filterDate.getTime() < currentDate.getTime()) {
-
-                    XYChart.Data<LocalDateTime, Float> backData = dataRemovedFromBack.get(dataRemovedFromBack.size() - 1);
-                    dataRemovedFromBack.remove(backData);
-                    chartLowerBound.setText("Chart lower bound: " + backData.getXValue());
-                    String dateBack = String.valueOf(backData.getXValue());
-                    Float valueBack = backData.getYValue();
-
-                    seriesHighRaw.getData().add(0, new XYChart.Data(backData.getXValue(), valueBack));
-                    lastData = (XYChart.Data<LocalDateTime, Float>) seriesHighRaw.getData().get(0);
-                    try {
-                        currentDate = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm").parse((String.valueOf(lastData.getXValue())));
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-                    chartItemSize.setText("Chart item size: " + seriesHighRaw.getData().size());
-                }
-            }
-
-        }catch (Exception e){
-
-        }
-    }
-
-    private void cutRight(double deltaRight, XYChart.Data<LocalDateTime, Float> firstDate) {
-        Date filterDate = new Date();
-        Date currentDate = new Date();
-        try {
-            filterDate = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS").parse((lastLatestValue));
-            currentDate = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm").parse((String.valueOf(firstDate.getXValue())));
-        } catch (ParseException e) {
-            try {
-                filterDate = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm").parse((lastLatestValue));
-            } catch (ParseException e1) {
-            }
-        }
-        try {
-            if (deltaRight > 0) {
-                while (filterDate.getTime() < currentDate.getTime()) {
-
-                    XYChart.Data<LocalDateTime, Float> data = (XYChart.Data<LocalDateTime, Float>) seriesHighRaw.getData().get(seriesHighRaw.getData().size() - 1);
-                    dataRemovedFromFront.add(data);
-                    seriesHighRaw.getData().remove(data);
-                    chartUpperBound.setText("Chart upper bound: " + data.getXValue());
-                    firstDate = (XYChart.Data<LocalDateTime, Float>) seriesHighRaw.getData().get(seriesHighRaw.getData().size() - 1);
-                    try {
-                        currentDate = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm").parse((String.valueOf(firstDate.getXValue())));
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-                }
-            } else if (deltaRight < 0) {
-                while (filterDate.getTime() > currentDate.getTime()) {
-
-                    XYChart.Data<LocalDateTime, Float> frontData = dataRemovedFromFront.get(dataRemovedFromFront.size() - 1);
-                    dataRemovedFromFront.remove(frontData);
-                    chartUpperBound.setText("Chart upper bound: " + frontData.getXValue());
-                    String dateFront = String.valueOf(frontData.getXValue());
-                    Float valueFront = frontData.getYValue();
-                    seriesHighRaw.getData().add(new XYChart.Data(frontData.getXValue(), valueFront));
-                    try {
-                        currentDate = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm").parse((String.valueOf(frontData.getXValue())));
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-                    chartItemSize.setText("Chart item size: " + seriesHighRaw.getData().size());
-                }
-            }
-
-        }catch (Exception e){
-
-        }
-    }
-
-//    private void updateIndicator() {
-//        try{
-//
-//            double newPosition = lineChart.getXAxis().getDisplayPosition(LocalDateTime.parse(selectedDate)) + 42.0;
-//            if (newPosition < 1390 && newPosition > 45){
-//                lineIndicator.setVisible(true);
-//                lineIndicator.setLayoutX(newPosition);
-//            }else{
-//                lineIndicator.setVisible(false);
-//            }
-//
-//        }catch (Exception e){
-//        }
-//    }
-
-    private void initComponents(){
-        aboveAverages = new ArrayList<LocalDateTime>();
-        observableAboveAverages = FXCollections.observableArrayList(aboveAverages);
-        valuesHighRaw = new ArrayList<>();
-        tickValues = new ArrayList<>();
-        dataRemovedFromFront = new ArrayList<XYChart.Data<LocalDateTime, Float>>();
-        dataRemovedFromBack = new ArrayList<XYChart.Data<LocalDateTime, Float>>();
-        changeOfvalues = new ArrayList<>();
-        listOfMarks = new ListView<String>();
-
-        lineChartPane = new Pane();
-        lineChartPane.setFocusTraversable(true);
-
-        yLineAxis = new NumberAxis();
-        xCLineAxis = new DateAxis310();
-        xCLineAxis.setTickLabelFormatter(STRING_CONVERTER);
-        yAxis = new NumberAxis();
-        xAxis = new DateAxis310();
-        splitPane = new SplitPane();
-        simplePane = new Pane();
-
-        chartBox = new VBox();
-        miniMapPane = new Pane();
-
-        listOfMarks.setTranslateY(25);
-
-        separator = new Separator(Orientation.HORIZONTAL);
-        leftRect.setTranslateX(45);
-        leftRect.setFill(Color.web("blue", 0.1));
-        leftRect.setStroke(Color.DODGERBLUE);
-        leftRect.widthProperty().bind(leftHookPosition);
-
-        hookLeft.setFill(Color.web("gray", 0.6));
-        hookLeft.setTranslateX(37.5);
-        hookLeft.setTranslateY(55);
-        hookLeft.setStroke(Color.DARKGRAY);
-        hookLeft.layoutXProperty().bind(leftHookPosition);
-        width = new SimpleDoubleProperty(1450);
-        rightRect.setWidth(0);
-        rightRect.setFill(Color.web("blue", 0.1));
-        rightRect.setStroke(Color.DODGERBLUE);
-        hookRight.setFill(Color.web("gray", 0.6));
-        hookRight.setTranslateX(-7.5);
-        hookRight.setLayoutX(1310);
-        hookRight.setTranslateY(55);
-        hookRight.setStroke(Color.DARKGRAY);
-        rightRect.layoutXProperty().bind(rightHookPosition);
-        rightHookPosition.set(1385);
-        hookRight.layoutXProperty().bind(rightHookPosition);
-        rightRect.widthProperty().bind(width.subtract(rightRect.layoutXProperty()));
-
-        displayAtPosition.layoutYProperty().bind(trackYPosition);
-        displayAtPosition.setMouseTransparent(true);
-        displayAtPosition.setTranslateX(10);
-        displayAtPosition.setTranslateY(-10);
-        displayAtPosition.setEffect(new InnerShadow(2, Color.ORANGE));
-        displayAtPosition.setFont(Font.font(null, FontWeight.BOLD, 10));
-
-        displayAtTarget.layoutYProperty().bind(trackYPosition);
-        displayAtTarget.setMouseTransparent(true);
-        displayAtTarget.setTranslateX(10);
-        displayAtTarget.setTranslateY(-10);
-        displayAtTarget.setEffect(new InnerShadow(2, Color.ORANGE));
-        displayAtTarget.setFont(Font.font(null, FontWeight.BOLD, 10));
-
-        trackX.setMouseTransparent(true);
-        trackX.layoutXProperty().bind(trackXPosition);
-        trackX.setStroke(Color.DODGERBLUE);
-        displayAtPosition.layoutXProperty().bind(trackXPosition);
-        displayAtTarget.layoutXProperty().bind(trackXTargetPosition);
-
-        zoomFactor = new Delta(1.0, 1.0);
-        zoomBounds = new Rectangle();
-        zoomBounds.setFill(Color.web("blue", 0.1));
-        zoomBounds.setStroke(Color.DODGERBLUE);
-        zoomBounds.setStrokeDashOffset(50);
-        zoomBounds.setMouseTransparent(true);
-        zoomBounds.widthProperty().bind(rectX.subtract(rectinitX));
-        zoomBounds.heightProperty().bind(rectY.subtract(rectinitY));
-
-        spikes = new Label("List of Instruments");
-        spikes.setFont(new Font("Calibri", 22));
-        spikes.setTranslateX(50);
-        TextField textField = new TextField();
-        textField.textProperty().addListener(new ChangeListener() {
-            public void changed(ObservableValue observable, Object oldVal,
-                                Object newVal) {
-                try {
-                    search((String) oldVal, (String) newVal);
-                } catch (SolrServerException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-        listBox = new VBox(spikes, resetButton, resetTableButton, textField, listOfMarks, listOfSeries);
-        listBox.setPadding(new Insets(10,10,10,10));
-        listBox.setSpacing(15);
-        simplePane.getChildren().addAll(listBox);
-        splitPane.setDividerPosition(0, 0.825);
-        listOfSeries.setTranslateY(25);
-
-        seriesTotal = new XYChart.Series();
-        seriesAverageHigh = new XYChart.Series();
-        seriesAverageLow = new XYChart.Series();
-        seriesOpenRaw = new XYChart.Series();
-
-        seriesHighRaw.setName("Raw data");
-        seriesAverageHigh.setName("Top average");
-        seriesAverageLow.setName("Bottom average");
-        seriesOpenRaw.setName("Open");
-
-        miniMapDetail = new Text();
-        miniMapDetail.setFill(Color.WHITE);
-        miniMapDetail.setEffect(new InnerShadow(2, Color.ORANGE));
-        miniMapDetail.setFont(Font.font(null, FontWeight.BOLD, 12));
-        miniMapDetail.setVisible(false);
-
-        detail = new Text();
-        detail.setCache(true);
-        detail.setFill(Color.BLACK);
-        detail.setEffect(new InnerShadow(2, Color.ORANGE));
-        detail.setFont(Font.font(null, FontWeight.BOLD, 13));
-        detail.setVisible(false);
-
-        containingPane = new Pane();
-        yLineAxis.setOnMousePressed((mouseEvent) -> {
-            yLineAxis.setAutoRanging(false);
-            lowerBoundForYMain.set(yLineAxis.getLowerBound());
-            upperBoundForYMain.set(yLineAxis.getUpperBound());
-            yLineAxis.lowerBoundProperty().bind(lowerBoundForYMain);
-            yLineAxis.upperBoundProperty().bind(upperBoundForYMain);
-            initYpos = mouseEvent.getSceneY();
-            if (mouseEvent.getSceneY() > 379 ){
-                dragArea="bottom";
-            }else if (mouseEvent.getSceneY() > 213){
-                dragArea="middle";
-            }else{
-                dragArea="top";
-            }
-        });
-
-
-        yLineAxis.setOnMouseDragged((mouseEvent) -> {
-            yLineAxis.setAutoRanging(false);
-            double lowerBound = yLineAxis.getLowerBound();
-            double upperBound = yLineAxis.getUpperBound();
-
-            double range = upperBound - lowerBound;
-            double dragStrength = range / 425;
-            switch (dragArea){
-                case "top"    :
-                    upperBoundForYMain.set(upperBound - dragStrength*(initYpos - mouseEvent.getSceneY()));
-                    break;
-                case "middle" :
-                    upperBoundForYMain.set(upperBound - dragStrength*(initYpos - mouseEvent.getSceneY()));
-                    lowerBoundForYMain.set(lowerBound - dragStrength*(initYpos - mouseEvent.getSceneY()));
-                    break;
-                case "bottom" :
-                    lowerBoundForYMain.set(lowerBound - dragStrength*(initYpos - mouseEvent.getSceneY()));
-                    break;
-            }
-            initYpos = mouseEvent.getSceneY();
-            mouseEvent.consume();
-        });
-
-        resetButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                yLineAxis.lowerBoundProperty().unbind();
-                yLineAxis.upperBoundProperty().unbind();
-                yLineAxis.setAutoRanging(true);
-            }
-        });
-        resetTableButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                itemResults.clear();
-                observableListItems = FXCollections.observableArrayList(itemResults);
-                tableOfProperties.setItems(observableListItems);
-                selectedMarkSize.setValue(1);
-                propertiesPane.setVisible(false);
-                for (StackPane mark : marks) {
-                    mark.scaleXProperty().unbind();
-                    mark.scaleYProperty().unbind();
-                }
-                marks.clear();
-            }
-        });
-        lineIndicator.setStroke(Color.DODGERBLUE);
-        yAxis.setForceZeroInRange(false);
-        separator.prefWidthProperty().bind(miniMapPane.widthProperty());
-        listOfMarks.setMaxWidth(250);
-        listOfSeries.setMaxWidth(250);
-        listOfMarks.setMaxHeight(300);
-        listOfSeries.setMaxHeight(300);
-//        listOfMarks.prefHeightProperty().bind(simplePane.heightProperty().divide(2));
-//        listOfSeries.prefHeightProperty().bind(simplePane.heightProperty().divide(2));
-//        listOfSeries.setTranslateY(450);
-        placeHolder = new Text();
-        placeHolder.setFill(Color.WHITE);
-        placeHolder.setEffect(new InnerShadow(2, Color.ORANGE));
-        placeHolder.setFont(Font.font(null, FontWeight.BOLD, 13));
-        placeHolder.setTranslateY(-100);
-        placeHolder.setText("No Spikes");
-        listOfMarks.setPlaceholder(placeHolder);
-//        listOfSeries = new ListView<>();
-    }
-
-    private class XTargetChangeListener implements ChangeListener<Number> {
-        @Override
-        public void changed(ObservableValue<? extends Number> observableValue, Number number, Number number2) {
-            String displayValueAtLocation = (String.valueOf(lineChart.getXAxis().getValueForDisplay((Double) number2)));
-
-            displayAtTarget.setText(displayValueAtLocation.substring(0, 10));
-        }
-    }
-
-    public void search(String oldVal, String newVal) throws SolrServerException, IOException {
-
-            String value = newVal;
-
-            List<String> instrumentsFromName = SolrService.getInstrumentsFromName(value);
-            observableListInstruments = FXCollections.observableArrayList(instrumentsFromName);
-            listOfMarks.setItems(observableListInstruments);
-
-
     }
 }

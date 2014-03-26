@@ -37,8 +37,6 @@
 
 .chart-line-symbol {
     -fx-background-insets: 0, 2;
-    /*-fx-background-radius: 7px, 5px;*/
-    /*-fx-padding          : 7px;*/
     -fx-effect: dropshadow(two-pass-box, white, 1, 0, 0, 0);
 }
 .chart-line-symbol:hover {
@@ -54,44 +52,62 @@
 }
 
 .button {
-    -fx-background-color:
-        linear-gradient(#f2f2f2, #d6d6d6),
-        linear-gradient(#fcfcfc 0%, #d9d9d9 20%, #d6d6d6 100%),
-        linear-gradient(#dddddd 0%, #f6f6f6 50%);
-    -fx-background-radius: 8,7,6;
-    -fx-background-insets: 0,1,2;
-    -fx-text-fill: black;
-    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );
+    -fx-background-color: linear-gradient(#ff5400, #EE3224);
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.4) , 5, 0.0 , 0 , 1 );
+    -fx-background-radius: 30;
+    -fx-background-insets: 0;
+    -fx-text-fill: white;
 }
 
-.chart-pie{
-    -fx-legend-visible: false;
-    -fx-background-fills: transparent;
-    -fx-pie-label-visible: false;
-    -fx-label-line-length: 0;
+.button2 {
+    -fx-background-color: linear-gradient(#ffd65b, #ff9900);
 }
+
+.button:hover {
+    -fx-background-color: linear-gradient(#dd4b00, #d13124);
+    -fx-background-radius: 30;
+    -fx-background-insets: 0;
+    -fx-text-fill: white;
+
+}
+
+.button2:hover {
+    -fx-background-color: linear-gradient(#f1c85a, #e07f00);
+}
+
 
 .b2 {
-    /*-fx-text-fill:white;*/
-    -fx-font-family: Tahoma;
-    -fx-font-size: 12px;
 
-    -fx-background-color:
-        linear-gradient(#f2f2f2, #d6d6d6),
-        linear-gradient(#fcfcfc 0%, #d9d9d9 20%, #d6d6d6 100%),
-        linear-gradient(#dddddd 0%, #f6f6f6 50%);
-    -fx-background-insets: 0,1;
-    -fx-background-radius: 9,8;
+
+-fx-font-family: Tahoma;
+-fx-font-size: 12px;
+
+-fx-background-color:
+linear-gradient(#f9f9f9, #d6d6d6),
+linear-gradient(#fcfcfc 0%, #d9d9d9 20%, #d6d6d6 100%),
+linear-gradient(#dddddd 0%, #f6f6f6 50%);
+-fx-background-insets: 0,1;
+-fx-background-radius: 9,8;
 }
+
 
 .axis {
     -fx-font-size: 1em;
-
     /*-fx-tick-label-fill: white;*/
     -fx-font-family: Tahoma;
     -fx-tick-length: 3;
     -fx-minor-tick-length: 0;
     -fx-effect: dropshadow(two-pass-box, white, 1, 0, 0, 0);
+}
+
+.chart-series-lineSecond { -fx-stroke: #e68400;
+}
+
+.chart-series-lineFirst { -fx-stroke: #EE3224;
+}
+
+.list-view3 {
+    -fx-background-color:  linear-gradient(#ef5100, #ea3224);
 }
 
 .axis-tick-mark {
@@ -120,46 +136,97 @@
 .separator *line{
     -fx-border-width: 0px;
 }
+
 .axis-label {
     -fx-cell-size: 50;
 }
 
-.list-cell {
-    /*-fx-background-color: #474747;*/
-    /*-fx-text-fill: white;*/
-    -fx-effect: dropshadow(two-pass-box, white, 1, 0, 0, 0);
-
+.list-view2 {
+    -fx-background-color: linear-gradient(#f1c85a, #e07f00);
 }
 
-/*.list-cell:filled:hover {*/
-    /*-fx-background-color: white;*/
-    /*-fx-text-fill: black;*/
-/*}*/
-
-.list-cell:filled:selected:focused, .list-cell:filled:selected {
-
-    /*-fx-background-color: linear-gradient(#333 0%, #777 25%, #aaa 75%, #eee 100%);*/
-    -fx-effect: dropshadow(two-pass-box, white, 1, 0, 0, 0);
-
-}
-
-.list-view{
-    /*-fx-background-color: #474747;*/
-    -fx-effect: dropshadow(two-pass-box, white, 1, 0, 0, 0);
-}
-
-/*.check-box{*/
-    /*-fx-text-fill: white;*/
-/*}*/
-
-/*.stack-pane{*/
-    /*-fx-background-color: transparent;*/
-/*}*/
 
 
 .line {
     -fx-effect: dropshadow(two-pass-box, white, 1, 0, 0, 0);
 }
 
+.list-cell {
+    -fx-padding: 0.8em 0em 0.8em 0.3em;
+    -fx-text-fill: #212121;
+    -fx-font: 12px "Segoe UI";
+}
+.list-view2:focused {
+    -fx-background-color: -fx-box-border,-fx-box-border,linear-gradient(#f1c85a, #e07f00);
+}
+.list-view3:focused {
+    -fx-background-color: -fx-box-border,-fx-box-border,linear-gradient(#ef5100, #ea3224);
+}
+.list-view .list-cell:empty:hover {
+    -fx-background-color: white;
+}
+.list-view2 .list-cell:hover {
+    -fx-background-color: -fx-box-border,linear-gradient(#f1c85a, #e07f00);
+}
+.list-view2.list-cell:filled:selected:hover {
+    -fx-background-color: -fx-box-border, linear-gradient(#f1c85a, #e07f00);
+}
+.list-view2:focused .list-cell:focused {
+    -fx-background-color: -fx-box-border, white;
+}
+.list-view2:focused .list-cell:focused:hover {
+    -fx-background-color: -fx-box-border, linear-gradient(#f1c85a, #e07f00);
+}
+.list-view2:focused .list-cell:filled:focused:selected,
 
+.list-view2:focused .list-cell:filled:focused:selected:hover {
+    -fx-background-color: -fx-box-border, linear-gradient(#f1c85a, #e07f00);
+}
+
+.list-view3 .list-cell:hover {
+    -fx-background-color: -fx-box-border,linear-gradient(#ef5100, #ea3224);
+}
+.list-view3.list-cell:filled:selected:hover {
+    -fx-background-color: -fx-box-border, linear-gradient(#ef5100, #ea3224);
+}
+.list-view3:focused .list-cell:focused {
+    -fx-background-color: -fx-box-border, white;
+}
+.list-view3:focused .list-cell:focused:hover {
+    -fx-background-color: -fx-box-border, linear-gradient(#ef5100, #ea3224);
+}
+.list-view3:focused .list-cell:filled:focused:selected,
+.list-view3:focused .list-cell:filled:focused:selected:hover {
+    -fx-background-color: -fx-box-border, linear-gradient(#ef5100, #ea3224);
+}
+
+
+.list-cell:filled:selected:focused, .list-cell:filled:selected {
+    -fx-background-color: -fx-box-border,rgb(205,205,205);
+}
+.list-cell:expanded .list-disclosure-node .arrow {
+    -fx-rotate: 180;
+}
+.list-cell:filled:hover .list-disclosure-node .arrow {
+    -fx-background-color: -fx-mark-highlight-color, -fx-mark-color;
+}
+.list-cell .list-disclosure-node {
+    -fx-padding: 3;
+}
+
+.text-field {
+    -fx-background-color: papayawhip,white;
+    -fx-background-radius: 15;
+
+}
+.text-field:focused {
+    -fx-background-color: orange,white;
+}
+.text-area {
+    -fx-background-color: papayawhip,white;
+}
+.text-area:focused {
+    -fx-background-color: orange,white;
+}
+.default-color0.chart-series-area-fill { -fx-fill: transparent}
 
