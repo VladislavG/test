@@ -230,3 +230,6 @@ linear-gradient(#dddddd 0%, #f6f6f6 50%);
 }
 .default-color0.chart-series-area-fill { -fx-fill: transparent}
 
+.default-color0.chart-line-symbol { -fx-background-color: linear-gradient(#f1c85a, #e07f00); }
+.default-color1.chart-line-symbol { -fx-background-color: linear-gradient(#ef5100, #ea3224); }
+

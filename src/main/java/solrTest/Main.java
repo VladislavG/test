@@ -1,9 +1,11 @@
 package solrTest;
 
+import com.sun.javafx.charts.Legend;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
@@ -303,6 +305,8 @@ public class Main extends Application {
         ((NumberAxis) firstSelectionChart.getYAxis()).setForceZeroInRange(false);
         lineChartPane.setFocusTraversable(true);
         containingBox.setMinWidth(scene.getWidth());
+        firstListOfInstruments.getSelectionModel().selectFirst();
+        secondListOfInstruments.getSelectionModel().select(2);
 
         lineChartPane.getChildren(). addAll(secondSelectionChart, firstSelectionChart, lineIndicator);
         miniMapPane.getChildren().   addAll(lineChartOverview, leftRect, rightRect, hookRight, hookLeft, miniMapDetail);
@@ -514,41 +518,48 @@ public class Main extends Application {
         firstSelectionChart.setHorizontalZeroLineVisible(false);
         firstSelectionChart.setVerticalZeroLineVisible(false);
         firstSelectionChart.setHorizontalZeroLineVisible(false);
+        firstSelectionChart.setFocusTraversable(true);
+        firstSelectionChart.setLegendVisible(true);
         firstSelectionChart.setAnimated(false);
         firstSelectionChart.setTitle("Instrument Price Series");
         firstSelectionChart.setVerticalZeroLineVisible(false);
         firstSelectionChart.setCreateSymbols(true);
+        for (Node legend : firstSelectionChart.getChildrenUnmodifiable()){
+            if (legend instanceof Legend){
+                legend.setTranslateX(-50);
+            }
+        }
+
         secondSelectionChart.getData().add(secondSelectionPriceSeries);
         secondSelectionChart.setLegendVisible(false);
         secondSelectionChart.setHorizontalGridLinesVisible(true);
         secondSelectionChart.setMaxWidth(1390);
         secondSelectionChart.setMinWidth(1390);
-        secondSelectionChart.setMaxHeight(517);
-        secondSelectionChart.setMinHeight(517);
+        secondSelectionChart.setMaxHeight(512);
+        secondSelectionChart.setMinHeight(512);
         secondSelectionChart.setVerticalZeroLineVisible(false);
-        secondSelectionChart.setVerticalGridLinesVisible(false);
-        secondSelectionChart.setHorizontalZeroLineVisible(false);
-        secondSelectionChart.setVerticalZeroLineVisible(false);
-        secondSelectionChart.setHorizontalZeroLineVisible(false);
-        firstSelectionChart.setFocusTraversable(true);
+        secondSelectionChart.setHorizontalZeroLineVisible(true);
         secondSelectionChart.setHorizontalGridLinesVisible(false);
         secondSelectionChart.setVerticalGridLinesVisible(true);
-        firstSelectionChart.setLegendVisible(true);
         secondSelectionChart.setLegendVisible(true);
+        for (Node legend : secondSelectionChart.getChildrenUnmodifiable()){
+            if (legend instanceof Legend){
+                legend.setTranslateX(50);
+                legend.setTranslateY(13);
+            }
+        }
 
         diffBarChart.getData().addAll(seriesDiffBar);
         diffBarChart.setMaxWidth(1390);
-        diffBarChart.setVerticalGridLinesVisible(false);
         diffBarChart.setHorizontalGridLinesVisible(false);
         diffBarChart.getXAxis().setTickMarkVisible(false);
         diffBarChart.getXAxis().setTickLabelsVisible(false);
-        ((NumberAxis) diffBarChart.getYAxis()).setForceZeroInRange(false);
         ((NumberAxis) diffBarChart.getYAxis()).setAutoRanging(true);
-        diffBarChart.setTranslateX(12);
+        ((NumberAxis) diffBarChart.getYAxis()).setForceZeroInRange(false);
+        diffBarChart.setTranslateX(6);
         diffBarChart.setMaxHeight(150);
-        diffBarChart.setCreateSymbols(true);
+        diffBarChart.setCreateSymbols(false);
         diffBarChart.setAnimated(false);
-        diffBarChart.setAlternativeColumnFillVisible(false);
 
         secondSelectionChart.setAnimated(false);
         secondSelectionChart.setVerticalZeroLineVisible(false);
@@ -558,7 +569,7 @@ public class Main extends Application {
         secondSelectionChart.getYAxis().setSide(Side.RIGHT);
         secondSelectionChart.getYAxis().setAutoRanging(true);
         secondSelectionChart.setTranslateX(29);
-        secondSelectionChart.setTranslateY(20);
+        secondSelectionChart.setTranslateY(25);
         lineChartOverview.legendVisibleProperty().setValue(false);
         lineChartOverview.getData().add(seriesTotal);
         lineChartOverview.getData().add(secondSelectionSeriesTotal);
@@ -737,14 +748,14 @@ public class Main extends Application {
         firstListOfInstruments.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observableValue, String s, String s2) {
-                updateSeriesListAndSetButtonText(s2, firstSeriesResults, firstListOfSeries, openFirstInstrumentListButton);
+                updateSeriesListAndSetButtonText(s2, firstSeriesResults, firstListOfSeries, openFirstInstrumentListButton, firstSelectionPriceSeries);
             }
         });
 
         secondListOfInstruments.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observableValue, String s, String s2) {
-                updateSeriesListAndSetButtonText(s2, secondSeriesResults, secondListOfSeries, openSecondInstrumentListButton);
+                updateSeriesListAndSetButtonText(s2, secondSeriesResults, secondListOfSeries, openSecondInstrumentListButton, secondSelectionPriceSeries);
             }
         });
 
@@ -761,12 +772,14 @@ public class Main extends Application {
 
                     firstSelectionResults = SolrService.getResultsOnInstrumentAndSeries(firstListOfInstruments.getSelectionModel().getSelectedItem(), firstListOfSeries.getSelectionModel().getSelectedItem());
                     if (firstSelectionResults.size() == 1){
-                        System.out.println("ONLY ONE POINT OF DATA IN THIS SERIES");
+                        displayLackOfDataInSeries();
                         return;
                     } else{
                         completeSeriesFromRemovedPoints(secondSelectionDataRemovedFromBack, secondSelectionDataRemovedFromFront, secondSelectionPriceSeries);
                         firstSelectionDataRemovedFromBack  .clear();
                         firstSelectionDataRemovedFromFront .clear();
+                        deltaDataRemovedFromBack           .clear();
+                        deltaDataRemovedFromFront          .clear();
                         firstSelectionPriceSeries.getData().clear();
                         firstSeriesDateToPrice.clear();
                         seriesTotal.getData().clear();
@@ -792,27 +805,29 @@ public class Main extends Application {
                 if (newSelection==null){
                     return;
                 }
-                    try {
-                        secondSelectionResults = SolrService.getResultsOnInstrumentAndSeries(secondListOfInstruments.getSelectionModel().getSelectedItem(), secondListOfSeries.getSelectionModel().getSelectedItem());
-                        if (secondSelectionResults.size() == 1){
-                            System.out.println("ONE POINT OF DATA IN THIS SERIES ONLY");
-                            return;
-                        }else{
-                            completeSeriesFromRemovedPoints(firstSelectionDataRemovedFromBack, firstSelectionDataRemovedFromFront, firstSelectionPriceSeries);
-                            secondSelectionDataRemovedFromBack  .clear();
-                            secondSelectionDataRemovedFromFront .clear();
-                            secondSelectionPriceSeries.getData().clear();
-                            secondSelectionSeriesTotal.getData().clear();
-                            seriesDiffBar.getData().clear();
-                            secondSeriesDateToPrice.clear();
-                            populateAllSeriesAndMatchBounds(secondSelectionResults, firstSeriesDateToPrice, secondSelectionPriceSeries, secondSelectionSeriesTotal, secondSeriesDateToPrice, orderOfSeriesPointsToId, seriesDiffBar);
-                        }
-
-                    } catch (SolrServerException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                try {
+                    secondSelectionResults = SolrService.getResultsOnInstrumentAndSeries(secondListOfInstruments.getSelectionModel().getSelectedItem(), secondListOfSeries.getSelectionModel().getSelectedItem());
+                    if (secondSelectionResults.size() == 1){
+                        displayLackOfDataInSeries();
+                        return;
+                    }else{
+                        completeSeriesFromRemovedPoints(firstSelectionDataRemovedFromBack, firstSelectionDataRemovedFromFront, firstSelectionPriceSeries);
+                        secondSelectionDataRemovedFromBack  .clear();
+                        secondSelectionDataRemovedFromFront .clear();
+                        deltaDataRemovedFromBack            .clear();
+                        deltaDataRemovedFromFront           .clear();
+                        secondSelectionPriceSeries.getData().clear();
+                        secondSelectionSeriesTotal.getData().clear();
+                        seriesDiffBar.getData().clear();
+                        secondSeriesDateToPrice.clear();
+                        populateAllSeriesAndMatchBounds(secondSelectionResults, firstSeriesDateToPrice, secondSelectionPriceSeries, secondSelectionSeriesTotal, secondSeriesDateToPrice, orderOfSeriesPointsToId, seriesDiffBar);
                     }
+
+                } catch (SolrServerException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 matchBoundsBetweenCharts();
                 resetButton.fire();
 
@@ -885,6 +900,26 @@ public class Main extends Application {
         });
     }
 
+    private void displayLackOfDataInSeries() {
+        detail.setText("Price Series only contains one point of data");
+        detail.setVisible(true);
+        detail.setTranslateX(600);
+        detail.setTranslateY(300);
+        Timer timer = new Timer();
+        TimerTask timerTask = new TimerTask() {
+            @Override
+            public void run() {
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        detail.setVisible(false);
+                    }
+                });
+            }
+        };
+        timer.schedule(timerTask, 2000);
+    }
+
     private boolean isHookInBounds(MouseEvent mouseEvent) {
         if (rightRect.getLayoutX() - 50 < leftRect.getWidth() || mouseEvent.getSceneX() - 55 < leftRect.getWidth()) {
             rightHookPosition.set(leftRect.getWidth() + 60);
@@ -955,7 +990,7 @@ public class Main extends Application {
         }
     }
 
-    private void updateSeriesListAndSetButtonText(String s2, List<String> results, ListView seriesList, Button openInstrumentList) {
+    private void updateSeriesListAndSetButtonText(String s2, List<String> results, ListView seriesList, Button openInstrumentList, XYChart.Series series) {
         if (s2==null)return;
         try {
             results = SolrService.getSeries(s2);
@@ -969,7 +1004,9 @@ public class Main extends Application {
             e.printStackTrace();
         }
         try {
-            openInstrumentList.setText("Instrument: " + SolrService.getShortName(s2));
+            String shortName = SolrService.getShortName(s2);
+            openInstrumentList.setText("Instrument: " + shortName);
+            series.setName(shortName);
         } catch (SolrServerException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -1187,7 +1224,7 @@ public class Main extends Application {
 
         detail = new Text();
         detail.setCache(true);
-        detail.setFill(Color.WHITE);
+        detail.setFill(Color.GRAY);
         detail.setEffect(new InnerShadow(2, Color.BLACK));
         detail.setFont(Font.font(null, FontWeight.BOLD, 13));
         detail.setVisible(false);
