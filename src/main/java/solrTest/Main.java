@@ -10,6 +10,7 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -20,6 +21,7 @@ import javafx.geometry.Side;
 import javafx.scene.*;
 import javafx.scene.chart.*;
 import javafx.scene.control.*;
+import javafx.scene.effect.Glow;
 import javafx.scene.effect.InnerShadow;
 import javafx.scene.effect.Reflection;
 import javafx.scene.input.*;
@@ -42,6 +44,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.function.Consumer;
 
 import static java.time.temporal.ChronoUnit.*;
 
@@ -457,6 +460,7 @@ public class Main extends Application {
         firstSelectionChart.setTitle("Instrument Price Series");
         firstSelectionChart.setVerticalZeroLineVisible(false);
         firstSelectionChart.setCreateSymbols(true);
+
         for (Node legend : firstSelectionChart.getChildrenUnmodifiable()){
             if (legend instanceof Legend){
                 legend.setTranslateX(-75);
@@ -685,11 +689,10 @@ public class Main extends Application {
         });
 
         resetButton.setCursor(Cursor.HAND);
-        resetButton.getStyleClass().add("button-unzoom");
+        resetButton.getStyleClass().add("button3");
         firstListOfSeries.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observableDateValue, String previousSelection, String newSelection) {
-                resetControlsForNewSelection();
                 if (newSelection==null){
                     return;
                 }
@@ -700,6 +703,7 @@ public class Main extends Application {
                         displayLackOfDataInSeries();
                         return;
                     } else{
+                        resetControlsForNewSelection();
                         SeriesActions.completeSeriesFromRemovedPoints(secondSelectionDataRemovedFromBack, secondSelectionDataRemovedFromFront, secondSelectionPriceSeries);
                         firstSelectionDataRemovedFromBack.clear();
                         firstSelectionDataRemovedFromFront.clear();
@@ -726,7 +730,6 @@ public class Main extends Application {
         secondListOfSeries.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observableDateValue, String previousSelection, String newSelection) {
-                resetControlsForNewSelection();
                 if (newSelection==null){
                     return;
                 }
@@ -736,6 +739,7 @@ public class Main extends Application {
                         displayLackOfDataInSeries();
                         return;
                     }else{
+                        resetControlsForNewSelection();
                         SeriesActions.completeSeriesFromRemovedPoints(firstSelectionDataRemovedFromBack, firstSelectionDataRemovedFromFront, firstSelectionPriceSeries);
                         secondSelectionDataRemovedFromBack.clear();
                         secondSelectionDataRemovedFromFront.clear();

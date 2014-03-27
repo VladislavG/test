@@ -1,5 +1,6 @@
 package solrTest;
 
+import com.sun.javafx.charts.Legend;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.collections.FXCollections;
 import javafx.event.Event;
@@ -26,6 +27,7 @@ import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.function.Consumer;
 
 import static java.time.temporal.ChronoUnit.DAYS;
 
@@ -54,6 +56,23 @@ public class ChartActions {
 
                         mark.setFocusTraversable(true);
                     }
+                }
+                for (Node mark : getChildren()){
+                     if (mark instanceof Legend){
+                         ((Legend) mark).getChildrenUnmodifiable().forEach(new Consumer<Node>() {
+                             @Override
+                             public void accept(Node node) {
+                                 ((Label) node).getChildrenUnmodifiable().forEach(new Consumer<Node>() {
+                                     @Override
+                                     public void accept(Node node) {
+                                         if (node instanceof Region){
+                                             node.getStyleClass().add(pathStyleClassMark);
+                                         }
+                                     }
+                                 });
+                             }
+                         });
+                     }
                 }
                 int pointIterator = 0;
                 int pathCount = 0;
