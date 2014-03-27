@@ -1,0 +1,240 @@
+.root {
+}
+
+.label {
+    -fx-effect: dropshadow(two-pass-box, white, 1, 0, 0, 0);
+
+}
+.scroll-bar {
+    -fx-background-radius: 15;
+}
+
+.chart-title {
+    -fx-font-size: 1.4em;
+}
+
+.chart-series-line {
+    -fx-effect: dropshadow(two-pass-box, white, 1, 0, 0, 0);
+}
+
+.transparent {
+    -fx-background-color: transparent;
+}
+
+.chart-line-symbol {
+    -fx-background-insets: 0, 2;
+    -fx-effect: dropshadow(two-pass-box, white, 1, 0, 0, 0);
+}
+
+.chart-line-symbol:hover {
+    -fx-effect: dropshadow(two-pass-box, black, 10, 0, 0, 0);
+}
+
+.chart-bar {
+    -fx-scale-x: 0.5;
+}
+
+.chart-area-symbol {
+    -fx-background-color: null, null;
+}
+
+.button {
+    -fx-background-color: linear-gradient(#ea3224, #ef5100);
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.4) , 5, 0.0 , 0 , 1 );
+    -fx-background-radius: 30;
+    -fx-background-insets: 0;
+    -fx-text-fill: white;
+}
+
+.button-unzoom {
+    -fx-background-color:
+        linear-gradient(#ffef84, #f2ba44),
+        linear-gradient(#ffea6a, #efaa22),
+        linear-gradient(#ffe657 0%, #f8c202 50%, #eea10b 100%);
+}
+.button-unzoom:hover {
+    -fx-background-color:
+        linear-gradient(#f4e57e, #e7b241),
+        linear-gradient(#f2de65, #e2a120),
+        linear-gradient(#efd852 0%, #f8c202 50%, #e59b0b 100%);
+}
+
+.button2 {
+    -fx-background-color: linear-gradient(#1456ef, #3683ea);
+}
+
+.button:hover {
+    -fx-background-color: linear-gradient(#dd4b00, #d13124);
+    -fx-background-radius: 30;
+    -fx-background-insets: 0;
+    -fx-text-fill: white;
+
+}
+
+.button2:hover {
+    -fx-background-color: linear-gradient(#1451dc, #3272d1);
+}
+
+.b2 {
+
+-fx-font-family: Tahoma;
+-fx-font-size: 12px;
+
+-fx-background-color:
+linear-gradient(#f9f9f9, #d6d6d6),
+linear-gradient(#fcfcfc 0%, #d9d9d9 20%, #d6d6d6 100%),
+linear-gradient(#dddddd 0%, #f6f6f6 50%);
+-fx-background-insets: 0,1;
+-fx-background-radius: 9,8;
+}
+
+
+.axis {
+    -fx-font-size: 1em;
+    -fx-font-family: Tahoma;
+    -fx-tick-length: 3;
+    -fx-minor-tick-length: 0;
+    -fx-effect: dropshadow(two-pass-box, white, 1, 0, 0, 0);
+}
+
+.chart-series-lineSecond {
+    -fx-stroke: #1456ef;
+}
+.chart-symbol2 {
+    -fx-background-color: #1456ef, white;
+    -fx-background-insets: 0, 2;
+    -fx-background-radius: 5px;
+    -fx-padding: 5px;
+}
+
+.chart-series-lineFirst {
+    -fx-stroke: #EE3224;
+}
+
+.list-view3 {
+    -fx-background-color:  linear-gradient(#ea3224, #ef5100);
+    -fx-background-radius: 15;
+}
+
+.axis-tick-mark {
+    -fx-stroke:  linear-gradient(orangered, gold, dodgerblue);
+    -fx-stroke-width: 3;
+    -fx-effect: dropshadow(gaussian, white, 2, .5, 0, 0);
+}
+
+.separator {
+    -fx-background-color: dodgerblue;
+
+}
+
+.progress-bar > .bar {
+    -fx-background-color: linear-gradient(
+        from 0px .75em to .75em 0px,
+        repeat,
+        -fx-accent 0%,
+        -fx-accent 49%,
+        derive(-fx-accent, 30%) 50%,
+        derive(-fx-accent, 30%) 99%
+    );
+}
+
+.separator *line{
+    -fx-border-width: 0px;
+}
+
+.axis-label {
+    -fx-cell-size: 50;
+}
+
+.list-view2 {
+    -fx-background-color: linear-gradient(#1456ef, #3683ea);
+    -fx-background-radius: 15;
+}
+
+.line {
+    -fx-effect: dropshadow(two-pass-box, white, 1, 0, 0, 0);
+}
+
+.list-cell {
+    -fx-padding: 0.8em 0em 0.8em 0.3em;
+    -fx-text-fill: #212121;
+    -fx-font: 12px "Segoe UI";
+}
+.list-view2:focused {
+    -fx-background-color: -fx-box-border,-fx-box-border,linear-gradient(#1456ef, #3683ea);
+}
+.list-view3:focused {
+    -fx-background-color: -fx-box-border,-fx-box-border,linear-gradient(#ea3224, #ef5100);
+}
+.list-view .list-cell:empty:hover {
+    -fx-background-color: white;
+}
+.list-view2 .list-cell:hover {
+    -fx-background-color: -fx-box-border,linear-gradient(#1456ef, #3683ea);
+}
+.list-view2.list-cell:filled:selected:hover {
+    -fx-background-color: -fx-box-border, linear-gradient(#1456ef, #3683ea);
+}
+.list-view2:focused .list-cell:focused {
+    -fx-background-color: -fx-box-border, white;
+}
+.list-view2:focused .list-cell:focused:hover {
+    -fx-background-color: -fx-box-border, linear-gradient(#1456ef, #3683ea);
+}
+.list-view2:focused .list-cell:filled:focused:selected,
+
+.list-view2:focused .list-cell:filled:focused:selected:hover {
+    -fx-background-color: -fx-box-border, linear-gradient(#1456ef, #3683ea);
+}
+
+.list-view3 .list-cell:hover {
+    -fx-background-color: -fx-box-border,linear-gradient(#ea3224, #ef5100);
+}
+.list-view3.list-cell:filled:selected:hover {
+    -fx-background-color: -fx-box-border, linear-gradient(#ea3224, #ef5100);
+}
+.list-view3:focused .list-cell:focused {
+    -fx-background-color: -fx-box-border, white;
+}
+.list-view3:focused .list-cell:focused:hover {
+    -fx-background-color: -fx-box-border, linear-gradient(#ea3224, #ef5100);
+}
+.list-view3:focused .list-cell:filled:focused:selected,
+.list-view3:focused .list-cell:filled:focused:selected:hover {
+    -fx-background-color: -fx-box-border, linear-gradient(#ea3224, #ef5100);
+}
+
+.list-cell:filled:selected:focused, .list-cell:filled:selected {
+    -fx-background-color: -fx-box-border,rgb(205,205,205);
+}
+.list-cell:expanded .list-disclosure-node .arrow {
+    -fx-rotate: 180;
+}
+.list-cell:filled:hover .list-disclosure-node .arrow {
+    -fx-background-color: -fx-mark-highlight-color, -fx-mark-color;
+}
+.list-cell .list-disclosure-node {
+    -fx-padding: 3;
+}
+
+.text-field {
+    -fx-background-color: papayawhip,white;
+    -fx-background-radius: 15;
+
+}
+.text-field:focused {
+    -fx-background-color: orange,white;
+}
+.text-area {
+    -fx-background-color: papayawhip,white;
+}
+.text-area:focused {
+    -fx-background-color: orange,white;
+}
+.default-color0.chart-series-area-fill { -fx-fill: transparent}
+
+.chart-series-line-overview2 { -fx-stroke: linear-gradient(#1456ef, #3683ea); }
+.chart-series-line-overview { -fx-stroke: linear-gradient(#ea3224, #ef5100); }
+
+
+

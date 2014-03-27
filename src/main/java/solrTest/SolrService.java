@@ -7,7 +7,6 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 import java.sql.*;
-import java.util.function.BooleanSupplier;
 
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServer;
@@ -18,12 +17,11 @@ import org.apache.solr.client.solrj.response.FacetField;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
-import org.apache.solr.common.util.NamedList;
 import org.apache.solr.core.CoreContainer;
 
 
 public class SolrService {
-    private static final String SOLR_INDEX_DIR = "solr";
+    private static final String SOLR_INDEX_DIR = "data/solr";
     private static final String CORE_NAME = "core";
     private static SolrServer solrServer;
 
@@ -34,7 +32,7 @@ public class SolrService {
 
     public static SolrServer getSolrServer() throws SolrServerException {
         if (null == solrServer) {
-            String solrHome = "C:\\Users\\vladislav\\solrTest\\src\\main\\resources\\solr";
+            String solrHome = "data/solr";
             CoreContainer coreContainer = new CoreContainer(solrHome);
             coreContainer.load();
             solrServer = new EmbeddedSolrServer(coreContainer, CORE_NAME);
