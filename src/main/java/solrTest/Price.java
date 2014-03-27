@@ -7,7 +7,7 @@ package solrTest;
 * Time: 14:55
 * To change this template use File | Settings | File Templates.
 */
-public class Item {
+public class Price {
     private String id;
     private String last_update_date;
     private String price;
