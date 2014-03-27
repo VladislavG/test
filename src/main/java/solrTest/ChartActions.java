@@ -31,51 +31,52 @@ public class ChartActions {
     static LineChart<LocalDateTime, Number> chart;
     static Double initYpos;
     static String dragArea;
+
     public static LineChart<LocalDateTime, Number> makeZoomLineChart(HashMap pointsToId,
                                                                      String pathStyleClass,
                                                                      String pathStyleClassMark,
                                                                      Text valueDisplayLabel,
                                                                      ListView seriesListView,
                                                                      DateAxis310 localDateTimeAxis,
-                                                                     NumberAxis numberAxis){
+                                                                     NumberAxis numberAxis) {
 
-        chart = new LineChart<LocalDateTime, Number>(localDateTimeAxis, numberAxis){
+        chart = new LineChart<LocalDateTime, Number>(localDateTimeAxis, numberAxis) {
             @Override
             protected void layoutPlotChildren() {
                 super.layoutPlotChildren();
                 for (Node mark : getChartChildren()) {
-                    if (mark instanceof Region){
+                    if (mark instanceof Region) {
 
                         mark.setFocusTraversable(true);
                     }
                 }
-                for (Node mark : getChildren()){
-                     if (mark instanceof Legend){
-                         ((Legend) mark).getChildrenUnmodifiable().forEach(new Consumer<Node>() {
-                             @Override
-                             public void accept(Node node) {
-                                 ((Label) node).getChildrenUnmodifiable().forEach(new Consumer<Node>() {
-                                     @Override
-                                     public void accept(Node node) {
-                                         if (node instanceof Region) {
-                                             node.getStyleClass().add(pathStyleClassMark);
-                                         }
-                                     }
-                                 });
-                             }
-                         });
-                     }
+                for (Node mark : getChildren()) {
+                    if (mark instanceof Legend) {
+                        ((Legend) mark).getChildrenUnmodifiable().forEach(new Consumer<Node>() {
+                            @Override
+                            public void accept(Node node) {
+                                ((Label) node).getChildrenUnmodifiable().forEach(new Consumer<Node>() {
+                                    @Override
+                                    public void accept(Node node) {
+                                        if (node instanceof Region) {
+                                            node.getStyleClass().add(pathStyleClassMark);
+                                        }
+                                    }
+                                });
+                            }
+                        });
+                    }
                 }
                 int pointIterator = 0;
                 int pathCount = 0;
                 for (Node mark : getPlotChildren()) {
-                    if (!(mark instanceof StackPane)){
+                    if (!(mark instanceof StackPane)) {
                         pathCount++;
                         Path g = (Path) mark;
                         g.setStrokeWidth(1.5);
-                        if (pathCount > 1){
+                        if (pathCount > 1) {
                             g.getStyleClass().add("chart-series-line-overview2");
-                        }else{
+                        } else {
                             g.getStyleClass().add(pathStyleClass);
                         }
                         pointIterator = 0;
@@ -104,7 +105,7 @@ public class ChartActions {
 
                                 } catch (SolrServerException e) {
                                 } catch (IOException e) {
-                                } catch (NullPointerException e){
+                                } catch (NullPointerException e) {
                                     try {
                                         valueDisplayLabel.setText(SolrService.getCurrency(seriesListView.getItems().get(0).toString()) + " " + number.toString().substring(0, 5));
                                     } catch (SolrServerException e1) {
@@ -128,11 +129,11 @@ public class ChartActions {
         };
         return chart;
     }
-    
+
     public static NumberAxis makeZoomYAxis(SimpleDoubleProperty lowerBound,
                                            SimpleDoubleProperty upperBound,
                                            Double initY,
-                                           String dragZone){
+                                           String dragZone) {
         NumberAxis yAxis = new NumberAxis();
         initYpos = initY;
         dragArea = dragZone;
@@ -145,12 +146,12 @@ public class ChartActions {
                 yAxis.lowerBoundProperty().bind(lowerBound);
                 yAxis.upperBoundProperty().bind(upperBound);
                 initYpos = mouseEvent.getSceneY();
-                if (mouseEvent.getSceneY() > 379 ){
-                    dragArea="bottom";
-                }else if (mouseEvent.getSceneY() > 213){
-                    dragArea="middle";
-                }else{
-                    dragArea="top";
+                if (mouseEvent.getSceneY() > 379) {
+                    dragArea = "bottom";
+                } else if (mouseEvent.getSceneY() > 213) {
+                    dragArea = "middle";
+                } else {
+                    dragArea = "top";
                 }
             }
         });
@@ -184,7 +185,7 @@ public class ChartActions {
     }
 
     public static void setChartsLowerBound(LocalDateTime localDateTimeStart, LineChart firstSelectionChart, LineChart secondSelectionChart, NumberAxis firstSelectionYAxis, NumberAxis secondSelectionYAxis,
-                                     AreaChart diffBarChart) {
+                                           AreaChart diffBarChart) {
         DateAxis310 firstSelectionChartXAxis = (DateAxis310) firstSelectionChart.getXAxis();
         firstSelectionChartXAxis.setAutoRanging(false);
         firstSelectionChartXAxis.setLowerBound(localDateTimeStart);
@@ -225,14 +226,14 @@ public class ChartActions {
     }
 
     public static XYChart.Data createChartDataFrom(Price price) {
-        return new XYChart.Data(LocalDateTime.parse(Main.toUtcDate(price.getPrice_date())) , Float.valueOf(price.getPrice()));
+        return new XYChart.Data(LocalDateTime.parse(Main.toUtcDate(price.getPrice_date())), Float.valueOf(price.getPrice()));
     }
 
     public static void turnOffPickOnBoundsFor(Node n) {
         n.setPickOnBounds(false);
         if (n instanceof Parent) {
-            for (Node c: ((Parent) n).getChildrenUnmodifiable()) {
-                if (!(c instanceof Axis)){
+            for (Node c : ((Parent) n).getChildrenUnmodifiable()) {
+                if (!(c instanceof Axis)) {
                     turnOffPickOnBoundsFor(c);
                 }
             }

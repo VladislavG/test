@@ -35,8 +35,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class Main extends Application {
-
-    public static final String YYYY_MM_DD_T_HH_MM = "yyyy-MM-dd'T'HH:mm";
     XYChart.Series firstSelectionPriceSeries = new XYChart.Series();
     XYChart.Series secondSelectionPriceSeries = new XYChart.Series();
     XYChart.Series deltaPriceSeries = new XYChart.Series();
@@ -54,12 +52,12 @@ public class Main extends Application {
     SimpleDoubleProperty trackYPosition = new SimpleDoubleProperty();
     SimpleDoubleProperty trackXTargetPosition = new SimpleDoubleProperty();
 
-    SimpleDoubleProperty rectinitX = new SimpleDoubleProperty();
-    SimpleDoubleProperty rectinitY = new SimpleDoubleProperty();
+    SimpleDoubleProperty initRectX = new SimpleDoubleProperty();
+    SimpleDoubleProperty initRectY = new SimpleDoubleProperty();
     SimpleDoubleProperty rectX = new SimpleDoubleProperty();
     SimpleDoubleProperty rectY = new SimpleDoubleProperty();
 
-    EventHandler<MouseEvent> mouseHandler;
+    EventHandler<MouseEvent> chartEventHandler;
     Text placeHolder;
     TextField firstListSearch = new TextField();
 
@@ -86,8 +84,25 @@ public class Main extends Application {
     Button openFirstInstrumentListButton = new Button("Select Instrument: ");
     Button openFirstSeriesListButton = new Button("Select Series: ");
     Button openSecondInstrumentListButton = new Button("Select Instrument: ");
-
     Button openSecondSeriesListButton = new Button("Select Series: ");
+
+    public static final String YYYY_MM_DD_T_HH_MM = "yyyy-MM-dd'T'HH:mm";
+    private static final String DD_MMM_YYYY = "dd MMM yyyy";
+    private static final String YYYY_MM_DD = "yyyy-MM-dd";
+    private static final String MMM_DD_YYYY_HH_MM_SS_Z = "MMM dd, yyyy hh:mm:ss Z";
+    private static final String YYYY_MM_DD_T_HH_MM_SS_SSS = "yyyy-MM-dd'T'HH:mm:ss.SSS";
+    private static final String BLUE_BUTTON_STYLE = "button2";
+    private static final String YELLOW_BUTTON_STYLE = "button3";
+    private static final String PRICE_SERIES_ONLY_CONTAINS_ONE_POINT_OF_DATA = "Price Series only contains one point of data";
+    private static final String PANE_STYLE = "b2";
+    private static final String RED_LISTVIEW_STYLE = "list-view2";
+    private static final String BLUE_LISTVIEW_STYLE = "list-view3";
+    private static final String RED_SERIES_STYLE = "chart-series-lineFirst";
+    private static final String BLUE_SERIES_STYLE = "chart-series-lineSecond";
+    private static final String BLUE_SYMBOL_STYLE = "chart-symbol2";
+    private static final String OVERVIEW_SERIES_STYLE = "chart-series-line-overview";
+    private static final String ALL = "*";
+
     ObservableList<String> firstObservableListInstruments;
     ObservableList<String> firstObservableListSeries;
     ObservableList<String> secondObservableListInstruments;
@@ -96,7 +111,7 @@ public class Main extends Application {
 
     final StringConverter<LocalDateTime> STRING_CONVERTER = new StringConverter<LocalDateTime>() {
         @Override public String toString(LocalDateTime localDateTime) {
-            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd MMM yyyy");
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern(DD_MMM_YYYY);
             return dtf.format(localDateTime);
         }
         @Override public LocalDateTime fromString(String s) {
@@ -140,6 +155,7 @@ public class Main extends Application {
     Rectangle rightRect = new Rectangle(30,150);
     Separator separator;
     Pane propertiesPane = new Pane();
+    Node chartPlotArea;
 
     SimpleDoubleProperty windowWidth;
     XYChart.Series firstSelectionSeriesTotal;
@@ -173,9 +189,9 @@ public class Main extends Application {
 		final Group root = new Group();
 		Scene scene = new Scene(root, 1750, 850, Color.WHITESMOKE);
 
-        firstInstrumentResults = SolrService.getInstruments("*");
+        firstInstrumentResults = SolrService.getInstruments(ALL);
         firstSeriesResults = SolrService.getSeries(firstInstrumentResults.get(0));
-        secondInstrumentResults = SolrService.getInstruments("*");
+        secondInstrumentResults = SolrService.getInstruments(ALL);
         secondSeriesResults = SolrService.getSeries(secondInstrumentResults.get(0));
 
         firstObservableListInstruments = FXCollections.observableArrayList(firstInstrumentResults);
@@ -183,8 +199,8 @@ public class Main extends Application {
         secondObservableListInstruments = FXCollections.observableArrayList(secondInstrumentResults);
         secondObservableListSeries = FXCollections.observableArrayList(secondSeriesResults);
 
-        firstSelectionResults = SolrService.getResults("*", "*", firstObservableListInstruments.get(0), firstObservableListSeries.get(0));
-        secondSelectionResults = SolrService.getResults("*", "*", secondObservableListInstruments.get(0), secondObservableListSeries.get(1));
+        firstSelectionResults = SolrService.getResults(ALL, ALL, firstObservableListInstruments.get(0), firstObservableListSeries.get(0));
+        secondSelectionResults = SolrService.getResults(ALL, ALL, secondObservableListInstruments.get(0), secondObservableListSeries.get(1));
 
         firstListOfInstruments = ListViewActions.makeListView(firstObservableListInstruments);
         secondListOfInstruments = ListViewActions.makeListView(secondObservableListInstruments);
@@ -192,11 +208,11 @@ public class Main extends Application {
         firstListOfSeries.getItems().setAll(firstObservableListSeries);
         secondListOfSeries.getItems().setAll(secondObservableListSeries);
 
-        lineChartOverview = ChartActions.makeZoomLineChart(overviewPointsDateToId, "chart-series-line-overview", "", miniMapDetail, firstListOfSeries, xAxis, yAxis);
-        firstSelectionChart = ChartActions.makeZoomLineChart(orderOfGraphPointsToId, "chart-series-lineFirst", "", detail, firstListOfSeries, firstSelectionXAxis, firstSelectionYAxis);
-        secondSelectionChart = ChartActions.makeZoomLineChart(orderOfGraphPointsToId, "chart-series-lineSecond", "chart-symbol2", detail, secondListOfSeries, secondSelectionXAxis, secondSelectionYAxis);
-
+        lineChartOverview = ChartActions.makeZoomLineChart(overviewPointsDateToId, OVERVIEW_SERIES_STYLE, "", miniMapDetail, firstListOfSeries, xAxis, yAxis);
+        firstSelectionChart = ChartActions.makeZoomLineChart(orderOfGraphPointsToId, RED_SERIES_STYLE, "", detail, firstListOfSeries, firstSelectionXAxis, firstSelectionYAxis);
+        secondSelectionChart = ChartActions.makeZoomLineChart(orderOfGraphPointsToId, BLUE_SERIES_STYLE, BLUE_SYMBOL_STYLE, detail, secondListOfSeries, secondSelectionXAxis, secondSelectionYAxis);
         secondSelectionChart.setFocusTraversable(true);
+        chartPlotArea = firstSelectionChart.lookup(".chart-plot-background");
         try {
             secondSelectionResults = SolrService.getResultsOnInstrumentAndSeries(secondObservableListInstruments.get(0), secondObservableListSeries.get(0));
             secondSelectionPriceSeries.getData().clear();
@@ -234,12 +250,12 @@ public class Main extends Application {
         }
 
         propertiesPane.setVisible(false);
-        propertiesPane.getStyleClass().add("b2");
-        detailPane.getStyleClass().add("b2");
-        secondListOfInstruments.getStyleClass().add("list-view2");
-        secondListOfSeries.getStyleClass().add("list-view2");
-        firstListOfInstruments.getStyleClass().add("list-view3");
-        firstListOfSeries.getStyleClass().add("list-view3");
+        propertiesPane.getStyleClass().add(PANE_STYLE);
+        detailPane.getStyleClass().add(PANE_STYLE);
+        secondListOfInstruments.getStyleClass().add(RED_LISTVIEW_STYLE);
+        secondListOfSeries.getStyleClass().add(RED_LISTVIEW_STYLE);
+        firstListOfInstruments.getStyleClass().add(BLUE_LISTVIEW_STYLE);
+        firstListOfSeries.getStyleClass().add(BLUE_LISTVIEW_STYLE);
         setupCharts();
         addListenersAndBindings();
         ChartActions.turnOffPickOnBoundsFor(firstSelectionChart);
@@ -256,7 +272,6 @@ public class Main extends Application {
         leftContainingPane.getChildren().addAll(chartBox, zoomBounds, verticalTrackingLine, displayAtPosition, displayAtTarget, detail, propertiesPane);
         finalContainingLayout.getChildren().addAll(leftContainingPane, detailPane);
         root.getChildren().addAll(finalContainingLayout);
-
         stage.setTitle("Calculating Important Points");
 		stage.setScene(scene);
         scene.getStylesheets().add("demo.css");
@@ -282,8 +297,8 @@ public class Main extends Application {
         String year = dateStr.substring(24);
         String day = dateStr.substring(8, 10);
         dateStr = year + "-" + month + "-" + day;
-        SimpleDateFormat out = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
-        String[] dateFormats = {"yyyy-MM-dd", "MMM dd, yyyy hh:mm:ss Z"};
+        SimpleDateFormat out = new SimpleDateFormat(YYYY_MM_DD_T_HH_MM_SS_SSS);
+        String[] dateFormats = {YYYY_MM_DD, MMM_DD_YYYY_HH_MM_SS_Z};
         for (String dateFormat : dateFormats) {
             try {
                 return out.format(new SimpleDateFormat(dateFormat).parse(dateStr));
@@ -343,7 +358,7 @@ public class Main extends Application {
         secondSelectionChart.getXAxis().setTickMarkVisible(false);
         secondSelectionChart.getYAxis().setSide(Side.RIGHT);
         secondSelectionChart.getYAxis().setAutoRanging(true);
-        secondSelectionChart.setTranslateX(29);
+        secondSelectionChart.translateXProperty().bind(chartPlotArea.layoutXProperty().subtract(10.0));
         secondSelectionChart.setTranslateY(25);
         for (Node legend : secondSelectionChart.getChildrenUnmodifiable()){
             if (legend instanceof Legend){
@@ -482,8 +497,8 @@ public class Main extends Application {
                 isHookInBounds(mouseEvent);
             }
         });
-        openSecondInstrumentListButton.getStyleClass().add("button2");
-        openSecondSeriesListButton.getStyleClass().add("button2");
+        openSecondInstrumentListButton.getStyleClass().add(BLUE_BUTTON_STYLE);
+        openSecondSeriesListButton.getStyleClass().add(BLUE_BUTTON_STYLE);
 
         ListViewActions.makeListViewDisappear(secondListOfInstruments);
         ListViewActions.makeListViewDisappear(firstListOfInstruments);
@@ -532,7 +547,7 @@ public class Main extends Application {
         });
 
         resetButton.setCursor(Cursor.HAND);
-        resetButton.getStyleClass().add("button3");
+        resetButton.getStyleClass().add(YELLOW_BUTTON_STYLE);
         firstListOfSeries.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observableDateValue, String previousSelection, String newSelection) {
@@ -608,13 +623,13 @@ public class Main extends Application {
 
         firstSelectionContainer.setSpacing(10);
         secondSelectionContainer.setSpacing(10);
-        secondSelectionChart.setOnMouseClicked(mouseHandler);
-        secondSelectionChart.setOnMouseDragged(mouseHandler);
-        secondSelectionChart.setOnMouseMoved(mouseHandler);
-        secondSelectionChart.setOnMousePressed(mouseHandler);
-        secondSelectionChart.setOnMouseReleased(mouseHandler);
-        secondSelectionChart.setOnMouseEntered(mouseHandler);
-        secondSelectionChart.setOnMouseExited(mouseHandler);
+        secondSelectionChart.setOnMouseClicked(chartEventHandler);
+        secondSelectionChart.setOnMouseDragged(chartEventHandler);
+        secondSelectionChart.setOnMouseMoved(chartEventHandler);
+        secondSelectionChart.setOnMousePressed(chartEventHandler);
+        secondSelectionChart.setOnMouseReleased(chartEventHandler);
+        secondSelectionChart.setOnMouseEntered(chartEventHandler);
+        secondSelectionChart.setOnMouseExited(chartEventHandler);
 
         lineChartOverview.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
@@ -657,7 +672,7 @@ public class Main extends Application {
     }
 
     private void displayLackOfDataInSeries() {
-        detail.setText("Price Series only contains one point of data");
+        detail.setText(PRICE_SERIES_ONLY_CONTAINS_ONE_POINT_OF_DATA);
         detail.setVisible(true);
         detail.setTranslateX(600);
         detail.setTranslateY(300);
@@ -878,8 +893,8 @@ public class Main extends Application {
         zoomBounds.setStroke(Color.DARKGRAY);
         zoomBounds.setStrokeDashOffset(50);
         zoomBounds.setMouseTransparent(true);
-        zoomBounds.widthProperty().bind(rectX.subtract(rectinitX));
-        zoomBounds.heightProperty().bind(rectY.subtract(rectinitY));
+        zoomBounds.widthProperty().bind(rectX.subtract(initRectX));
+        zoomBounds.heightProperty().bind(rectY.subtract(initRectY));
 
         labelInstruments = new Label("List of Instruments");
         labelInstruments.setFont(new Font("Calibri", 22));
@@ -912,7 +927,7 @@ public class Main extends Application {
             }
         });
 
-        mouseHandler = (mouseEvent) -> {
+        chartEventHandler = (mouseEvent) -> {
             if (mouseEvent.getSceneX() < 55 || mouseEvent.getSceneX() > 1380) {
                 verticalTrackingLine.           setVisible(false);
                 displayAtPosition.setVisible(false);
@@ -922,8 +937,8 @@ public class Main extends Application {
             if (mouseEvent.getEventType() == MouseEvent.MOUSE_PRESSED) {
                 zoomBounds.setX(mouseEvent.getSceneX());
                 zoomBounds.setY(-20);
-                rectinitX.set(mouseEvent.getSceneX());
-                rectinitY.set(0);
+                initRectX.set(mouseEvent.getSceneX());
+                initRectY.set(0);
             } else if (mouseEvent.getEventType() == MouseEvent.MOUSE_DRAGGED) {
                 trackXTargetPosition.set(mouseEvent.getSceneX());
                 rectX.               set(mouseEvent.getSceneX());
@@ -934,7 +949,7 @@ public class Main extends Application {
             } else if (mouseEvent.getEventType() == MouseEvent.MOUSE_RELEASED) {
                 displayAtTarget.  setVisible(false);
                 displayAtPosition.setVisible(false);
-                if (rectX.getValue() - rectinitX.getValue() < 20){
+                if (rectX.getValue() - initRectX.getValue() < 20){
                     rectX.set(0);
                     rectY.set(0);
 
@@ -945,7 +960,7 @@ public class Main extends Application {
                 LocalDateTime localDateTimeStart  = null;
                 LocalDateTime localDateTimeFinish = null;
                 try{
-                    localDateTimeStart  = firstSelectionChart.getXAxis().getValueForDisplay(rectinitX.getValue() - 55.0);
+                    localDateTimeStart  = firstSelectionChart.getXAxis().getValueForDisplay(initRectX.getValue() - 55.0);
                     localDateTimeFinish = firstSelectionChart.getXAxis().getValueForDisplay(rectX.getValue() - 55.0);
 
                     valueForDisplayStart = String.valueOf(localDateTimeStart);
@@ -995,8 +1010,8 @@ public class Main extends Application {
 
         Reflection r = new Reflection();
         r.setFraction(0.1);
-        firstSelectionContainer.getStyleClass().add("b2");
-        secondSelectionContainer.getStyleClass().add("b2");
+        firstSelectionContainer.getStyleClass().add(PANE_STYLE);
+        secondSelectionContainer.getStyleClass().add(PANE_STYLE);
         secondSelectionContainer.setMaxWidth(265);
         firstSelectionContainer.setMaxWidth(265);
         secondSelectionContainer.setMinWidth(265);
@@ -1020,7 +1035,6 @@ public class Main extends Application {
 
         firstSelectionSeriesTotal = new XYChart.Series();
         secondSelectionSeriesTotal = new XYChart.Series();
-        firstSelectionPriceSeries.setName("Raw data");
 
         miniMapDetail = new Text();
         miniMapDetail.setFill(Color.WHITE);
@@ -1046,6 +1060,7 @@ public class Main extends Application {
                 firstSelectionYAxis.lowerBoundProperty().unbind();
                 firstSelectionYAxis.upperBoundProperty().unbind();
                 firstSelectionYAxis.setAutoRanging(true);
+
             }
         });
 
@@ -1062,7 +1077,7 @@ public class Main extends Application {
         placeHolder.setEffect(new InnerShadow(2, Color.BLACK));
         placeHolder.setFont(Font.font(null, FontWeight.BOLD, 13));
         placeHolder.setTranslateY(-100);
-        placeHolder.setText("No Spikes");
+        placeHolder.setText("No series");
         firstListOfInstruments.setPlaceholder(placeHolder);
         secondListOfInstruments.setPlaceholder(placeHolder);
 
