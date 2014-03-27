@@ -2,15 +2,19 @@ package solrTest;
 
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.collections.FXCollections;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Bounds;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.chart.*;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.effect.InnerShadow;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Path;
 import javafx.scene.text.Text;
 import org.apache.solr.client.solrj.SolrServerException;
@@ -35,6 +39,7 @@ public class ChartActions {
     static String dragArea;
     public static LineChart<LocalDateTime, Number> makeZoomLineChart(HashMap pointsToId,
                                                                      String pathStyleClass,
+                                                                     String pathStyleClassMark,
                                                                      Text valueDisplayLabel,
                                                                      ListView seriesListView,
                                                                      DateAxis310 localDateTimeAxis,
@@ -51,18 +56,24 @@ public class ChartActions {
                     }
                 }
                 int pointIterator = 0;
+                int pathCount = 0;
                 for (Node mark : getPlotChildren()) {
                     if (!(mark instanceof StackPane)){
+                        pathCount++;
                         Path g = (Path) mark;
                         g.setStrokeWidth(1.5);
-                        g.getStyleClass().add(pathStyleClass);
+                        if (pathCount > 1){
+                            g.getStyleClass().add("chart-series-line-overview2");
+                        }else{
+                            g.getStyleClass().add(pathStyleClass);
+                        }
                         pointIterator = 0;
                         pointsToId.clear();
                     }
                     if (mark instanceof StackPane) {
                         pointsToId.put(mark.toString(), pointIterator);
                         pointIterator++;
-
+                        mark.getStyleClass().add(pathStyleClassMark);
                         Bounds bounds = mark.getBoundsInParent();
                         double posX = bounds.getMinX() + (bounds.getMaxX() - bounds.getMinX()) / 2.0;
                         double posY = bounds.getMinY() + (bounds.getMaxY() - bounds.getMinY()) / 2.0;
@@ -133,23 +144,24 @@ public class ChartActions {
             }
         });
 
-        yAxis.setOnMouseDragged((mouseEvent) -> {
+        yAxis.setOnMouseDragged((MouseEvent mouseEvent) -> {
             yAxis.setAutoRanging(false);
             double currentLowerBound = yAxis.getLowerBound();
             double currentUpperBound = yAxis.getUpperBound();
 
             double range = currentUpperBound - currentLowerBound;
             double dragStrength = range / 425;
+            double pullDistance = dragStrength * (initYpos - mouseEvent.getSceneY());
             switch (dragArea) {
                 case "top":
-                    upperBound.set(currentUpperBound - dragStrength * (initYpos - mouseEvent.getSceneY()));
+                    upperBound.set(currentUpperBound - pullDistance);
                     break;
                 case "middle":
-                    upperBound.set(currentUpperBound - dragStrength * (initYpos - mouseEvent.getSceneY()));
-                    lowerBound.set(currentLowerBound - dragStrength * (initYpos - mouseEvent.getSceneY()));
+                    upperBound.set(currentUpperBound - pullDistance);
+                    lowerBound.set(currentLowerBound - pullDistance);
                     break;
                 case "bottom":
-                    lowerBound.set(currentLowerBound - dragStrength * (initYpos - mouseEvent.getSceneY()));
+                    lowerBound.set(currentLowerBound - pullDistance);
                     break;
             }
             initYpos = mouseEvent.getSceneY();
@@ -160,125 +172,7 @@ public class ChartActions {
         return yAxis;
     }
 
-    public static void cutLeft(double deltaLeft,
-                               XYChart.Data<LocalDateTime, Float> lastData,
-                               XYChart.Series series, List dataPointRemovedFromBack,
-                               String lastEarliestValue) {
-
-        Date filterDate = new Date();
-        Date currentDate = new Date();
-        try {
-            filterDate = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS").parse(lastEarliestValue);
-            currentDate = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm").parse((String.valueOf(lastData.getXValue())));
-        } catch (ParseException e) {
-            try {
-                filterDate = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm").parse(lastEarliestValue);
-            } catch (ParseException e1) {
-                e1.printStackTrace();
-            }
-        }
-
-        try{
-            if (deltaLeft < 0) {
-                while (filterDate.getTime() > currentDate.getTime()) {
-                    if (series.getData().size() > 2) {
-                        XYChart.Data<LocalDateTime, Float> data = (XYChart.Data<LocalDateTime, Float>) series.getData().get(0);
-                        dataPointRemovedFromBack.add(data);
-                        series.getData().remove(0);
-                        lastData = (XYChart.Data<LocalDateTime, Float>) series.getData().get(1);
-                        try {
-                            currentDate = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm").parse((String.valueOf(lastData.getXValue())));
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                    }else{
-                        return;
-                    }
-                }
-            } else if (deltaLeft > 0) {
-                while (filterDate.getTime() < currentDate.getTime()) {
-                    if (dataPointRemovedFromBack.size() == 0) return;
-                    XYChart.Data<LocalDateTime, Float> backData =(XYChart.Data) dataPointRemovedFromBack.get(dataPointRemovedFromBack.size() - 1);
-                    dataPointRemovedFromBack.remove(backData);
-                    String dateBack = String.valueOf(backData.getXValue());
-                    Float valueBack = backData.getYValue();
-
-                    series.getData().add(0, new XYChart.Data(backData.getXValue(), valueBack));
-                    lastData = (XYChart.Data<LocalDateTime, Float>) series.getData().get(0);
-                    try {
-                        currentDate = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm").parse((String.valueOf(lastData.getXValue())));
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-
-        }catch (Exception e){
-
-        }
-    }
-
-    public static void cutRight(double deltaRight,
-                                XYChart.Data<LocalDateTime, Float> firstDate,
-                                XYChart.Series series,
-                                List dataPointsRemovedFromFront,
-                                String lastLatestValue) {
-
-        Date filterDate = new Date();
-        Date currentDate = new Date();
-        try {
-            filterDate = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS").parse((lastLatestValue));
-            currentDate = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm").parse((String.valueOf(firstDate.getXValue())));
-        } catch (ParseException e) {
-            try {
-                filterDate = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm").parse((lastLatestValue));
-            } catch (ParseException e1) {
-            }
-        }
-        try {
-            if (deltaRight > 0) {
-                while (filterDate.getTime() < currentDate.getTime()) {
-                    if (series.getData().size() > 2){
-                        XYChart.Data<LocalDateTime, Float> data = (XYChart.Data<LocalDateTime, Float>) series.getData().get(series.getData().size() - 1);
-                        dataPointsRemovedFromFront.add(data);
-                        series.getData().remove(data);
-                        firstDate = (XYChart.Data<LocalDateTime, Float>) series.getData().get(series.getData().size() - 2);
-                        try {
-                            currentDate = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm").parse((String.valueOf(firstDate.getXValue())));
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                    }else{
-                        return;
-                    }
-                }
-            } else if (deltaRight < 0) {
-                while (filterDate.getTime() > currentDate.getTime()) {
-                    if (dataPointsRemovedFromFront.size() == 0) return;
-                    XYChart.Data<LocalDateTime, Float> frontData =  (XYChart.Data) dataPointsRemovedFromFront.get(dataPointsRemovedFromFront.size() - 1);
-                    dataPointsRemovedFromFront.remove(frontData);
-                    String dateFront = String.valueOf(frontData.getXValue());
-                    Float valueFront = frontData.getYValue();
-                    series.getData().add(new XYChart.Data(frontData.getXValue(), valueFront));
-                    try {
-                        currentDate = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm").parse((String.valueOf(frontData.getXValue())));
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-
-        }catch (Exception e){
-
-        }
-    }
-
-
-    public static void setChartsLowerBound(LocalDateTime localDateTimeStart,
-                                     LineChart firstSelectionChart,
-                                     LineChart secondSelectionChart,
-                                     NumberAxis firstSelectionYAxis,
-                                     NumberAxis secondSelectionYAxis,
+    public static void setChartsLowerBound(LocalDateTime localDateTimeStart, LineChart firstSelectionChart, LineChart secondSelectionChart, NumberAxis firstSelectionYAxis, NumberAxis secondSelectionYAxis,
                                      AreaChart diffBarChart) {
         DateAxis310 firstSelectionChartXAxis = (DateAxis310) firstSelectionChart.getXAxis();
         firstSelectionChartXAxis.setAutoRanging(false);
@@ -299,12 +193,8 @@ public class ChartActions {
         ((NumberAxis) diffBarChart.getYAxis()).setAutoRanging(true);
     }
 
-    public static void setChartsUpperBound(LocalDateTime localDateTimeFinish,
-                                     LineChart firstSelectionChart,
-                                     LineChart secondSelectionChart,
-                                     NumberAxis firstSelectionYAxis,
-                                     NumberAxis secondSelectionYAxis,
-                                     AreaChart diffBarChart) {
+    public static void setChartsUpperBound(LocalDateTime localDateTimeFinish, LineChart firstSelectionChart, LineChart secondSelectionChart, NumberAxis firstSelectionYAxis, NumberAxis secondSelectionYAxis,
+                                           AreaChart diffBarChart) {
         DateAxis310 firstSelectionChartXAxis = (DateAxis310) firstSelectionChart.getXAxis();
         firstSelectionChartXAxis.setAutoRanging(false);
         firstSelectionChartXAxis.setUpperBound(localDateTimeFinish);
@@ -323,4 +213,18 @@ public class ChartActions {
         ((NumberAxis) diffBarChart.getYAxis()).setAutoRanging(true);
     }
 
+    public static XYChart.Data createChartData(Item item) {
+        return new XYChart.Data(LocalDateTime.parse(Main.toUtcDate(item.getPrice_date())) , Float.valueOf(item.getPrice()));
+    }
+
+    public static void turnOffPickOnBoundsFor(Node n) {
+        n.setPickOnBounds(false);
+        if (n instanceof Parent) {
+            for (Node c: ((Parent) n).getChildrenUnmodifiable()) {
+                if (!(c instanceof Axis)){
+                    turnOffPickOnBoundsFor(c);
+                }
+            }
+        }
+    }
 }

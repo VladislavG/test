@@ -1,30 +1,13 @@
 .root {
-    /*-fx-background-color: #474747;*/
 }
 
 .label {
-    /*-fx-text-fill: white;*/
     -fx-effect: dropshadow(two-pass-box, white, 1, 0, 0, 0);
 
 }
 
-/*.split-pane{*/
-    /*-fx-background-color: #474747;*/
-/*}*/
-
-/*.chart {*/
-    /*-fx-background-color: #474747;*/
-/*}*/
-
-/*.chart-legend{*/
-    /*-fx-background-color: #474747;*/
-    /*-fx-text-fill: #474747;*/
-    /*-fx-fill: #474747;*/
-/*}*/
-
 .chart-title {
     -fx-font-size: 1.4em;
-    /*-fx-text-fill: white;*/
 }
 
 .chart-series-line {
@@ -39,6 +22,7 @@
     -fx-background-insets: 0, 2;
     -fx-effect: dropshadow(two-pass-box, white, 1, 0, 0, 0);
 }
+
 .chart-line-symbol:hover {
     -fx-effect: dropshadow(two-pass-box, black, 10, 0, 0, 0);
 }
@@ -52,15 +36,28 @@
 }
 
 .button {
-    -fx-background-color: linear-gradient(#ff5400, #EE3224);
+    -fx-background-color: linear-gradient(#ea3224, #ef5100);
     -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.4) , 5, 0.0 , 0 , 1 );
     -fx-background-radius: 30;
     -fx-background-insets: 0;
     -fx-text-fill: white;
 }
 
+.button-unzoom {
+    -fx-background-color:
+        linear-gradient(#ffef84, #f2ba44),
+        linear-gradient(#ffea6a, #efaa22),
+        linear-gradient(#ffe657 0%, #f8c202 50%, #eea10b 100%);
+}
+.button-unzoom:hover {
+    -fx-background-color:
+        linear-gradient(#f4e57e, #e7b241),
+        linear-gradient(#f2de65, #e2a120),
+        linear-gradient(#efd852 0%, #f8c202 50%, #e59b0b 100%);
+}
+
 .button2 {
-    -fx-background-color: linear-gradient(#ffd65b, #ff9900);
+    -fx-background-color: linear-gradient(#1456ef, #3683ea);
 }
 
 .button:hover {
@@ -72,12 +69,10 @@
 }
 
 .button2:hover {
-    -fx-background-color: linear-gradient(#f1c85a, #e07f00);
+    -fx-background-color: linear-gradient(#1451dc, #3272d1);
 }
 
-
 .b2 {
-
 
 -fx-font-family: Tahoma;
 -fx-font-size: 12px;
@@ -93,21 +88,28 @@ linear-gradient(#dddddd 0%, #f6f6f6 50%);
 
 .axis {
     -fx-font-size: 1em;
-    /*-fx-tick-label-fill: white;*/
     -fx-font-family: Tahoma;
     -fx-tick-length: 3;
     -fx-minor-tick-length: 0;
     -fx-effect: dropshadow(two-pass-box, white, 1, 0, 0, 0);
 }
 
-.chart-series-lineSecond { -fx-stroke: #e68400;
+.chart-series-lineSecond {
+    -fx-stroke: #1456ef;
+}
+.chart-symbol2 {
+    -fx-background-color: #1456ef, white;
+    -fx-background-insets: 0, 2;
+    -fx-background-radius: 5px;
+    -fx-padding: 5px;
 }
 
-.chart-series-lineFirst { -fx-stroke: #EE3224;
+.chart-series-lineFirst {
+    -fx-stroke: #EE3224;
 }
 
 .list-view3 {
-    -fx-background-color:  linear-gradient(#ef5100, #ea3224);
+    -fx-background-color:  linear-gradient(#ea3224, #ef5100);
 }
 
 .axis-tick-mark {
@@ -120,7 +122,6 @@ linear-gradient(#dddddd 0%, #f6f6f6 50%);
     -fx-background-color: dodgerblue;
 
 }
-
 
 .progress-bar > .bar {
     -fx-background-color: linear-gradient(
@@ -142,10 +143,8 @@ linear-gradient(#dddddd 0%, #f6f6f6 50%);
 }
 
 .list-view2 {
-    -fx-background-color: linear-gradient(#f1c85a, #e07f00);
+    -fx-background-color: linear-gradient(#1456ef, #3683ea);
 }
-
-
 
 .line {
     -fx-effect: dropshadow(two-pass-box, white, 1, 0, 0, 0);
@@ -155,54 +154,54 @@ linear-gradient(#dddddd 0%, #f6f6f6 50%);
     -fx-padding: 0.8em 0em 0.8em 0.3em;
     -fx-text-fill: #212121;
     -fx-font: 12px "Segoe UI";
+
 }
 .list-view2:focused {
-    -fx-background-color: -fx-box-border,-fx-box-border,linear-gradient(#f1c85a, #e07f00);
+    -fx-background-color: -fx-box-border,-fx-box-border,linear-gradient(#1456ef, #3683ea);
 }
 .list-view3:focused {
-    -fx-background-color: -fx-box-border,-fx-box-border,linear-gradient(#ef5100, #ea3224);
+    -fx-background-color: -fx-box-border,-fx-box-border,linear-gradient(#ea3224, #ef5100);
 }
 .list-view .list-cell:empty:hover {
     -fx-background-color: white;
 }
 .list-view2 .list-cell:hover {
-    -fx-background-color: -fx-box-border,linear-gradient(#f1c85a, #e07f00);
+    -fx-background-color: -fx-box-border,linear-gradient(#1456ef, #3683ea);
 }
 .list-view2.list-cell:filled:selected:hover {
-    -fx-background-color: -fx-box-border, linear-gradient(#f1c85a, #e07f00);
+    -fx-background-color: -fx-box-border, linear-gradient(#1456ef, #3683ea);
 }
 .list-view2:focused .list-cell:focused {
     -fx-background-color: -fx-box-border, white;
 }
 .list-view2:focused .list-cell:focused:hover {
-    -fx-background-color: -fx-box-border, linear-gradient(#f1c85a, #e07f00);
+    -fx-background-color: -fx-box-border, linear-gradient(#1456ef, #3683ea);
 }
 .list-view2:focused .list-cell:filled:focused:selected,
 
 .list-view2:focused .list-cell:filled:focused:selected:hover {
-    -fx-background-color: -fx-box-border, linear-gradient(#f1c85a, #e07f00);
+    -fx-background-color: -fx-box-border, linear-gradient(#1456ef, #3683ea);
 }
 
 .list-view3 .list-cell:hover {
-    -fx-background-color: -fx-box-border,linear-gradient(#ef5100, #ea3224);
+    -fx-background-color: -fx-box-border,linear-gradient(#ea3224, #ef5100);
 }
 .list-view3.list-cell:filled:selected:hover {
-    -fx-background-color: -fx-box-border, linear-gradient(#ef5100, #ea3224);
+    -fx-background-color: -fx-box-border, linear-gradient(#ea3224, #ef5100);
 }
 .list-view3:focused .list-cell:focused {
     -fx-background-color: -fx-box-border, white;
 }
 .list-view3:focused .list-cell:focused:hover {
-    -fx-background-color: -fx-box-border, linear-gradient(#ef5100, #ea3224);
+    -fx-background-color: -fx-box-border, linear-gradient(#ea3224, #ef5100);
 }
 .list-view3:focused .list-cell:filled:focused:selected,
 .list-view3:focused .list-cell:filled:focused:selected:hover {
-    -fx-background-color: -fx-box-border, linear-gradient(#ef5100, #ea3224);
+    -fx-background-color: -fx-box-border, linear-gradient(#ea3224, #ef5100);
 }
 
-
 .list-cell:filled:selected:focused, .list-cell:filled:selected {
-    -fx-background-color: -fx-box-border,rgb(205,205,205);
+    -fx-background-color: -fx-box-border, rgb(198, 198, 198);
 }
 .list-cell:expanded .list-disclosure-node .arrow {
     -fx-rotate: 180;
@@ -229,6 +228,9 @@ linear-gradient(#dddddd 0%, #f6f6f6 50%);
     -fx-background-color: orange,white;
 }
 .default-color0.chart-series-area-fill { -fx-fill: transparent}
+
+.chart-series-line-overview2 { -fx-stroke: linear-gradient(#1456ef, #3683ea); }
+.chart-series-line-overview { -fx-stroke: linear-gradient(#ea3224, #ef5100); }
 
 
 
