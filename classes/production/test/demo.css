@@ -5,9 +5,6 @@
     -fx-effect: dropshadow(two-pass-box, white, 1, 0, 0, 0);
 
 }
-.scroll-bar {
-    -fx-background-radius: 15;
-}
 
 .chart-title {
     -fx-font-size: 1.4em;
@@ -46,25 +43,18 @@
     -fx-text-fill: white;
 }
 
-.button-unzoom {
+.button3 {
     -fx-background-color:
-        linear-gradient(#ffef84, #f2ba44),
-        linear-gradient(#ffea6a, #efaa22),
-        linear-gradient(#ffe657 0%, #f8c202 50%, #eea10b 100%);
+        linear-gradient(#f2ba44, #ffef84),
+        linear-gradient(#efaa22, #ffea6a),
+        linear-gradient(#eea10b 100%, #f8c202 50%, #ffe657 0%);
 }
-.button-unzoom:hover {
-    -fx-background-color:
-        linear-gradient(#f4e57e, #e7b241),
-        linear-gradient(#f2de65, #e2a120),
-        linear-gradient(#efd852 0%, #f8c202 50%, #e59b0b 100%);
-}
-
 .button2 {
     -fx-background-color: linear-gradient(#1456ef, #3683ea);
 }
 
 .button:hover {
-    -fx-background-color: linear-gradient(#dd4b00, #d13124);
+    -fx-background-color: linear-gradient(#d13124, #dd4b00);
     -fx-background-radius: 30;
     -fx-background-insets: 0;
     -fx-text-fill: white;
@@ -73,6 +63,13 @@
 
 .button2:hover {
     -fx-background-color: linear-gradient(#1451dc, #3272d1);
+}
+
+.button3:hover {
+    -fx-background-color:
+        linear-gradient(#dfac3f, #ecdd78),
+        linear-gradient(#d7991e, #e5d260),
+        linear-gradient( #dd960b 100%, #f1bd02 50%, #e8d250 0%);
 }
 
 .b2 {
@@ -113,7 +110,6 @@ linear-gradient(#dddddd 0%, #f6f6f6 50%);
 
 .list-view3 {
     -fx-background-color:  linear-gradient(#ea3224, #ef5100);
-    -fx-background-radius: 15;
 }
 
 .axis-tick-mark {
@@ -148,7 +144,6 @@ linear-gradient(#dddddd 0%, #f6f6f6 50%);
 
 .list-view2 {
     -fx-background-color: linear-gradient(#1456ef, #3683ea);
-    -fx-background-radius: 15;
 }
 
 .line {
@@ -159,6 +154,7 @@ linear-gradient(#dddddd 0%, #f6f6f6 50%);
     -fx-padding: 0.8em 0em 0.8em 0.3em;
     -fx-text-fill: #212121;
     -fx-font: 12px "Segoe UI";
+
 }
 .list-view2:focused {
     -fx-background-color: -fx-box-border,-fx-box-border,linear-gradient(#1456ef, #3683ea);
@@ -205,7 +201,7 @@ linear-gradient(#dddddd 0%, #f6f6f6 50%);
 }
 
 .list-cell:filled:selected:focused, .list-cell:filled:selected {
-    -fx-background-color: -fx-box-border,rgb(205,205,205);
+    -fx-background-color: -fx-box-border, rgb(198, 198, 198);
 }
 .list-cell:expanded .list-disclosure-node .arrow {
     -fx-rotate: 180;

@@ -2,8 +2,6 @@ package solrTest;
 
 import com.sun.javafx.charts.Legend;
 import javafx.beans.property.SimpleDoubleProperty;
-import javafx.collections.FXCollections;
-import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Bounds;
 import javafx.scene.Node;
@@ -11,22 +9,16 @@ import javafx.scene.Parent;
 import javafx.scene.chart.*;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import javafx.scene.effect.InnerShadow;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Path;
 import javafx.scene.text.Text;
 import org.apache.solr.client.solrj.SolrServerException;
 
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.function.Consumer;
 
 import static java.time.temporal.ChronoUnit.DAYS;
@@ -65,7 +57,7 @@ public class ChartActions {
                                  ((Label) node).getChildrenUnmodifiable().forEach(new Consumer<Node>() {
                                      @Override
                                      public void accept(Node node) {
-                                         if (node instanceof Region){
+                                         if (node instanceof Region) {
                                              node.getStyleClass().add(pathStyleClassMark);
                                          }
                                      }
@@ -232,8 +224,8 @@ public class ChartActions {
         ((NumberAxis) diffBarChart.getYAxis()).setAutoRanging(true);
     }
 
-    public static XYChart.Data createChartData(Item item) {
-        return new XYChart.Data(LocalDateTime.parse(Main.toUtcDate(item.getPrice_date())) , Float.valueOf(item.getPrice()));
+    public static XYChart.Data createChartDataFrom(Price price) {
+        return new XYChart.Data(LocalDateTime.parse(Main.toUtcDate(price.getPrice_date())) , Float.valueOf(price.getPrice()));
     }
 
     public static void turnOffPickOnBoundsFor(Node n) {

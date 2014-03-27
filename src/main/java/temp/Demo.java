@@ -108,8 +108,6 @@ public class Demo extends Application {
 
                     node.setOnMouseEntered(mouseEvent -> {
                         label.setText(DTF.format(dataPoint.getXValue()) + "\n" + dataPoint.getYValue() + " °C");
-                        popup.setX(mouseEvent.getScreenX() + 20);
-                        popup.setY(mouseEvent.getScreenY() - 20);
                         popup.show(SERIES.getNode().getScene().getWindow());
                     });
 

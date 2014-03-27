@@ -174,5 +174,13 @@ public class SeriesActions {
         }
     }
 
+    public static XYChart.Data<LocalDateTime, Float> getSecondToLatestPointIn(XYChart.Series series) {
+        int secondToLastIndex = series.getData().size() - 2;
+        return (XYChart.Data<LocalDateTime, Float>) series.getData().get(secondToLastIndex);
+    }
+
+    public static XYChart.Data<LocalDateTime, Float> getSecondPointIn(XYChart.Series series) {
+        return (XYChart.Data<LocalDateTime, Float>) series.getData().get(1);
+    }
 
 }

@@ -469,13 +469,13 @@ public class SolrService {
         return allShortNames;
     }
 
-    public static Item getResultsFromId(String id) throws SolrServerException, FileNotFoundException, IOException {
+    public static Price getResultsFromId(String id) throws SolrServerException, FileNotFoundException, IOException {
         SolrService solrService = new SolrService();
         solrServer = solrService.getSolrServer();
 
         SolrQuery solrQuery;
         solrQuery = new SolrQuery("id:" + id);
-        Item item = new Item();
+        Price price = new Price();
         solrQuery.setStart(0);                          //startign index
         solrQuery.setRows(1);                          //number of rows
         solrQuery.addSort("price_date", SolrQuery.ORDER.asc);
@@ -489,74 +489,74 @@ public class SolrService {
 
         SolrDocumentList results = response.getResults();
         for (SolrDocument result : results) {
-            item.setId(String.valueOf(result.getFieldValue("id")));
+            price.setId(String.valueOf(result.getFieldValue("id")));
 
-            item.setPrice(String.valueOf(result.getFieldValue("price")));
+            price.setPrice(String.valueOf(result.getFieldValue("price")));
             try{
-                item.setPrice_date(String.valueOf(result.getFieldValue("price_date")));
+                price.setPrice_date(String.valueOf(result.getFieldValue("price_date")));
             }catch (Exception e){
-                item.setPrice_date(null);
+                price.setPrice_date(null);
             }
-            item.setQuality_status(String.valueOf(result.getFieldValue("quality_status")));
-            item.setSeries(String.valueOf(result.getFieldValue("series")));
-            item.setActive(String.valueOf(result.getFieldValue("active")));
-            item.setCurrency(String.valueOf(result.getFieldValue("currency")));
-            item.setDelivery_frequency(String.valueOf(result.getFieldValue("delivery_frequency")));
-            item.setDelivery_frequency_description(String.valueOf(result.getFieldValue("delivery_frequency_description")));
-            item.setFull_export_pars(String.valueOf(result.getFieldValue("full_export_pars")));
-            item.setFull_export_risk(String.valueOf(result.getFieldValue("full_export_risk")));
-            item.setIm_price(String.valueOf(result.getFieldValue("im_price")));
-            item.setIm_price_description(String.valueOf(result.getFieldValue("im_price_desc")));
-            item.setIm_price_short_description(String.valueOf(result.getFieldValue("im_price_short_description")));
-            item.setInitial_load(String.valueOf(result.getFieldValue("initial_load")));
-            item.setInstrument(String.valueOf(result.getFieldValue("instrument")));
-            item.setIs_derived(String.valueOf(result.getFieldValue("is_derived")));
-            item.setIs_imi_internal(String.valueOf(result.getFieldValue("is_imi_internal")));
-            item.setOrder_id(String.valueOf(result.getFieldValue("order_id")));
-            item.setProvider(String.valueOf(result.getFieldValue("provider")));
-            item.setProvider_price(String.valueOf(result.getFieldValue("provider_price")));
-            item.setResearch_id(String.valueOf(result.getFieldValue("research_id")));
-            item.setUnit_series(String.valueOf(result.getFieldValue("unit_series")));
-            item.setCreation_date_instrument(String.valueOf(result.getFieldValue("creation_date_instrument")));
-            item.setExpiration(String.valueOf(result.getFieldValue("expiration")));
-            item.setIsin(String.valueOf(result.getFieldValue("isin")));
-            item.setSsp_fi(String.valueOf(result.getFieldValue("ssp_fi")));
-            item.setValor(String.valueOf(result.getFieldValue("valor")));
-            item.setIm_status(String.valueOf(result.getFieldValue("im_status")));
-            item.setFo_type(String.valueOf(result.getFieldValue("fo_type")));
-            item.setIm_internal(String.valueOf(result.getFieldValue("im_internal")));
-            item.setPlaceholder(String.valueOf(result.getFieldValue("placeholder")));
-            item.setTkt(String.valueOf(result.getFieldValue("tkt")));
-            item.setTradeable(String.valueOf(result.getFieldValue("tradeable")));
-            item.setUbs_relevant(String.valueOf(result.getFieldValue("ubs_relevant")));
-            item.setUbs_tc(String.valueOf(result.getFieldValue("ubs_tc")));
-            item.setUbs_tcadd(String.valueOf(result.getFieldValue("ubs_tcadd")));
-            item.setIssue_price_currency(String.valueOf(result.getFieldValue("issue_price_currency")));
-            item.setUnit_series_description(String.valueOf(result.getFieldValue("unit_series_description")));
-            item.setUnit_instrument(String.valueOf(result.getFieldValue("unit_instrument")));
-            item.setDelivery_frequency_description(String.valueOf(result.getFieldValue("delivery_frequency_description")));
-            item.setProvider_description(String.valueOf(result.getFieldValue("data_provider_short_description")));
-            item.setProvider_price_short_description(String.valueOf(result.getFieldValue("provider_price_short_description")));
-            item.setExpiration_description(String.valueOf(result.getFieldValue("expiration_description")));
-            item.setIm_status_long_description(String.valueOf(result.getFieldValue("im_status_long_description")));
-            item.setIm_status_short_description(String.valueOf(result.getFieldValue("im_status_short_description")));
-            item.setProvider_status_description(String.valueOf(result.getFieldValue("provider_status_description")));
-            item.setTkt_description(String.valueOf(result.getFieldValue("tkt_description")));
-            item.setTradeable_description(String.valueOf(result.getFieldValue("tradeable_description")));
-            item.setUnit_instrument_description(String.valueOf(result.getFieldValue("unit_instrument_description")));
-            item.setLong_name(String.valueOf(result.getFieldValue("long_name")));
-            item.setMarketing_long_name(String.valueOf(result.getFieldValue("marketing_long_name")));
-            item.setMarketing_short_name(String.valueOf(result.getFieldValue("marketing_short_name")));
-            item.setMinimal_denomination(String.valueOf(result.getFieldValue("minimal_denomination")));
-            item.setNominal_amount(String.valueOf(result.getFieldValue("nominal_amount")));
-            item.setNominal_currency(String.valueOf(result.getFieldValue("nominal_currency")));
-            item.setShort_name(String.valueOf(result.getFieldValue("short_name")));
+            price.setQuality_status(String.valueOf(result.getFieldValue("quality_status")));
+            price.setSeries(String.valueOf(result.getFieldValue("series")));
+            price.setActive(String.valueOf(result.getFieldValue("active")));
+            price.setCurrency(String.valueOf(result.getFieldValue("currency")));
+            price.setDelivery_frequency(String.valueOf(result.getFieldValue("delivery_frequency")));
+            price.setDelivery_frequency_description(String.valueOf(result.getFieldValue("delivery_frequency_description")));
+            price.setFull_export_pars(String.valueOf(result.getFieldValue("full_export_pars")));
+            price.setFull_export_risk(String.valueOf(result.getFieldValue("full_export_risk")));
+            price.setIm_price(String.valueOf(result.getFieldValue("im_price")));
+            price.setIm_price_description(String.valueOf(result.getFieldValue("im_price_desc")));
+            price.setIm_price_short_description(String.valueOf(result.getFieldValue("im_price_short_description")));
+            price.setInitial_load(String.valueOf(result.getFieldValue("initial_load")));
+            price.setInstrument(String.valueOf(result.getFieldValue("instrument")));
+            price.setIs_derived(String.valueOf(result.getFieldValue("is_derived")));
+            price.setIs_imi_internal(String.valueOf(result.getFieldValue("is_imi_internal")));
+            price.setOrder_id(String.valueOf(result.getFieldValue("order_id")));
+            price.setProvider(String.valueOf(result.getFieldValue("provider")));
+            price.setProvider_price(String.valueOf(result.getFieldValue("provider_price")));
+            price.setResearch_id(String.valueOf(result.getFieldValue("research_id")));
+            price.setUnit_series(String.valueOf(result.getFieldValue("unit_series")));
+            price.setCreation_date_instrument(String.valueOf(result.getFieldValue("creation_date_instrument")));
+            price.setExpiration(String.valueOf(result.getFieldValue("expiration")));
+            price.setIsin(String.valueOf(result.getFieldValue("isin")));
+            price.setSsp_fi(String.valueOf(result.getFieldValue("ssp_fi")));
+            price.setValor(String.valueOf(result.getFieldValue("valor")));
+            price.setIm_status(String.valueOf(result.getFieldValue("im_status")));
+            price.setFo_type(String.valueOf(result.getFieldValue("fo_type")));
+            price.setIm_internal(String.valueOf(result.getFieldValue("im_internal")));
+            price.setPlaceholder(String.valueOf(result.getFieldValue("placeholder")));
+            price.setTkt(String.valueOf(result.getFieldValue("tkt")));
+            price.setTradeable(String.valueOf(result.getFieldValue("tradeable")));
+            price.setUbs_relevant(String.valueOf(result.getFieldValue("ubs_relevant")));
+            price.setUbs_tc(String.valueOf(result.getFieldValue("ubs_tc")));
+            price.setUbs_tcadd(String.valueOf(result.getFieldValue("ubs_tcadd")));
+            price.setIssue_price_currency(String.valueOf(result.getFieldValue("issue_price_currency")));
+            price.setUnit_series_description(String.valueOf(result.getFieldValue("unit_series_description")));
+            price.setUnit_instrument(String.valueOf(result.getFieldValue("unit_instrument")));
+            price.setDelivery_frequency_description(String.valueOf(result.getFieldValue("delivery_frequency_description")));
+            price.setProvider_description(String.valueOf(result.getFieldValue("data_provider_short_description")));
+            price.setProvider_price_short_description(String.valueOf(result.getFieldValue("provider_price_short_description")));
+            price.setExpiration_description(String.valueOf(result.getFieldValue("expiration_description")));
+            price.setIm_status_long_description(String.valueOf(result.getFieldValue("im_status_long_description")));
+            price.setIm_status_short_description(String.valueOf(result.getFieldValue("im_status_short_description")));
+            price.setProvider_status_description(String.valueOf(result.getFieldValue("provider_status_description")));
+            price.setTkt_description(String.valueOf(result.getFieldValue("tkt_description")));
+            price.setTradeable_description(String.valueOf(result.getFieldValue("tradeable_description")));
+            price.setUnit_instrument_description(String.valueOf(result.getFieldValue("unit_instrument_description")));
+            price.setLong_name(String.valueOf(result.getFieldValue("long_name")));
+            price.setMarketing_long_name(String.valueOf(result.getFieldValue("marketing_long_name")));
+            price.setMarketing_short_name(String.valueOf(result.getFieldValue("marketing_short_name")));
+            price.setMinimal_denomination(String.valueOf(result.getFieldValue("minimal_denomination")));
+            price.setNominal_amount(String.valueOf(result.getFieldValue("nominal_amount")));
+            price.setNominal_currency(String.valueOf(result.getFieldValue("nominal_currency")));
+            price.setShort_name(String.valueOf(result.getFieldValue("short_name")));
         }
-        return item;
+        return price;
     }
 
 
-    public static List<Item> getResults(String startDate, String endDate, String instrument, String series)throws SolrServerException, FileNotFoundException, IOException  {
+    public static List<Price> getResults(String startDate, String endDate, String instrument, String series)throws SolrServerException, FileNotFoundException, IOException  {
 
         SolrService solrService = new SolrService();
         solrServer = solrService.getSolrServer();
@@ -571,7 +571,7 @@ public class SolrService {
         solrQuery.setStart(0);                          //startign index
         solrQuery.setRows(1000);                          //number of rows
         solrQuery.addSort("price_date", SolrQuery.ORDER.asc);
-        List<Item> list = new ArrayList<Item>();
+        List<Price> list = new ArrayList<Price>();
 
         QueryResponse response = null;
         solrQuery.addFacetField("instrument");
@@ -597,70 +597,70 @@ public class SolrService {
 
         SolrDocumentList results = response.getResults();
         for (SolrDocument result : results) {
-            Item item = new Item();
-            item.setId(String.valueOf(result.getFieldValue("id")));
+            Price price = new Price();
+            price.setId(String.valueOf(result.getFieldValue("id")));
 
-            item.setPrice(String.valueOf(result.getFieldValue("price")));
+            price.setPrice(String.valueOf(result.getFieldValue("price")));
             try{
-                item.setPrice_date(String.valueOf(result.getFieldValue("price_date")));
+                price.setPrice_date(String.valueOf(result.getFieldValue("price_date")));
             }catch (Exception e){
-                item.setPrice_date(null);
+                price.setPrice_date(null);
             }
-            item.setQuality_status(String.valueOf(result.getFieldValue("quality_status")));
-            item.setSeries(String.valueOf(result.getFieldValue("series")));
-            item.setActive(String.valueOf(result.getFieldValue("active")));
-            item.setCurrency(String.valueOf(result.getFieldValue("currency")));
-            item.setDelivery_frequency(String.valueOf(result.getFieldValue("delivery_frequency")));
-            item.setDelivery_frequency_description(String.valueOf(result.getFieldValue("delivery_frequency_description")));
-            item.setFull_export_pars(String.valueOf(result.getFieldValue("full_export_pars")));
-            item.setFull_export_risk(String.valueOf(result.getFieldValue("full_export_risk")));
-            item.setIm_price(String.valueOf(result.getFieldValue("im_price")));
-            item.setIm_price_description(String.valueOf(result.getFieldValue("im_price_desc")));
-            item.setIm_price_short_description(String.valueOf(result.getFieldValue("im_price_short_description")));
-            item.setInitial_load(String.valueOf(result.getFieldValue("initial_load")));
-            item.setInstrument(String.valueOf(result.getFieldValue("instrument")));
-            item.setIs_derived(String.valueOf(result.getFieldValue("is_derived")));
-            item.setIs_imi_internal(String.valueOf(result.getFieldValue("is_imi_internal")));
-            item.setOrder_id(String.valueOf(result.getFieldValue("order_id")));
-            item.setProvider(String.valueOf(result.getFieldValue("provider")));
-            item.setProvider_price(String.valueOf(result.getFieldValue("provider_price")));
-            item.setResearch_id(String.valueOf(result.getFieldValue("research_id")));
-            item.setUnit_series(String.valueOf(result.getFieldValue("unit_series")));
-            item.setCreation_date_instrument(String.valueOf(result.getFieldValue("creation_date_instrument")));
-            item.setExpiration(String.valueOf(result.getFieldValue("expiration")));
-            item.setIsin(String.valueOf(result.getFieldValue("isin")));
-            item.setSsp_fi(String.valueOf(result.getFieldValue("ssp_fi")));
-            item.setValor(String.valueOf(result.getFieldValue("valor")));
-            item.setIm_status(String.valueOf(result.getFieldValue("im_status")));
-            item.setFo_type(String.valueOf(result.getFieldValue("fo_type")));
-            item.setIm_internal(String.valueOf(result.getFieldValue("im_internal")));
-            item.setPlaceholder(String.valueOf(result.getFieldValue("placeholder")));
-            item.setTkt(String.valueOf(result.getFieldValue("tkt")));
-            item.setTradeable(String.valueOf(result.getFieldValue("tradeable")));
-            item.setUbs_relevant(String.valueOf(result.getFieldValue("ubs_relevant")));
-            item.setUbs_tc(String.valueOf(result.getFieldValue("ubs_tc")));
-            item.setUbs_tcadd(String.valueOf(result.getFieldValue("ubs_tcadd")));
-            item.setIssue_price_currency(String.valueOf(result.getFieldValue("issue_price_currency")));
-            item.setUnit_series_description(String.valueOf(result.getFieldValue("unit_series_description")));
-            item.setUnit_instrument(String.valueOf(result.getFieldValue("unit_instrument")));
-            item.setDelivery_frequency_description(String.valueOf(result.getFieldValue("delivery_frequency_description")));
-            item.setProvider_description(String.valueOf(result.getFieldValue("data_provider_short_description")));
-            item.setProvider_price_short_description(String.valueOf(result.getFieldValue("provider_price_short_description")));
-            item.setExpiration_description(String.valueOf(result.getFieldValue("expiration_description")));
-            item.setIm_status_long_description(String.valueOf(result.getFieldValue("im_status_long_description")));
-            item.setIm_status_short_description(String.valueOf(result.getFieldValue("im_status_short_description")));
-            item.setProvider_status_description(String.valueOf(result.getFieldValue("provider_status_description")));
-            item.setTkt_description(String.valueOf(result.getFieldValue("tkt_description")));
-            item.setTradeable_description(String.valueOf(result.getFieldValue("tradeable_description")));
-            item.setUnit_instrument_description(String.valueOf(result.getFieldValue("unit_instrument_description")));
-            item.setLong_name(String.valueOf(result.getFieldValue("long_name")));
-            item.setMarketing_long_name(String.valueOf(result.getFieldValue("marketing_long_name")));
-            item.setMarketing_short_name(String.valueOf(result.getFieldValue("marketing_short_name")));
-            item.setMinimal_denomination(String.valueOf(result.getFieldValue("minimal_denomination")));
-            item.setNominal_amount(String.valueOf(result.getFieldValue("nominal_amount")));
-            item.setNominal_currency(String.valueOf(result.getFieldValue("nominal_currency")));
-            item.setShort_name(String.valueOf(result.getFieldValue("short_name")));
-            list.add(item);
+            price.setQuality_status(String.valueOf(result.getFieldValue("quality_status")));
+            price.setSeries(String.valueOf(result.getFieldValue("series")));
+            price.setActive(String.valueOf(result.getFieldValue("active")));
+            price.setCurrency(String.valueOf(result.getFieldValue("currency")));
+            price.setDelivery_frequency(String.valueOf(result.getFieldValue("delivery_frequency")));
+            price.setDelivery_frequency_description(String.valueOf(result.getFieldValue("delivery_frequency_description")));
+            price.setFull_export_pars(String.valueOf(result.getFieldValue("full_export_pars")));
+            price.setFull_export_risk(String.valueOf(result.getFieldValue("full_export_risk")));
+            price.setIm_price(String.valueOf(result.getFieldValue("im_price")));
+            price.setIm_price_description(String.valueOf(result.getFieldValue("im_price_desc")));
+            price.setIm_price_short_description(String.valueOf(result.getFieldValue("im_price_short_description")));
+            price.setInitial_load(String.valueOf(result.getFieldValue("initial_load")));
+            price.setInstrument(String.valueOf(result.getFieldValue("instrument")));
+            price.setIs_derived(String.valueOf(result.getFieldValue("is_derived")));
+            price.setIs_imi_internal(String.valueOf(result.getFieldValue("is_imi_internal")));
+            price.setOrder_id(String.valueOf(result.getFieldValue("order_id")));
+            price.setProvider(String.valueOf(result.getFieldValue("provider")));
+            price.setProvider_price(String.valueOf(result.getFieldValue("provider_price")));
+            price.setResearch_id(String.valueOf(result.getFieldValue("research_id")));
+            price.setUnit_series(String.valueOf(result.getFieldValue("unit_series")));
+            price.setCreation_date_instrument(String.valueOf(result.getFieldValue("creation_date_instrument")));
+            price.setExpiration(String.valueOf(result.getFieldValue("expiration")));
+            price.setIsin(String.valueOf(result.getFieldValue("isin")));
+            price.setSsp_fi(String.valueOf(result.getFieldValue("ssp_fi")));
+            price.setValor(String.valueOf(result.getFieldValue("valor")));
+            price.setIm_status(String.valueOf(result.getFieldValue("im_status")));
+            price.setFo_type(String.valueOf(result.getFieldValue("fo_type")));
+            price.setIm_internal(String.valueOf(result.getFieldValue("im_internal")));
+            price.setPlaceholder(String.valueOf(result.getFieldValue("placeholder")));
+            price.setTkt(String.valueOf(result.getFieldValue("tkt")));
+            price.setTradeable(String.valueOf(result.getFieldValue("tradeable")));
+            price.setUbs_relevant(String.valueOf(result.getFieldValue("ubs_relevant")));
+            price.setUbs_tc(String.valueOf(result.getFieldValue("ubs_tc")));
+            price.setUbs_tcadd(String.valueOf(result.getFieldValue("ubs_tcadd")));
+            price.setIssue_price_currency(String.valueOf(result.getFieldValue("issue_price_currency")));
+            price.setUnit_series_description(String.valueOf(result.getFieldValue("unit_series_description")));
+            price.setUnit_instrument(String.valueOf(result.getFieldValue("unit_instrument")));
+            price.setDelivery_frequency_description(String.valueOf(result.getFieldValue("delivery_frequency_description")));
+            price.setProvider_description(String.valueOf(result.getFieldValue("data_provider_short_description")));
+            price.setProvider_price_short_description(String.valueOf(result.getFieldValue("provider_price_short_description")));
+            price.setExpiration_description(String.valueOf(result.getFieldValue("expiration_description")));
+            price.setIm_status_long_description(String.valueOf(result.getFieldValue("im_status_long_description")));
+            price.setIm_status_short_description(String.valueOf(result.getFieldValue("im_status_short_description")));
+            price.setProvider_status_description(String.valueOf(result.getFieldValue("provider_status_description")));
+            price.setTkt_description(String.valueOf(result.getFieldValue("tkt_description")));
+            price.setTradeable_description(String.valueOf(result.getFieldValue("tradeable_description")));
+            price.setUnit_instrument_description(String.valueOf(result.getFieldValue("unit_instrument_description")));
+            price.setLong_name(String.valueOf(result.getFieldValue("long_name")));
+            price.setMarketing_long_name(String.valueOf(result.getFieldValue("marketing_long_name")));
+            price.setMarketing_short_name(String.valueOf(result.getFieldValue("marketing_short_name")));
+            price.setMinimal_denomination(String.valueOf(result.getFieldValue("minimal_denomination")));
+            price.setNominal_amount(String.valueOf(result.getFieldValue("nominal_amount")));
+            price.setNominal_currency(String.valueOf(result.getFieldValue("nominal_currency")));
+            price.setShort_name(String.valueOf(result.getFieldValue("short_name")));
+            list.add(price);
         }
         int size = results.size()- 1;
 
@@ -668,7 +668,7 @@ public class SolrService {
     }
 
 
-    public static List<Item> getResultsOnInstrumentAndSeries(String instrument, String series)throws SolrServerException, FileNotFoundException, IOException  {
+    public static List<Price> getResultsOnInstrumentAndSeries(String instrument, String series)throws SolrServerException, FileNotFoundException, IOException  {
 
         SolrService solrService = new SolrService();
         solrServer = solrService.getSolrServer();
@@ -680,7 +680,7 @@ public class SolrService {
         solrQuery = new SolrQuery("series:" + series);
         solrQuery.setStart(0);                          //startign index
         solrQuery.setRows(1000);                          //number of rows
-        List<Item> list = new ArrayList<Item>();
+        List<Price> list = new ArrayList<Price>();
         solrQuery.addSort("price_date", SolrQuery.ORDER.asc);
 
 
@@ -698,70 +698,70 @@ public class SolrService {
         SolrDocumentList results = response.getResults();
 
         for (SolrDocument result : results) {
-            Item item = new Item();
-            item.setId(String.valueOf(result.getFieldValue("id")));
+            Price price = new Price();
+            price.setId(String.valueOf(result.getFieldValue("id")));
 
-            item.setPrice(String.valueOf(result.getFieldValue("price")));
+            price.setPrice(String.valueOf(result.getFieldValue("price")));
             try{
-                item.setPrice_date(String.valueOf(result.getFieldValue("price_date")));
+                price.setPrice_date(String.valueOf(result.getFieldValue("price_date")));
             }catch (Exception e){
-                item.setPrice_date(null);
+                price.setPrice_date(null);
             }
-            item.setQuality_status(String.valueOf(result.getFieldValue("quality_status")));
-            item.setSeries(String.valueOf(result.getFieldValue("series")));
-            item.setActive(String.valueOf(result.getFieldValue("active")));
-            item.setCurrency(String.valueOf(result.getFieldValue("currency")));
-            item.setDelivery_frequency(String.valueOf(result.getFieldValue("delivery_frequency")));
-            item.setDelivery_frequency_description(String.valueOf(result.getFieldValue("delivery_frequency_description")));
-            item.setFull_export_pars(String.valueOf(result.getFieldValue("full_export_pars")));
-            item.setFull_export_risk(String.valueOf(result.getFieldValue("full_export_risk")));
-            item.setIm_price(String.valueOf(result.getFieldValue("im_price")));
-            item.setIm_price_description(String.valueOf(result.getFieldValue("im_price_desc")));
-            item.setIm_price_short_description(String.valueOf(result.getFieldValue("im_price_short_description")));
-            item.setInitial_load(String.valueOf(result.getFieldValue("initial_load")));
-            item.setInstrument(String.valueOf(result.getFieldValue("instrument")));
-            item.setIs_derived(String.valueOf(result.getFieldValue("is_derived")));
-            item.setIs_imi_internal(String.valueOf(result.getFieldValue("is_imi_internal")));
-            item.setOrder_id(String.valueOf(result.getFieldValue("order_id")));
-            item.setProvider(String.valueOf(result.getFieldValue("provider")));
-            item.setProvider_price(String.valueOf(result.getFieldValue("provider_price")));
-            item.setResearch_id(String.valueOf(result.getFieldValue("research_id")));
-            item.setUnit_series(String.valueOf(result.getFieldValue("unit_series")));
-            item.setCreation_date_instrument(String.valueOf(result.getFieldValue("creation_date_instrument")));
-            item.setExpiration(String.valueOf(result.getFieldValue("expiration")));
-            item.setIsin(String.valueOf(result.getFieldValue("isin")));
-            item.setSsp_fi(String.valueOf(result.getFieldValue("ssp_fi")));
-            item.setValor(String.valueOf(result.getFieldValue("valor")));
-            item.setIm_status(String.valueOf(result.getFieldValue("im_status")));
-            item.setFo_type(String.valueOf(result.getFieldValue("fo_type")));
-            item.setIm_internal(String.valueOf(result.getFieldValue("im_internal")));
-            item.setPlaceholder(String.valueOf(result.getFieldValue("placeholder")));
-            item.setTkt(String.valueOf(result.getFieldValue("tkt")));
-            item.setTradeable(String.valueOf(result.getFieldValue("tradeable")));
-            item.setUbs_relevant(String.valueOf(result.getFieldValue("ubs_relevant")));
-            item.setUbs_tc(String.valueOf(result.getFieldValue("ubs_tc")));
-            item.setUbs_tcadd(String.valueOf(result.getFieldValue("ubs_tcadd")));
-            item.setIssue_price_currency(String.valueOf(result.getFieldValue("issue_price_currency")));
-            item.setUnit_series_description(String.valueOf(result.getFieldValue("unit_series_description")));
-            item.setUnit_instrument(String.valueOf(result.getFieldValue("unit_instrument")));
-            item.setDelivery_frequency_description(String.valueOf(result.getFieldValue("delivery_frequency_description")));
-            item.setProvider_description(String.valueOf(result.getFieldValue("data_provider_short_description")));
-            item.setProvider_price_short_description(String.valueOf(result.getFieldValue("provider_price_short_description")));
-            item.setExpiration_description(String.valueOf(result.getFieldValue("expiration_description")));
-            item.setIm_status_long_description(String.valueOf(result.getFieldValue("im_status_long_description")));
-            item.setIm_status_short_description(String.valueOf(result.getFieldValue("im_status_short_description")));
-            item.setProvider_status_description(String.valueOf(result.getFieldValue("provider_status_description")));
-            item.setTkt_description(String.valueOf(result.getFieldValue("tkt_description")));
-            item.setTradeable_description(String.valueOf(result.getFieldValue("tradeable_description")));
-            item.setUnit_instrument_description(String.valueOf(result.getFieldValue("unit_instrument_description")));
-            item.setLong_name(String.valueOf(result.getFieldValue("long_name")));
-            item.setMarketing_long_name(String.valueOf(result.getFieldValue("marketing_long_name")));
-            item.setMarketing_short_name(String.valueOf(result.getFieldValue("marketing_short_name")));
-            item.setMinimal_denomination(String.valueOf(result.getFieldValue("minimal_denomination")));
-            item.setNominal_amount(String.valueOf(result.getFieldValue("nominal_amount")));
-            item.setNominal_currency(String.valueOf(result.getFieldValue("nominal_currency")));
-            item.setShort_name(String.valueOf(result.getFieldValue("short_name")));
-            list.add(item);
+            price.setQuality_status(String.valueOf(result.getFieldValue("quality_status")));
+            price.setSeries(String.valueOf(result.getFieldValue("series")));
+            price.setActive(String.valueOf(result.getFieldValue("active")));
+            price.setCurrency(String.valueOf(result.getFieldValue("currency")));
+            price.setDelivery_frequency(String.valueOf(result.getFieldValue("delivery_frequency")));
+            price.setDelivery_frequency_description(String.valueOf(result.getFieldValue("delivery_frequency_description")));
+            price.setFull_export_pars(String.valueOf(result.getFieldValue("full_export_pars")));
+            price.setFull_export_risk(String.valueOf(result.getFieldValue("full_export_risk")));
+            price.setIm_price(String.valueOf(result.getFieldValue("im_price")));
+            price.setIm_price_description(String.valueOf(result.getFieldValue("im_price_desc")));
+            price.setIm_price_short_description(String.valueOf(result.getFieldValue("im_price_short_description")));
+            price.setInitial_load(String.valueOf(result.getFieldValue("initial_load")));
+            price.setInstrument(String.valueOf(result.getFieldValue("instrument")));
+            price.setIs_derived(String.valueOf(result.getFieldValue("is_derived")));
+            price.setIs_imi_internal(String.valueOf(result.getFieldValue("is_imi_internal")));
+            price.setOrder_id(String.valueOf(result.getFieldValue("order_id")));
+            price.setProvider(String.valueOf(result.getFieldValue("provider")));
+            price.setProvider_price(String.valueOf(result.getFieldValue("provider_price")));
+            price.setResearch_id(String.valueOf(result.getFieldValue("research_id")));
+            price.setUnit_series(String.valueOf(result.getFieldValue("unit_series")));
+            price.setCreation_date_instrument(String.valueOf(result.getFieldValue("creation_date_instrument")));
+            price.setExpiration(String.valueOf(result.getFieldValue("expiration")));
+            price.setIsin(String.valueOf(result.getFieldValue("isin")));
+            price.setSsp_fi(String.valueOf(result.getFieldValue("ssp_fi")));
+            price.setValor(String.valueOf(result.getFieldValue("valor")));
+            price.setIm_status(String.valueOf(result.getFieldValue("im_status")));
+            price.setFo_type(String.valueOf(result.getFieldValue("fo_type")));
+            price.setIm_internal(String.valueOf(result.getFieldValue("im_internal")));
+            price.setPlaceholder(String.valueOf(result.getFieldValue("placeholder")));
+            price.setTkt(String.valueOf(result.getFieldValue("tkt")));
+            price.setTradeable(String.valueOf(result.getFieldValue("tradeable")));
+            price.setUbs_relevant(String.valueOf(result.getFieldValue("ubs_relevant")));
+            price.setUbs_tc(String.valueOf(result.getFieldValue("ubs_tc")));
+            price.setUbs_tcadd(String.valueOf(result.getFieldValue("ubs_tcadd")));
+            price.setIssue_price_currency(String.valueOf(result.getFieldValue("issue_price_currency")));
+            price.setUnit_series_description(String.valueOf(result.getFieldValue("unit_series_description")));
+            price.setUnit_instrument(String.valueOf(result.getFieldValue("unit_instrument")));
+            price.setDelivery_frequency_description(String.valueOf(result.getFieldValue("delivery_frequency_description")));
+            price.setProvider_description(String.valueOf(result.getFieldValue("data_provider_short_description")));
+            price.setProvider_price_short_description(String.valueOf(result.getFieldValue("provider_price_short_description")));
+            price.setExpiration_description(String.valueOf(result.getFieldValue("expiration_description")));
+            price.setIm_status_long_description(String.valueOf(result.getFieldValue("im_status_long_description")));
+            price.setIm_status_short_description(String.valueOf(result.getFieldValue("im_status_short_description")));
+            price.setProvider_status_description(String.valueOf(result.getFieldValue("provider_status_description")));
+            price.setTkt_description(String.valueOf(result.getFieldValue("tkt_description")));
+            price.setTradeable_description(String.valueOf(result.getFieldValue("tradeable_description")));
+            price.setUnit_instrument_description(String.valueOf(result.getFieldValue("unit_instrument_description")));
+            price.setLong_name(String.valueOf(result.getFieldValue("long_name")));
+            price.setMarketing_long_name(String.valueOf(result.getFieldValue("marketing_long_name")));
+            price.setMarketing_short_name(String.valueOf(result.getFieldValue("marketing_short_name")));
+            price.setMinimal_denomination(String.valueOf(result.getFieldValue("minimal_denomination")));
+            price.setNominal_amount(String.valueOf(result.getFieldValue("nominal_amount")));
+            price.setNominal_currency(String.valueOf(result.getFieldValue("nominal_currency")));
+            price.setShort_name(String.valueOf(result.getFieldValue("short_name")));
+            list.add(price);
         }
 
         return list;
