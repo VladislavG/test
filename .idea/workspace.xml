@@ -5,8 +5,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cedf5f28-0a64-46f5-ae44-544b25ec7f0a" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/solrTest/ChartActions.java" afterPath="$PROJECT_DIR$/src/main/java/solrTest/ChartActions.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/solrTest/Main.java" afterPath="$PROJECT_DIR$/src/main/java/solrTest/Main.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="solrTest.iws" />
@@ -83,57 +81,8 @@
       <file leaf-file-name="Main.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/solrTest/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="245" column="5" selection-start="10430" selection-end="10430" vertical-scroll-proportion="-14.36" vertical-offset="3806" max-vertical-offset="20196">
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#8901#9319#0" expanded="true" />
-                <element signature="e#9308#9309#0" expanded="true" />
-                <element signature="e#14196#14212#0" expanded="true" />
-                <element signature="e#15379#20155#0" expanded="true" />
-                <element signature="e#20148#20149#0" expanded="true" />
-                <element signature="e#25563#25763#0" expanded="true" />
-                <element signature="e#25752#25753#0" expanded="true" />
-                <element signature="e#25802#26003#0" expanded="true" />
-                <element signature="e#25992#25993#0" expanded="true" />
-                <element signature="e#26212#29009#0" expanded="true" />
-                <element signature="e#28998#28999#0" expanded="true" />
-                <element signature="e#29049#29518#0" expanded="true" />
-                <element signature="e#29507#29508#0" expanded="true" />
-                <element signature="e#29558#31442#0" expanded="true" />
-                <element signature="e#31431#31432#0" expanded="true" />
-                <element signature="e#31483#31673#0" expanded="true" />
-                <element signature="e#31662#31663#0" expanded="true" />
-                <element signature="e#32500#32777#0" expanded="true" />
-                <element signature="e#32766#32767#0" expanded="true" />
-                <element signature="e#32832#33110#0" expanded="true" />
-                <element signature="e#33099#33100#0" expanded="true" />
-                <element signature="e#33170#33448#0" expanded="true" />
-                <element signature="e#33437#33438#0" expanded="true" />
-                <element signature="e#33504#33782#0" expanded="true" />
-                <element signature="e#33771#33772#0" expanded="true" />
-                <element signature="e#33871#34218#0" expanded="true" />
-                <element signature="e#34207#34208#0" expanded="true" />
-                <element signature="e#34309#34660#0" expanded="true" />
-                <element signature="e#34649#34650#0" expanded="true" />
-                <element signature="e#34841#36844#0" expanded="true" />
-                <element signature="e#36833#36834#0" expanded="true" />
-                <element signature="e#36929#38968#0" expanded="true" />
-                <element signature="e#38957#38958#0" expanded="true" />
-                <element signature="e#39545#39744#0" expanded="true" />
-                <element signature="e#39733#39734#0" expanded="true" />
-                <element signature="e#39792#43351#0" expanded="true" />
-                <element signature="e#43340#43341#0" expanded="true" />
-                <element signature="e#43853#44161#0" expanded="true" />
-                <element signature="e#43959#44135#0" expanded="true" />
-                <element signature="e#44116#44117#0" expanded="true" />
-                <element signature="e#44150#44151#0" expanded="true" />
-                <element signature="e#53737#54299#0" expanded="true" />
-                <element signature="e#54288#54289#0" expanded="true" />
-                <element signature="e#54354#54919#0" expanded="true" />
-                <element signature="e#54908#54909#0" expanded="true" />
-                <element signature="e#56789#57310#0" expanded="true" />
-                <element signature="e#57299#57300#0" expanded="true" />
-              </folding>
+            <state line="245" column="5" selection-start="10430" selection-end="10430" vertical-scroll-proportion="0.0" vertical-offset="3806" max-vertical-offset="20196">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -141,7 +90,7 @@
       <file leaf-file-name="SeriesActions.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/solrTest/SeriesActions.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="21" column="13" selection-start="556" selection-end="556" vertical-scroll-proportion="0.0" vertical-offset="1683" max-vertical-offset="2890">
+            <state line="21" column="13" selection-start="556" selection-end="556" vertical-scroll-proportion="0.0" vertical-offset="357" max-vertical-offset="3128">
               <folding />
             </state>
           </provider>
@@ -150,7 +99,7 @@
       <file leaf-file-name="ListViewActions.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/solrTest/ListViewActions.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="13" column="13" selection-start="311" selection-end="311" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="782">
+            <state line="13" column="13" selection-start="311" selection-end="311" vertical-scroll-proportion="0.0" vertical-offset="221" max-vertical-offset="1020">
               <folding />
             </state>
           </provider>
@@ -159,7 +108,7 @@
       <file leaf-file-name="Item.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/solrTest/Item.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="30" column="28" selection-start="895" selection-end="895" vertical-scroll-proportion="0.0" vertical-offset="493" max-vertical-offset="5559">
+            <state line="30" column="28" selection-start="895" selection-end="895" vertical-scroll-proportion="0.0" vertical-offset="510" max-vertical-offset="9775">
               <folding />
             </state>
           </provider>
@@ -168,13 +117,8 @@
       <file leaf-file-name="ChartActions.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/solrTest/ChartActions.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="44" column="91" selection-start="1538" selection-end="1538" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3689">
-              <folding>
-                <element signature="e#2404#3085#0" expanded="true" />
-                <element signature="e#2609#3025#0" expanded="true" />
-                <element signature="e#2989#2990#0" expanded="true" />
-                <element signature="e#3057#3058#0" expanded="true" />
-              </folding>
+            <state line="44" column="91" selection-start="1538" selection-end="1538" vertical-scroll-proportion="0.0" vertical-offset="748" max-vertical-offset="4335">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -448,6 +392,7 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
@@ -567,7 +512,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -1048,6 +992,7 @@
       <workItem from="1395913581737" duration="16000" />
       <workItem from="1395914322282" duration="322000" />
       <workItem from="1395914677199" duration="2341000" />
+      <workItem from="1395927467317" duration="61000" />
     </task>
     <task id="LOCAL-00001" summary="first commit">
       <created>1385627111549</created>
@@ -1129,7 +1074,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="550650000" />
+    <option name="totallyTimeSpent" value="550711000" />
   </component>
   <component name="TodoView" selected-index="3">
     <todo-panel id="selected-file">
@@ -1168,8 +1113,7 @@
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17891374" sideWeight="0.41045958" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32960597" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32875368" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="true" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.5731109" sideWeight="0.08998935" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32908913" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -1183,6 +1127,7 @@
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.073105656" sideWeight="0.719764" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32482827" sideWeight="0.3003195" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="true" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.5731109" sideWeight="0.08998935" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -1236,12 +1181,7 @@
     <entry file="file://$PROJECT_DIR$/src/main/java/solrTest/ChartActions.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="171" column="45" selection-start="7729" selection-end="7729" vertical-scroll-proportion="0.0" vertical-offset="2907" max-vertical-offset="4012">
-          <folding>
-            <element signature="e#2404#3085#0" expanded="true" />
-            <element signature="e#2609#3025#0" expanded="true" />
-            <element signature="e#2989#2990#0" expanded="true" />
-            <element signature="e#3057#3058#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1255,56 +1195,7 @@
     <entry file="file://$PROJECT_DIR$/src/main/java/solrTest/Main.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="43" column="86" selection-start="1501" selection-end="1501" vertical-scroll-proportion="0.0" vertical-offset="102" max-vertical-offset="18207">
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#8901#9319#0" expanded="true" />
-            <element signature="e#9308#9309#0" expanded="true" />
-            <element signature="e#14196#14212#0" expanded="true" />
-            <element signature="e#15379#20155#0" expanded="true" />
-            <element signature="e#20148#20149#0" expanded="true" />
-            <element signature="e#25563#25763#0" expanded="true" />
-            <element signature="e#25752#25753#0" expanded="true" />
-            <element signature="e#25802#26003#0" expanded="true" />
-            <element signature="e#25992#25993#0" expanded="true" />
-            <element signature="e#26212#29009#0" expanded="true" />
-            <element signature="e#28998#28999#0" expanded="true" />
-            <element signature="e#29049#29518#0" expanded="true" />
-            <element signature="e#29507#29508#0" expanded="true" />
-            <element signature="e#29558#31442#0" expanded="true" />
-            <element signature="e#31431#31432#0" expanded="true" />
-            <element signature="e#31483#31673#0" expanded="true" />
-            <element signature="e#31662#31663#0" expanded="true" />
-            <element signature="e#32500#32777#0" expanded="true" />
-            <element signature="e#32766#32767#0" expanded="true" />
-            <element signature="e#32832#33110#0" expanded="true" />
-            <element signature="e#33099#33100#0" expanded="true" />
-            <element signature="e#33170#33448#0" expanded="true" />
-            <element signature="e#33437#33438#0" expanded="true" />
-            <element signature="e#33504#33782#0" expanded="true" />
-            <element signature="e#33771#33772#0" expanded="true" />
-            <element signature="e#33871#34218#0" expanded="true" />
-            <element signature="e#34207#34208#0" expanded="true" />
-            <element signature="e#34309#34660#0" expanded="true" />
-            <element signature="e#34649#34650#0" expanded="true" />
-            <element signature="e#34841#36844#0" expanded="true" />
-            <element signature="e#36833#36834#0" expanded="true" />
-            <element signature="e#36929#38968#0" expanded="true" />
-            <element signature="e#38957#38958#0" expanded="true" />
-            <element signature="e#39545#39744#0" expanded="true" />
-            <element signature="e#39733#39734#0" expanded="true" />
-            <element signature="e#39792#43351#0" expanded="true" />
-            <element signature="e#43340#43341#0" expanded="true" />
-            <element signature="e#43853#44161#0" expanded="true" />
-            <element signature="e#43959#44135#0" expanded="true" />
-            <element signature="e#44116#44117#0" expanded="true" />
-            <element signature="e#44150#44151#0" expanded="true" />
-            <element signature="e#53737#54299#0" expanded="true" />
-            <element signature="e#54288#54289#0" expanded="true" />
-            <element signature="e#54354#54919#0" expanded="true" />
-            <element signature="e#54908#54909#0" expanded="true" />
-            <element signature="e#56789#57310#0" expanded="true" />
-            <element signature="e#57299#57300#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1497,9 +1388,7 @@
     </entry>
     <entry file="jar://C:/Program Files/Java/jdk1.8.0/jre/lib/ext/jfxrt.jar!/javafx/scene/chart/NumberAxis.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="22" selection-start="857" selection-end="857" vertical-scroll-proportion="0.0" vertical-offset="73" max-vertical-offset="1479">
-          <folding />
-        </state>
+        <state line="18" column="22" selection-start="857" selection-end="857" vertical-scroll-proportion="0.0" vertical-offset="73" max-vertical-offset="1479" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/solrTest/DateAxis310.java">
@@ -1532,57 +1421,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/solrTest/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="245" column="5" selection-start="10430" selection-end="10430" vertical-scroll-proportion="-14.36" vertical-offset="3806" max-vertical-offset="20196">
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#8901#9319#0" expanded="true" />
-            <element signature="e#9308#9309#0" expanded="true" />
-            <element signature="e#14196#14212#0" expanded="true" />
-            <element signature="e#15379#20155#0" expanded="true" />
-            <element signature="e#20148#20149#0" expanded="true" />
-            <element signature="e#25563#25763#0" expanded="true" />
-            <element signature="e#25752#25753#0" expanded="true" />
-            <element signature="e#25802#26003#0" expanded="true" />
-            <element signature="e#25992#25993#0" expanded="true" />
-            <element signature="e#26212#29009#0" expanded="true" />
-            <element signature="e#28998#28999#0" expanded="true" />
-            <element signature="e#29049#29518#0" expanded="true" />
-            <element signature="e#29507#29508#0" expanded="true" />
-            <element signature="e#29558#31442#0" expanded="true" />
-            <element signature="e#31431#31432#0" expanded="true" />
-            <element signature="e#31483#31673#0" expanded="true" />
-            <element signature="e#31662#31663#0" expanded="true" />
-            <element signature="e#32500#32777#0" expanded="true" />
-            <element signature="e#32766#32767#0" expanded="true" />
-            <element signature="e#32832#33110#0" expanded="true" />
-            <element signature="e#33099#33100#0" expanded="true" />
-            <element signature="e#33170#33448#0" expanded="true" />
-            <element signature="e#33437#33438#0" expanded="true" />
-            <element signature="e#33504#33782#0" expanded="true" />
-            <element signature="e#33771#33772#0" expanded="true" />
-            <element signature="e#33871#34218#0" expanded="true" />
-            <element signature="e#34207#34208#0" expanded="true" />
-            <element signature="e#34309#34660#0" expanded="true" />
-            <element signature="e#34649#34650#0" expanded="true" />
-            <element signature="e#34841#36844#0" expanded="true" />
-            <element signature="e#36833#36834#0" expanded="true" />
-            <element signature="e#36929#38968#0" expanded="true" />
-            <element signature="e#38957#38958#0" expanded="true" />
-            <element signature="e#39545#39744#0" expanded="true" />
-            <element signature="e#39733#39734#0" expanded="true" />
-            <element signature="e#39792#43351#0" expanded="true" />
-            <element signature="e#43340#43341#0" expanded="true" />
-            <element signature="e#43853#44161#0" expanded="true" />
-            <element signature="e#43959#44135#0" expanded="true" />
-            <element signature="e#44116#44117#0" expanded="true" />
-            <element signature="e#44150#44151#0" expanded="true" />
-            <element signature="e#53737#54299#0" expanded="true" />
-            <element signature="e#54288#54289#0" expanded="true" />
-            <element signature="e#54354#54919#0" expanded="true" />
-            <element signature="e#54908#54909#0" expanded="true" />
-            <element signature="e#56789#57310#0" expanded="true" />
-            <element signature="e#57299#57300#0" expanded="true" />
-          </folding>
+        <state line="245" column="5" selection-start="10430" selection-end="10430" vertical-scroll-proportion="0.0" vertical-offset="3806" max-vertical-offset="20196">
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1603,12 +1443,7 @@
     <entry file="file://$PROJECT_DIR$/src/main/java/solrTest/ChartActions.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="44" column="91" selection-start="1538" selection-end="1538" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3689">
-          <folding>
-            <element signature="e#2404#3085#0" expanded="true" />
-            <element signature="e#2609#3025#0" expanded="true" />
-            <element signature="e#2989#2990#0" expanded="true" />
-            <element signature="e#3057#3058#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
