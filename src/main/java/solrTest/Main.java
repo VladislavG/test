@@ -547,6 +547,10 @@ public class Main extends Application {
         });
 
         resetButton.setCursor(Cursor.HAND);
+        openFirstInstrumentListButton.setCursor(Cursor.HAND);
+        openFirstSeriesListButton.setCursor(Cursor.HAND);
+        openSecondInstrumentListButton.setCursor(Cursor.HAND);
+        openSecondSeriesListButton.setCursor(Cursor.HAND);
         resetButton.getStyleClass().add(YELLOW_BUTTON_STYLE);
         firstListOfSeries.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
             @Override
